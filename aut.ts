@@ -44,22 +44,15 @@ import { prisma } from "@/prisma";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { sendVerificationRequest } from "@/mail"
 
-import authConfig from "@/auth.config"
-
-
-const { providers} = authConfig;
 
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   debug: !!process.env.AUTH_DEBUG,
-  //debug,
-  //theme,
-  theme: { logo: "http://localhost:8999/img/gta_logo.png",colorScheme:'light', brandColor: "#FFFFFF" },
+  theme: { logo: "http://localhost:8999/img/gta_logo.png",colorScheme:'light', brandColor: "#000000" },
   //adapter: UnstorageAdapter(storage),
   adapter:PrismaAdapter(prisma),
   providers: [
     Nodemailer({
-        name:'Email Address',
         server: {
           host: process.env.EMAIL_SERVER_HOST,
           port: process.env.EMAIL_SERVER_PORT ? parseInt(process.env.EMAIL_SERVER_PORT, 10) : undefined,
@@ -69,7 +62,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           },
         },
         from: process.env.EMAIL_FROM,
-        
         sendVerificationRequest,
         normalizeIdentifier(identifier: string): string {
             // Get the first two elements only,
@@ -87,7 +79,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             // }
           },
     }),
-    ...providers
     /*Apple,
     // Atlassian,
     Auth0,
@@ -103,15 +94,15 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     Discord,
     Dropbox,
     Facebook,*/
-    //GitHub,
+    GitHub,
     //GitLab,
-    /*Google({authorization:{
+    Google({authorization:{
         params:{
             prompt:'consent',
             access_type:'offline',
             response_type:'code'
         }
-    }}),*/
+    }}),
     /*Hubspot,
     Keycloak({ name: "Keycloak (bob/bob)" }),
     LinkedIn,
@@ -150,7 +141,21 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       console.log("Pathname value is ",pathname);
       console.log('Origin value is ',origin);
       console.log("Auth value, ",auth);
-    
+
+      /*const get_base_url = (url:string)=>{
+
+        if(url.includes(':')){
+            let colon_split_url = url.split('://');
+            let host = colon_split_url[1].split('/')[0];
+            return colon_split_url[0]+'://'+host;
+        }else{
+            let split_url = url.split('/');
+            return split_url[0];
+        }
+        }
+
+        console.log("Base URL is ",get_base_url(request.nextUrl.toString()));*/
+
       if (pathname.includes('/dashboard')) return !!auth
       if(auth){
         if(!pathname.includes('/dashboard'))
