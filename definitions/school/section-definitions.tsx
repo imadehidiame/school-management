@@ -1,10 +1,10 @@
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
+import { ArrowUpDown,  MoreHorizontal } from "lucide-react"
  
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
+  //DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
@@ -12,16 +12,15 @@ import {
   DropdownMenuTrigger,
   
 } from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
+//import { Input } from "@/components/ui/input"
 import { ColumnDef } from '@tanstack/react-table'
-import { School,SchoolSections } from '@prisma/client';
-import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
-import useSchoolModalStore from "@/stores/school-settings/use-school-modal-store"
-import useSchoolStore from "@/stores/school-settings/use-school-store"
+//import { School,SchoolSections } from '@prisma/client';
+
+//import useSchoolModalStore from "@/stores/school-settings/use-school-modal-store"
+//import useSchoolStore from "@/stores/school-settings/use-school-store"
 import useBaseSchoolStore from "@/stores/school-settings/use-base-school-store"
 import useSchoolSectionStore from "@/stores/school-settings/use-school-section-store"
-import useSectionModalStore from "@/stores/school-settings/use-section-modal-store"
+//import useSectionModalStore from "@/stores/school-settings/use-section-modal-store"
 import { SectionData } from "./section-data"
 
 
@@ -29,8 +28,8 @@ import { SectionData } from "./section-data"
 function ActionButton({action,col,alias=''}:{action:()=>void,col:string,alias?:string}){
   const store = useBaseSchoolStore();
   
-      return <div className="flex items-center gap-1"> {/* Use flexbox for alignment */}
-                <span>{store.data ? (store.data as Record<string, any>)[col]+alias : null}</span> {/* Display the name */}
+      return <div className="flex items-center gap-1"> 
+                <span>{store.data ? (store.data as Record<string, any>)[col]+alias : null}</span> 
                 <Button 
                     variant="ghost" 
                     className="p-0 h-auto" // Adjust button styling
@@ -42,7 +41,7 @@ function ActionButton({action,col,alias=''}:{action:()=>void,col:string,alias?:s
 }
 
 function DateButton({action,title}:{action?:()=>void,title?:string}){
-  const store = useBaseSchoolStore();
+  //const store = useBaseSchoolStore();
 
       return   ( <div className="flex items-center gap-1">
                 <span>{title}</span>
@@ -60,7 +59,7 @@ function DateButton({action,title}:{action?:()=>void,title?:string}){
 
 
 
-function BaseSchoolButton({action}:{action:()=>void}){
+/*function BaseSchoolButton({action}:{action:()=>void}){
     const store = useBaseSchoolStore();
     return <Button
     variant="ghost"
@@ -69,9 +68,9 @@ function BaseSchoolButton({action}:{action:()=>void}){
     {store.data?.school_naming}
     <ArrowUpDown />
   </Button>
-}
+}*/
 
-function SchoolSectionButton({action}:{action:()=>void}){
+/*function SchoolSectionButton({action}:{action:()=>void}){
     const store = useBaseSchoolStore();
     return <Button
     variant="ghost"
@@ -114,11 +113,11 @@ function DropdownMenuItemRouting({href,title}:{href:string,title:string}){
           {title}
       </DropdownMenuItem>
       )
-  }
+  }*/
   
   function DropdownMenuItemUpdate({title,id}:{title:string,id:string}){
     //const store = useStoreModal();
-    const [loaded,setLoaded] = useState(false);
+    //const [loaded,setLoaded] = useState(false);
     //const store_modal = useSchoolSectionStore();
     //const base_store = useBaseSchoolStore();
     //const store = useSchoolStore();
@@ -150,9 +149,9 @@ function DropdownMenuItemRouting({href,title}:{href:string,title:string}){
 
   function DropdownMenuItemDelete({title,id}:{title:string,id:string}){
     //const store = useStoreModal();
-    const [loaded,setLoaded] = useState(false);
+    //const [loaded,setLoaded] = useState(false);
     const store_modal = useSchoolSectionStore();
-    const base_store = useBaseSchoolStore();
+    //const base_store = useBaseSchoolStore();
     //const store = useSchoolStore();
     //const section_store = useSchoolSectionStore();
     //useEffect(() => {

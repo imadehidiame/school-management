@@ -1,6 +1,4 @@
-import { SectionDataTable } from "@/components/tables/section-data-table";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { SectionColumnsDefinition } from "@/definitions/school/section-definitions";
 import { School } from "@prisma/client"; // Import necessary types
 import { BaseData } from "../definitions";
 import { SectionData } from "@/definitions/school/section-data";

@@ -1,4 +1,3 @@
-import { NextApiRequest } from "next";
 import { NextResponse } from "next/server";
 import { auth } from "@/authjs";
 import { prisma } from "@/prisma";
@@ -121,7 +120,7 @@ function html(params: { url: string; host: string; is_gmail:boolean }) {
     url = url.startsWith('/') ? `${process.env.NEXT_URL}${url}` : `${process.env.NEXT_URL}/${url}`;
   }
 
-  const escapedHost = host.replace(/\./g, "&#8203;.")
+  //const escapedHost = host.replace(/\./g, "&#8203;.")
  
   //const brandColor = theme.brandColor || "#346df1"
 

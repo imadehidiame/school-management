@@ -17,7 +17,7 @@ import useBaseSchoolStore from "@/stores/school-settings/use-base-school-store";
 //import { signOut } from "next-auth/react";
 import useSchoolSectionStore from "@/stores/school-settings/use-school-section-store";
 import { BaseSchoolCategory, School, SchoolSessions } from "@prisma/client";
-import { set, z } from "zod";
+//import { z } from "zod";
 //import { BaseData } from "../definitions";
 import { SectionData } from "@/definitions/school/section-data";
 import { ClassData } from "@/definitions/school/class-data";
@@ -38,12 +38,7 @@ interface PageProps {
     school_sessions:SchoolSessions[]
 }
 
-const base_school_schema = z.object({
-        school_naming:z.string().nonempty({message:'Enter the conventional school name'}).trim(),
-        section_naming: z.string().nonempty({message:'Enter the conventional section name'}).trim(),
-        class_naming:z.string().nonempty({message:'Enter the conventional class name'}).trim(),
-        arm_naming:z.string().nonempty({message:'Enter the conventional arm name'}).trim()
-});
+
 
 
 export function SchoolSettingsTab({base_data,school_data,section_data,class_data,arm_data,school_sessions}:PageProps) {
@@ -53,7 +48,7 @@ export function SchoolSettingsTab({base_data,school_data,section_data,class_data
   const { classData,setClassData } = useClassStore();  
   const { armData,setArmData } = useArmStore();
   const [activeTab, setActiveTab] = useState("school_naming");
-  const { sessions,set_sessions } = useSchoolSessionStore();
+  const { set_sessions } = useSchoolSessionStore();
   
   useEffect(()=>{
     setData(base_data);

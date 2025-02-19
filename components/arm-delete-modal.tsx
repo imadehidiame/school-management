@@ -22,7 +22,7 @@ export default function ArmDeleteModal(){
         set_loading(true);
         try {
             console.log('id value ',useArmStore.getState().id);
-            const res = await store.delete_arm(useArmStore.getState().id);
+            await store.delete_arm(useArmStore.getState().id);
         } catch (error) {
             set_loading(false)
         }finally{

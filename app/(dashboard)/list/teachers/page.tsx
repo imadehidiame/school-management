@@ -6,7 +6,6 @@ import Table from "@/components/table";
 import Pagination from "@/components/pagination";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { Key } from "react";
 import { teachers_data } from "./data";
 
 type Teacher = {

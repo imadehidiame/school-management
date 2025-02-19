@@ -167,7 +167,7 @@ async function uploadToDrive(file: any) {
         console.error('Error uploading to Drive:', error);
         return { error: error.message, status: 500 }
 
-        throw error;
+        //throw error;
         
     }
 }

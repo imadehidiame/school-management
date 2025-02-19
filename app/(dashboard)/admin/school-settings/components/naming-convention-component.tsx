@@ -9,16 +9,15 @@ import axios_request from "@/lib/axios_request";
 import useBaseSchoolStore from "@/stores/school-settings/use-base-school-store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { BaseSchoolCategory } from "@prisma/client";
-import { useSession } from "next-auth/react";
 import React from "react";
-import { useForm, Form, FormProvider } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import { z } from "zod";
 //import { BaseData } from "../definitions";
 
 
 export const NamingConventionComponent:React.FC<{base_school:BaseSchoolCategory|null}> = ({base_school}:{base_school:BaseSchoolCategory|null}) => {
     //const route = useRouter();
-    const { data:session,update } = useSession();
+    //const { data:session,update } = useSession();
     const {data,setData} = useBaseSchoolStore(); 
 
     //console.log('Base schoo value ',base_school);
@@ -50,7 +49,7 @@ export const NamingConventionComponent:React.FC<{base_school:BaseSchoolCategory|
     
     async function on_submit(values:z.infer<typeof base_school_schema>){
         const {school_naming,section_naming,class_naming,arm_naming} = values;
-       const { error,data } = await axios_request('/api/school-naming','post',JSON.stringify({school_naming,section_naming,class_naming,arm_naming}),undefined,{message:'Data successfully saved',cb(data) {
+       await axios_request('/api/school-naming','post',JSON.stringify({school_naming,section_naming,class_naming,arm_naming}),undefined,{message:'Data successfully saved',cb(data) {
             //console.log('served data ',data);
             setData(data.create);
             //base_school_store.setData(data.create);

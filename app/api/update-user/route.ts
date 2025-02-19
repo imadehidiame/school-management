@@ -1,4 +1,3 @@
-import { NextApiRequest } from "next";
 import { NextResponse } from "next/server";
 import { auth } from "@/authjs";
 import { prisma } from "@/prisma";

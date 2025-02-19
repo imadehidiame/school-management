@@ -1,26 +1,13 @@
 'use client';
 import { signIn } from 'next-auth/react';
 import { useActionState, useState } from 'react';
-import { Mail, Github, LogIn } from 'lucide-react';
 import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { faGithub, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-  } from "@/components/ui/form"
-  import { Input } from "@/components/ui/input"
 import { zodResolver } from '@hookform/resolvers/zod';
-import { formAction } from './form_action';
-import { redirect } from 'next/navigation';
 import { cn } from '@/lib/utils';
 
 type FormState = | {

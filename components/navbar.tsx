@@ -6,7 +6,7 @@ import NavbarImage from "./navbar-image";
 
 export default function Navbar(){
     const {data} = useSession();
-    const role = data?.user.role;
+    //const role = data?.user.role;
     
     return (
         <div className="flex items-center justify-between p-4">

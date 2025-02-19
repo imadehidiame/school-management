@@ -1,14 +1,9 @@
 'use client';
 //import { prisma } from "@/prisma";
-import { useSession } from "next-auth/react";
-import axios from 'axios';
-import { useEffect } from "react";
+//import { useSession } from "next-auth/react";
 import Error from "./components/err_page";
-import LoginPage from "./components/login";
 
 export default function UserValid(){
-    const {update,data:session,status} = useSession();
-    console.log('User data ',session);
     /*useEffect(()=>{
         const fetch = async()=>{
             try {

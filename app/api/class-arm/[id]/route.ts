@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/authjs";
 import { prisma } from "@/prisma";
-import nodemailer from 'nodemailer';
 import { PrismaClientInitializationError, PrismaClientKnownRequestError, PrismaClientRustPanicError, PrismaClientUnknownRequestError, PrismaClientValidationError } from "@prisma/client/runtime/library";
 
 
@@ -54,9 +53,9 @@ export async function PATCH(req:Request,{params}:{params:{id:string}}){
       
         //console.log('school vdata ',school);
 
-        const v = Object.assign({},arm,{arm_class:arm.school_class.class_name});
+        //const v = Object.assign({},arm,{arm_class:arm.school_class.class_name});
         
-        console.log('school vdata ',v);
+        //console.log('school vdata ',v);
 
         return NextResponse.json({arm_datum:Object.assign({},arm,{arm_class:arm.school_class.class_name})},{status:200});    
         //return NextResponse.json({data:'Not authentication'},{status:403,statusText:'Access denied'});
@@ -112,7 +111,7 @@ export async function DELETE(req:Request,{params}:{params:{id:string}}){
         //const {id} = await params;
     //console.log('Update value ',{school_name,id});
 
-    const del = await prisma.classArms.delete({
+    await prisma.classArms.delete({
         where:{
             id
         }

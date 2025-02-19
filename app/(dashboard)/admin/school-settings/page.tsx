@@ -1,7 +1,7 @@
 import { prisma } from "@/prisma"
 import { SchoolSettingsTab } from "./components/school-settings-tab";
-import { SchoolSections } from "@prisma/client";
-import { SectionData } from "@/definitions/school/section-data";
+//import { SchoolSections } from "@prisma/client";
+//import { SectionData } from "@/definitions/school/section-data";
 
 
 export default async function SchoolSettings(){

@@ -1,4 +1,3 @@
-import {CreateUserForm} from './components';
 import { TabTest } from './tab-test';
 
 

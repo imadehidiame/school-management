@@ -1,9 +1,8 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/authjs";
 import { prisma } from "@/prisma";
-import nodemailer from 'nodemailer';
 import { PrismaClientInitializationError, PrismaClientKnownRequestError, PrismaClientRustPanicError, PrismaClientUnknownRequestError, PrismaClientValidationError } from "@prisma/client/runtime/library";
-import { civicinfo } from "googleapis/build/src/apis/civicinfo";
+
 
 
 

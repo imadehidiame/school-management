@@ -16,7 +16,7 @@ import { NextRequest, NextResponse } from "next/server";
   //console.log(session);
 
   //const protected_routes = ["/dashboard"];
-  const { pathname,origin,basePath,searchParams } = req.nextUrl;
+  const { pathname,origin,basePath} = req.nextUrl;
 
   
 

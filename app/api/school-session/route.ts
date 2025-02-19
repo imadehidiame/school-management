@@ -53,7 +53,7 @@ export async function POST(req:Request){
           } 
         });
 
-        const session_data = await prisma.schoolSessions.findMany();
+        //const session_data = await prisma.schoolSessions.findMany();
       
         return NextResponse.json({session_datum},{status:200});    
         //return NextResponse.json({data:'Not authentication'},{status:403,statusText:'Access denied'});

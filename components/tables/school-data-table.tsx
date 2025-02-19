@@ -13,17 +13,17 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
+import { ChevronDown } from "lucide-react"
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
+//import { Checkbox } from "@/components/ui/checkbox"
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
+  //DropdownMenuLabel,
+  //DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
@@ -35,8 +35,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { set } from "zod"
-import useSchoolModalStore from "@/stores/school-settings/use-school-modal-store"
 import useSchoolStore from "@/stores/school-settings/use-school-store"
 
 

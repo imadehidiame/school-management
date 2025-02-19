@@ -1,7 +1,7 @@
 import { create  } from 'zustand';
 import { School } from '@prisma/client';
 import axios_request from '@/lib/axios_request';
-import useSchoolSectionStore from './use-school-section-store';
+
 
 interface SchoolState {  // Define an interface for your state
     id: string;

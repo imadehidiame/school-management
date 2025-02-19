@@ -6,8 +6,7 @@ import axios_request from "@/lib/axios_request";
 import useArmStore from "@/stores/school-settings/use-arm-store";
 import useBaseSchoolStore from "@/stores/school-settings/use-base-school-store";
 import useClassStore from "@/stores/school-settings/use-class-store";
-import useSchoolSectionStore from "@/stores/school-settings/use-school-section-store";
-import useSchoolStore from "@/stores/school-settings/use-school-store";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signOut } from "next-auth/react";
 import { FormProvider, useForm } from "react-hook-form";

@@ -3,7 +3,7 @@ import "next-auth/jwt"
 import Nodemailer from 'next-auth/providers/nodemailer';
 import { prisma } from "@/prisma";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { html,text,sendVerificationRequest,signIn as signInCallback } from "@/mail"
+import { sendVerificationRequest,signIn as signInCallback } from "@/mail"
 import GitHub from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 import { auth_paths } from "@/lib/data";
@@ -12,17 +12,17 @@ import { auth_paths } from "@/lib/data";
 //import EmailProvider from 'next-auth/providers/email'
 //const { providers} = authConfig;
 
-import type { User, Account, Profile } from 'next-auth';
-import type { CredentialInput } from 'next-auth/providers';
+//import type { User, Account, Profile } from 'next-auth';
+//import type { CredentialInput } from 'next-auth/providers';
 
 
-type SignInCallback = (params: {
+/*type SignInCallback = (params: {
   user: User;
   account: Account | null;
   profile?: Profile;
   email?: { verificationRequest?: boolean };
   credentials?: Record<string, CredentialInput>;
-}) => Promise<boolean | string> | boolean | string;
+}) => Promise<boolean | string> | boolean | string;*/
 
 
 declare module "next-auth" {

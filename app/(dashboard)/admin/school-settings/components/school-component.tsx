@@ -1,7 +1,7 @@
 import { SchoolDataTable } from "@/components/tables/school-data-table"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
 import { SchoolColumnsDefinition } from "@/definitions/school/school-definitions"
-import { BaseSchoolCategory, School } from "@prisma/client"
+import { School } from "@prisma/client"
 import { BaseData } from "../definitions"
 
 

@@ -4,20 +4,20 @@ import { ArrowUpDown, ChevronDown, MoreHorizontal, Trash, Edit, CheckCircle } fr
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
+  //DropdownMenu,
+  //DropdownMenuCheckboxItem,
+  //DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
+  //DropdownMenuLabel,
+  //DropdownMenuSeparator,
+  //DropdownMenuTrigger,
   
 } from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
+//import { Input } from "@/components/ui/input"
 import { ColumnDef } from '@tanstack/react-table'
-import { School,SchoolSections, SchoolSessions } from '@prisma/client';
+import { SchoolSessions } from '@prisma/client';
 import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 //import useSchoolModalStore from "@/stores/use-school-modal-store"
 //import useSchoolStore from "@/stores/use-school-store"
 import useBaseSchoolStore from "@/stores/school-settings/use-base-school-store"
@@ -25,13 +25,13 @@ import useSchoolSectionStore from "@/stores/school-settings/use-school-section-s
 //import useSectionModalStore from "@/stores/use-section-modal-store"
 //import { SectionData } from "./section-data"
 //import { ClassData } from "./class-data"
-import useClassStore from "@/stores/school-settings/use-class-store"
-import { ArmData } from "./arm-data"
+//import useClassStore from "@/stores/school-settings/use-class-store"
+//import { ArmData } from "./arm-data"
 import useArmStore from "@/stores/school-settings/use-arm-store"
 
 
 
-function BaseSchoolButton({action}:{action:()=>void}){
+/*function BaseSchoolButton({action}:{action:()=>void}){
     const store = useBaseSchoolStore();
     return <Button
     variant="ghost"
@@ -56,17 +56,17 @@ function SchoolSectionButton({action}:{action:()=>void}){
 function SchoolSectionButtonMod({action,col,alias=''}:{action:()=>void,col:string,alias?:string}){
     const store = useBaseSchoolStore();
     
-        return <div className="flex items-center gap-1"> {/* Use flexbox for alignment */}
-                  <span>{store.data ? (store.data as Record<string, any>)[col]+alias : null}</span> {/* Display the name */}
+        return <div className="flex items-center gap-1"> 
+                  <span>{store.data ? (store.data as Record<string, any>)[col]+alias : null}</span> 
                   <Button 
                       variant="ghost" 
                       className="p-0 h-auto" // Adjust button styling
                       onClick={action}
                   >
-                      <ArrowUpDown className="h-4 w-4" /> {/* Adjust icon size */}
+                      <ArrowUpDown className="h-4 w-4" /> 
                   </Button>
               </div>
-  }
+  }*/
   
 
 /*function SchoolSectionButtonMod({action,col,alias=''}:{action:()=>void,col:string,alias?:string}){
@@ -98,84 +98,9 @@ function SchoolSectionDateButton({action,title}:{action:()=>void,title:string}){
     
   }
 
-function DropdownMenuItemRouting({href,title}:{href:string,title:string}){
-    const router = useRouter();
-      return (
-          <DropdownMenuItem
-          onClick={() => {
-            router.push(href)
-          }}>             
-          {title}
-      </DropdownMenuItem>
-      )
-  }
-  
-  function DropdownMenuItemUpdate({title,id}:{title:string,id:string}){
-    //const store = useStoreModal();
-    const [loaded,setLoaded] = useState(false);
-    //const store_modal = useSchoolSectionStore();
-    //const base_store = useBaseSchoolStore();
-    //const store = useSchoolStore();
-    const section_store = useSchoolSectionStore();
-    const class_store = useArmStore();
-    /*useEffect(() => {
-        setLoaded(true);
-      
-    }, []);*/
-  
-    
-    //if(!loaded)
-      //return null;
-  
-    
-    
-    return (
-      <DropdownMenuItem
-      onClick={() => {
-        //setting_id();
-        class_store.setId(id);
-        class_store.open_update_modal(); 
-        //console.log('ID value from state variant ',store.id);
-        //store.set_id(id);
-      }}>             
-      {title + " "+class_store.getOne(id)?.arm_name} 
-      </DropdownMenuItem>
-      )
-  }
 
-  function DropdownMenuItemDelete({title,id}:{title:string,id:string}){
-    //const store = useStoreModal();
-    const [loaded,setLoaded] = useState(false);
-    const store_modal = useArmStore();
-    const base_store = useBaseSchoolStore();
-    //const store = useSchoolStore();
-    //const section_store = useSchoolSectionStore();
-    //useEffect(() => {
-        //setLoaded(true);
-    //}, []);
-  
-    //store.set_id(id);
-    
-    //store?.set_id('1');
-  
-    //if(!loaded)
-      //return null;
-  
-    
-    
-    return (
-      <DropdownMenuItem
-      onClick={() => {
 
-        store_modal.setId(id);
-        store_modal.open_modal();
-        
-      }}>             
-      {title + " "+store_modal.getOne(id)?.arm_name} 
-      </DropdownMenuItem>
-      )
-  }
-
+  
 
   /**
    id: string;

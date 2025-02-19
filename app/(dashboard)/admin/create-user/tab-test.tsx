@@ -16,7 +16,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
-import { CreateUserForm,CreateBaseSchoolForm,Schooling, SchoolSection } from "./components";
+import { CreateUserForm } from "./components";
 import { useEffect, useState } from "react";
 import useSchoolStore from "@/stores/school-settings/use-school-store";
 import useBaseSchoolStore from "@/stores/school-settings/use-base-school-store";
@@ -33,7 +33,7 @@ export function TabTest() {
   useEffect(()=>{
 
     const fetch = async () =>{
-      const {data,error} = await axios_request('/api/school-settings','get',undefined,undefined,{message:'',cb:(data)=>{
+      await axios_request('/api/school-settings','get',undefined,undefined,{message:'',cb:(data)=>{
         if(data){
           console.log('Get data from server ',data);
           if(data.base_school){

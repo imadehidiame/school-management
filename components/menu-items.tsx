@@ -35,16 +35,12 @@ const route = (url='',role='')=>{
 
 
 export default function MenuItems({items}:{items:items_array}){
-    const router = useRouter();
+    //const router = useRouter();
     const {data:session} = useSession();
     const role = session?.user.role as string;
     //console.log('Rerendered from menu');
 
     //const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-
-  const route_to_page = ()=>{
-    //router.
-  }
 
     return (
         

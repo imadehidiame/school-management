@@ -1,10 +1,9 @@
 'use client';
-import { useForm, UseFormReturn } from 'react-hook-form';
+import { Form, useForm } from 'react-hook-form';
 import {z} from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signOut, useSession } from 'next-auth/react';
 import { Button } from "@/components/ui/button"
-import { FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form"
 import {
   Card,
   CardContent,
@@ -13,32 +12,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import {
-  Form,
- /* FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,*/
-} from "@/components/ui/form"
-/*import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"*/
-import { Input } from "@/components/ui/input"
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
-import axios from 'axios';
 import axios_request from '@/lib/axios_request';
-//import type { UseFormReturn } from 'react-hook-form';
 import { FormFieldComponent,FormSelectComponent } from '@/components/form-components';
-import { useEffect, useState } from 'react';
-import { BaseSchoolCategory, School, SchoolSections } from '@prisma/client';
+import { useState } from 'react';
+import { BaseSchoolCategory, School } from '@prisma/client';
 import { SchoolDataTable } from '@/components/tables/school-data-table';
 import { SectionColumnsDefinition } from '@/definitions/school/section-definitions';
 import { SchoolColumnsDefinition } from '@/definitions/school/school-definitions';
@@ -91,9 +70,8 @@ const base_school_schema = z.object({
         />
  */
 
-        const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        /*const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
           const selectedFile = event.target.files?.[0] || null; // Safely access files[0]
-          //setFile(selectedFile); // Update the state
           console.log('Dir log');
           console.dir(event.target.files)
           console.log(event.target);
@@ -115,7 +93,7 @@ const base_school_schema = z.object({
           }else{
             console.log('No file uploaded')
           }
-      };
+      };*/
   
   
       
@@ -146,24 +124,15 @@ const base_school_schema = z.object({
       .catch(err => console.error(err));
   } else {
       console.log("No file chosen or file input element not found.");
-  }
-  
-        
-        
-  
-      //console.log('Outer error ',error);
-  
-      }
+  } 
+}
   
   
-      const error_handler = (error:Error)=>{
+      /*const error_handler = (error:Error)=>{
         toast.error(error.message,{duration:7000,position:'bottom-center'});
       }
   
       function on_change(e:any){
-        //console.log(e.target.files[0]);
-        //set_file(e.target.files[0]);
-  
         const fileInput = document.getElementById('file_up') as HTMLInputElement;
   
         const files = (e.target as HTMLInputElement).files; // Access files directly from the event target
@@ -187,7 +156,7 @@ const base_school_schema = z.object({
           console.log("No file chosen.");
       }
   
-      }
+      }*/
 
 
 export const Schooling:React.FC<{base_data:BaseSchoolCategory|null,school_data:School[]}> = ({base_data,school_data}:{base_data:BaseSchoolCategory|null,school_data:School[]}) =>{
@@ -205,18 +174,7 @@ export const Schooling:React.FC<{base_data:BaseSchoolCategory|null,school_data:S
 )
 
   return (
-    /**
-     <DataTableUpdate 
-            columns={columns} 
-            data={data} 
-            empty_data_message="No billboards registered yet" 
-            filters={[
-                {column:"store",placeholder:"Filter by store"},
-                {column:"label",placeholder:"Filter by billboard label"},
-            ]} 
-            paginations={[10,20]}
-        />
-     */
+    
 
         
 
@@ -348,7 +306,7 @@ export const CreateUserForm = () => {
     
     async function on_submit(values:z.infer<typeof form_schema>){
         const {username,name,role} = values;
-       const { error,data } = await axios_request('/api/create-user','post',JSON.stringify({username,name,role}),undefined,{message:'Data created successfully',cb(data) {
+       await axios_request('/api/create-user','post',JSON.stringify({username,name,role}),undefined,{message:'Data created successfully',cb(data) {
             console.log('served data ',data);
             form.reset();
         },},(error)=>{
@@ -451,7 +409,7 @@ export const CreateUserForm = () => {
 
 
 export const CreateBaseSchoolForm:React.FC<{base_school:BaseSchoolCategory|null}> = ({base_school}:{base_school:BaseSchoolCategory|null}) => {
-  const route = useRouter();
+  //const route = useRouter();
   const { data:session,update } = useSession();
   const base_school_store = useBaseSchoolStore();
   
@@ -485,7 +443,7 @@ const fm = useForm<z.infer<typeof base_school_schema>>({
   
   async function on_submit(values:z.infer<typeof base_school_schema>){
       const {school_naming,section_naming,class_naming,arm_naming} = values;
-     const { error,data } = await axios_request('/api/school-naming','post',JSON.stringify({school_naming,section_naming,class_naming,arm_naming}),undefined,{message:'Data successfully saved',cb(data) {
+     await axios_request('/api/school-naming','post',JSON.stringify({school_naming,section_naming,class_naming,arm_naming}),undefined,{message:'Data successfully saved',cb(data) {
           console.log('served data ',data);
           base_school_store.setData(data.create);
           //form.reset();

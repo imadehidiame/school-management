@@ -1,7 +1,7 @@
-import { SectionData } from '@/definitions/school/section-data';
+//import { SectionData } from '@/definitions/school/section-data';
 import { ClassData } from '@/definitions/school/class-data';
 import axios_request from '@/lib/axios_request';
-import { SchoolSections } from '@prisma/client';
+//import { SchoolSections } from '@prisma/client';
 import { create } from 'zustand';
 
 interface StoreState {

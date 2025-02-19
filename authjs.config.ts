@@ -4,7 +4,7 @@ import type { NextAuthConfig} from "next-auth"
 import { DefaultSession } from "next-auth";
 import { prisma } from "@/prisma";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { getToken } from "next-auth/jwt";
+//import { getToken } from "next-auth/jwt";
 import { auth_paths } from "@/lib/data";
 //import { is_profile_set, memoize_util } from "./lib/utils";
  

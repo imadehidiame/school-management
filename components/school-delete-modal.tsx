@@ -2,12 +2,12 @@
 import { AlertModal } from "@/components/modals/alert-modal";
 import useSchoolSectionStore from "@/stores/school-settings/use-school-section-store";
 import useSchoolStore from "@/stores/school-settings/use-school-store";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 //import toast from "react-hot-toast";
 
 export default function SchoolDeleteModal(){
     const [loading,set_loading] = useState(false);
-    const [page,set_page] = useState(false);
+    //const [page,set_page] = useState(false);
     const section_store = useSchoolSectionStore();
     const store = useSchoolStore();
     

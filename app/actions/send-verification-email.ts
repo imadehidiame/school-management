@@ -1,6 +1,5 @@
 'use server';
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import { createTransport } from "nodemailer"
 
 
@@ -42,7 +41,7 @@ export async function sendVerificationRequest(params:any) {
 function html(params: { url: string; host: string; theme: Theme }) {
   const { url, host, theme } = params
  
-  const escapedHost = host.replace(/\./g, "&#8203;.")
+  //const escapedHost = host.replace(/\./g, "&#8203;.")
  
   //const brandColor = theme.brandColor || "#346df1"
 

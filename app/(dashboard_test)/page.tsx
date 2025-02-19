@@ -2,12 +2,6 @@ import { signIn,auth } from "@/auth";
 import SessionData from "@/components/session-data";
 import Login from "@/ui/auth/login-mod";
 
-//import { auth } from "@/auth";
-
-//import { SessionProvider } from "next-auth/react";
-import Image from "next/image";
-//import { useSession } from "next-auth/react";
-
 export default async function Home() {
 
 const logins = [

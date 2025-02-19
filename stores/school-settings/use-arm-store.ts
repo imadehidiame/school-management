@@ -1,7 +1,4 @@
-import { SectionData } from '@/definitions/school/section-data';
-//import { ClassData } from '@/definitions/school/class-data';
 import axios_request from '@/lib/axios_request';
-import { SchoolSections } from '@prisma/client';
 import { create } from 'zustand';
 import { ArmData } from '@/definitions/school/arm-data';
 

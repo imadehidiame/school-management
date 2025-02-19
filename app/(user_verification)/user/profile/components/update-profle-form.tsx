@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -16,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input"
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import axios from 'axios';
 
 const form_schema = z.object({
@@ -45,7 +44,7 @@ export default function UpdateProfileForm(){
 
         try {
 
-          const {status,data,statusText} = await axios.post('/api/update-user',JSON.stringify({username,name}));
+          const {status,data} = await axios.post('/api/update-user',JSON.stringify({username,name}));
           console.log('data ',data);
           switch (status) {
             case 500:

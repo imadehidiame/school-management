@@ -22,8 +22,8 @@ export default function ClassDeleteModal(){
     const on_confirm = async ()=>{
         set_loading(true);
         const res = await store.delete_class(useClassStore.getState().id);
-        console.log('Response from delete class ',res);
-        console.log('response from delete class ',res.arm_data);
+        //console.log('Response from delete class ',res);
+        //console.log('response from delete class ',res.arm_data);
         useArmStore.getState().setArmData(res.arm_data); 
         set_loading(false)
         //store.close_modal();

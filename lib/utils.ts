@@ -1,9 +1,7 @@
-import { prisma } from "@/prisma"
+
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 import NodeCache from 'node-cache';
-import { check_profile } from "./util_update";
-import { AdminSessionDB } from "./AdminSession";
 //import {  }
 
 const cache = new NodeCache({stdTTL:3600,checkperiod:120});
@@ -11,14 +9,10 @@ const cache = new NodeCache({stdTTL:3600,checkperiod:120});
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
-const emails = ['imadehidiame@gmail.com','ehimade@gmail.com'];
-const role = [];
-interface User {
-  role?: boolean;
-  name?: string;
-}
+//const emails = ['imadehidiame@gmail.com','ehimade@gmail.com'];
+//const role = [];
 
-export async function is_profile_set(email: string) {
+export async function is_profile_set() {
   //prisma.user.findFirst({select:{ro}})
   //const user = await AdminSessionDB.get({email},{role:true,name:true},false) as { role?: boolean; name?: string } | null;
   //return check_profile(email);

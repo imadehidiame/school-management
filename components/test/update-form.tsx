@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
+  //FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -23,7 +23,7 @@ const form_schema = z.object({
 
 export default function UpdateProfileForm(){
 
-    const { data:session,update } = useSession();
+    const { data:session } = useSession();
 
     const form = useForm<z.infer<typeof form_schema>>({
         resolver:zodResolver(form_schema),

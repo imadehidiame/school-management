@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/authjs";
 import { prisma } from "@/prisma";
-import nodemailer from 'nodemailer';
 import { PrismaClientInitializationError, PrismaClientKnownRequestError, PrismaClientRustPanicError, PrismaClientUnknownRequestError, PrismaClientValidationError } from "@prisma/client/runtime/library";
 
 
@@ -100,7 +99,7 @@ export async function DELETE(req:Request,{params}:{params:{id:string}}){
     throw new Error(`Not authorized`,{cause:'authorization_error'});
     //return NextResponse.json({data:'Not authorized'},{status:401,statusText:'Access denied and not authorized'});
     //const {school_name} = await req.json();
-    const {id} = await params;
+    //const {id} = await params;
     //console.log('Update value ',{school_name,id});
     
 
@@ -109,7 +108,7 @@ export async function DELETE(req:Request,{params}:{params:{id:string}}){
         const {id} = await params;
     //console.log('Update value ',{school_name,id});
 
-    const del = await prisma.schoolClasses.delete({
+     await prisma.schoolClasses.delete({
         where:{
             id
         }

@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/authjs";
 import { prisma } from "@/prisma";
-import nodemailer from 'nodemailer';
 import { PrismaClientInitializationError, PrismaClientKnownRequestError, PrismaClientRustPanicError, PrismaClientUnknownRequestError, PrismaClientValidationError } from "@prisma/client/runtime/library";
 
 
@@ -47,7 +46,7 @@ export async function PATCH(req:Request,{params}:{params:{id:string}}){
           }
         });
 
-        const final_section = Object.assign({},section,{section_school:section.school.school_name});
+        //const final_section = Object.assign({},section,{section_school:section.school.school_name});
       
         //console.log('school vdata ',school);
       
@@ -106,7 +105,7 @@ export async function DELETE(req:Request,{params}:{params:{id:string}}){
         const {id} = await params;
     //console.log('Update value ',{school_name,id});
 
-    const del = await prisma.schoolSections.delete({
+    await prisma.schoolSections.delete({
         where:{
             id
         }

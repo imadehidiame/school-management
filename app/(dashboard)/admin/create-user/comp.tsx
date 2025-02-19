@@ -20,13 +20,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"*/
-import { Input } from "@/components/ui/input"
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
-import axios from 'axios';
 import axios_request from '@/lib/axios_request';
-//import type { UseFormReturn } from 'react-hook-form';
 import { FormFieldComponent,FormSelectComponent } from '@/components/form-components';
 import { useState } from 'react';
 //import { FormSelectComponent } from '@/components/FormComponents';

@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import Announcements from './announcements';
+//import Announcements from './announcements';
 
 type ValuePiece = Date | null;
 

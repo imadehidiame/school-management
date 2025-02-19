@@ -13,7 +13,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
+import { ChevronDown } from "lucide-react"
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 //import { Checkbox } from "@/components/ui/checkbox"
@@ -40,7 +40,7 @@ import {
 //import useSectionModalStore from "@/stores/use-section-modal-store"
 //import useSchoolSectionStore from "@/stores/use-school-section-store"
 //import useClassStore from "@/stores/use-class-store"
-import useArmStore from "@/stores/school-settings/use-arm-store";
+
 import useSchoolSessionStore from "@/stores/school-settings/use-session-store"
 
 

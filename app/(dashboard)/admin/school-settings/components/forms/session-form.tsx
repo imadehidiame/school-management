@@ -14,7 +14,7 @@ import { z } from "zod";
 
 export default function SessionForm(){
     const {id,add_session,set_sessions,set_id } = useSchoolSessionStore();
-    const { data } = useBaseSchoolStore();
+    useBaseSchoolStore();
     const form_schema = z.object({
         session:z.string().nonempty({message:`Please enter session usually in the format, 2024/2025`}).trim()
     });
@@ -77,7 +77,7 @@ export default function SessionForm(){
                 }else{
                    await add_session(data.session_datum);
                 }
-                //set_sessions(data.session_datum); 
+                //set_sessions(data.session_datum); n
                 set_id(data.session_datum.id);
             }
             

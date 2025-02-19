@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
+  //DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
@@ -12,23 +12,18 @@ import {
   DropdownMenuTrigger,
   
 } from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
+//import { Input } from "@/components/ui/input"
 import { ColumnDef } from '@tanstack/react-table'
-import { School,SchoolSections } from '@prisma/client';
-import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+//import { School,SchoolSections } from '@prisma/client';
 //import useSchoolModalStore from "@/stores/use-school-modal-store"
 //import useSchoolStore from "@/stores/use-school-store"
 import useBaseSchoolStore from "@/stores/school-settings/use-base-school-store"
-import useSchoolSectionStore from "@/stores/school-settings/use-school-section-store"
-//import useSectionModalStore from "@/stores/use-section-modal-store"
-//import { SectionData } from "./section-data"
 import { ClassData } from "./class-data"
 import useClassStore from "@/stores/school-settings/use-class-store"
 
 
 
-function BaseSchoolButton({action}:{action:()=>void}){
+/*function BaseSchoolButton({action}:{action:()=>void}){
     const store = useBaseSchoolStore();
     return <Button
     variant="ghost"
@@ -48,7 +43,7 @@ function SchoolSectionButton({action}:{action:()=>void}){
     {store.data?.section_naming}
     {<ArrowUpDown />}
   </Button>
-}
+}*/
 
 function SchoolSectionButtonMod({action,col}:{action:()=>void,col:string}){
   const store = useBaseSchoolStore();
@@ -66,7 +61,7 @@ function SchoolSectionButtonMod({action,col}:{action:()=>void,col:string}){
 }
 
 function SchoolSectionDateButton({action,title}:{action:()=>void,title:string}){
-  const store = useBaseSchoolStore();
+  //const store = useBaseSchoolStore();
 
       return   ( <div className="flex items-center gap-1">
                 <span>{title}</span>
@@ -82,7 +77,7 @@ function SchoolSectionDateButton({action,title}:{action:()=>void,title:string}){
   
 }
 
-function DropdownMenuItemRouting({href,title}:{href:string,title:string}){
+/*function DropdownMenuItemRouting({href,title}:{href:string,title:string}){
     const router = useRouter();
       return (
           <DropdownMenuItem
@@ -92,15 +87,15 @@ function DropdownMenuItemRouting({href,title}:{href:string,title:string}){
           {title}
       </DropdownMenuItem>
       )
-  }
+  }*/
   
   function DropdownMenuItemUpdate({title,id}:{title:string,id:string}){
     //const store = useStoreModal();
-    const [loaded,setLoaded] = useState(false);
+    //const [loaded,setLoaded] = useState(false);
     //const store_modal = useSchoolSectionStore();
     //const base_store = useBaseSchoolStore();
     //const store = useSchoolStore();
-    const section_store = useSchoolSectionStore();
+    //const section_store = useSchoolSectionStore();
     const class_store = useClassStore();
     /*useEffect(() => {
         setLoaded(true);
@@ -129,9 +124,9 @@ function DropdownMenuItemRouting({href,title}:{href:string,title:string}){
 
   function DropdownMenuItemDelete({title,id}:{title:string,id:string}){
     //const store = useStoreModal();
-    const [loaded,setLoaded] = useState(false);
+    //const [loaded,setLoaded] = useState(false);
     const store_modal = useClassStore();
-    const base_store = useBaseSchoolStore();
+    //const base_store = useBaseSchoolStore();
     //const store = useSchoolStore();
     //const section_store = useSchoolSectionStore();
     //useEffect(() => {

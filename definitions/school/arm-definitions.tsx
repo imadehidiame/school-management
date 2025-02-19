@@ -1,10 +1,10 @@
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
+import { ArrowUpDown, MoreHorizontal } from "lucide-react"
  
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
+  //DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
@@ -12,25 +12,25 @@ import {
   DropdownMenuTrigger,
   
 } from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
+//import { Input } from "@/components/ui/input"
 import { ColumnDef } from '@tanstack/react-table'
-import { School,SchoolSections } from '@prisma/client';
-import { useRouter } from "next/navigation"
-import { useEffect, useState } from "react"
+//import { School,SchoolSections } from '@prisma/client';
+//import { useRouter } from "next/navigation"
+//import {  useState } from "react"
 //import useSchoolModalStore from "@/stores/use-school-modal-store"
 //import useSchoolStore from "@/stores/use-school-store"
 import useBaseSchoolStore from "@/stores/school-settings/use-base-school-store"
-import useSchoolSectionStore from "@/stores/school-settings/use-school-section-store"
+//import useSchoolSectionStore from "@/stores/school-settings/use-school-section-store"
 //import useSectionModalStore from "@/stores/use-section-modal-store"
 //import { SectionData } from "./section-data"
 //import { ClassData } from "./class-data"
-import useClassStore from "@/stores/school-settings/use-class-store"
+//import useClassStore from "@/stores/school-settings/use-class-store"
 import { ArmData } from "./arm-data"
 import useArmStore from "@/stores/school-settings/use-arm-store"
 
 
 
-function BaseSchoolButton({action}:{action:()=>void}){
+/*function BaseSchoolButton({action}:{action:()=>void}){
     const store = useBaseSchoolStore();
     return <Button
     variant="ghost"
@@ -39,9 +39,9 @@ function BaseSchoolButton({action}:{action:()=>void}){
     {store.data?.section_naming}
     <ArrowUpDown />
   </Button>
-}
+}*/
 
-function SchoolSectionButton({action}:{action:()=>void}){
+/*function SchoolSectionButton({action}:{action:()=>void}){
     const store = useBaseSchoolStore();
     return <Button
     variant="ghost"
@@ -50,7 +50,7 @@ function SchoolSectionButton({action}:{action:()=>void}){
     {store.data?.section_naming}
     {<ArrowUpDown />}
   </Button>
-}
+}*/
 
 function SchoolSectionButtonMod({action,col,alias=''}:{action:()=>void,col:string,alias?:string}){
     const store = useBaseSchoolStore();
@@ -97,7 +97,7 @@ function SchoolSectionDateButton({action,title}:{action:()=>void,title:string}){
     
   }
 
-function DropdownMenuItemRouting({href,title}:{href:string,title:string}){
+/*function DropdownMenuItemRouting({href,title}:{href:string,title:string}){
     const router = useRouter();
       return (
           <DropdownMenuItem
@@ -107,15 +107,15 @@ function DropdownMenuItemRouting({href,title}:{href:string,title:string}){
           {title}
       </DropdownMenuItem>
       )
-  }
+  }*/
   
   function DropdownMenuItemUpdate({title,id}:{title:string,id:string}){
     //const store = useStoreModal();
-    const [loaded,setLoaded] = useState(false);
+    //const [loaded,setLoaded] = useState(false);
     //const store_modal = useSchoolSectionStore();
     //const base_store = useBaseSchoolStore();
     //const store = useSchoolStore();
-    const section_store = useSchoolSectionStore();
+    //const section_store = useSchoolSectionStore();
     const class_store = useArmStore();
     /*useEffect(() => {
         setLoaded(true);
@@ -144,9 +144,9 @@ function DropdownMenuItemRouting({href,title}:{href:string,title:string}){
 
   function DropdownMenuItemDelete({title,id}:{title:string,id:string}){
     //const store = useStoreModal();
-    const [loaded,setLoaded] = useState(false);
+    //const [loaded,setLoaded] = useState(false);
     const store_modal = useArmStore();
-    const base_store = useBaseSchoolStore();
+    //const base_store = useBaseSchoolStore();
     //const store = useSchoolStore();
     //const section_store = useSchoolSectionStore();
     //useEffect(() => {

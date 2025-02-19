@@ -1,7 +1,7 @@
 'use client';
 //import { signIn } from "@/auth";
 import { Button } from "@/components/ui/button";
-import { SessionProvider, useSession } from "next-auth/react";
+//import { SessionProvider, useSession } from "next-auth/react";
 
 interface LoginProps {
   login:{action:()=>void,text:String}[];
