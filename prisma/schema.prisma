@@ -22,7 +22,7 @@ model Account {
   providerAccountId  String  @map("provider_account_id")
   refresh_token      String? @db.Text
   access_token       String? @db.Text
-  expires_at         Int?
+  expires_at         Int? 
   token_type         String?
   scope              String?
   id_token           String? @db.Text
@@ -65,3 +65,80 @@ model VerificationToken {
   @@unique([identifier, token])
   @@map("verification_tokens")
 }
+
+//Faculties -> Department -> Level -> ?:Arm 
+//School[early,pre-school] -> Sections || Classes -> Aram
+
+//To be used as base title for creating  school,section,class,arm
+model BaseSchoolCategory {
+  id             String    @id @default(cuid())
+  school_naming  String
+  section_naming String    
+  class_naming   String
+  arm_naming     String
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  @@map("base_school_categories")
+}
+
+model School {
+  id               String    @id  @default(uuid())
+  school_name      String
+  size             Int?
+  school_sections  SchoolSections[]
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+
+  @@map("schools")
+}
+
+model SchoolSections {
+  id              String            @id  @default(uuid())
+  section_name    String
+  school_id       String
+  school          School            @relation(fields: [school_id], references: [id], onDelete: Cascade)
+  //section_arms    SectionArms[] 
+  school_classes  SchoolClasses[]
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  @@map("school_sections")
+}
+
+model SchoolClasses {
+  id              String          @id    @default(uuid())
+  class_name      String     
+  section_id      String
+  school_section  SchoolSections  @relation(fields: [section_id], references: [id], onDelete: Cascade)
+  class_arms      ClassArms[]
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  @@map("school_classes")
+}
+
+model ClassArms {
+  id                  String           @id @default(uuid())
+  arm_name            String
+  name_alias          String?
+  school_class_id     String
+  school_class        SchoolClasses    @relation(fields: [school_class_id],references: [id], onDelete: Cascade )
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @updatedAt
+
+  @@map("class_arms")
+}
+
+model SchoolSessions {
+  id                  String           @id @default(cuid())
+  session             String
+  is_selected         Int              @default(0)
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @updatedAt
+
+  @@map("school_sessions")
+}
+
+
+

@@ -1,4 +1,4 @@
-import NextAuth from "next-auth"
+import NextAuth, {DefaultSession} from "next-auth"
 import "next-auth/jwt"
 
 import Apple from "next-auth/providers/apple"
@@ -43,8 +43,25 @@ import Nodemailer from 'next-auth/providers/nodemailer';
 import { prisma } from "@/prisma";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { sendVerificationRequest } from "@/mail"
-
 import authConfig from "@/auth.config"
+
+declare module "next-auth" {
+    interface User {
+        role?: string
+    }
+    interface Session {
+      provider?:string;
+      accessToken?: string
+        user: {
+            role?: string;
+        } & DefaultSession["user"]
+    }
+    interface JWT {
+        role?:string
+        accessToken?: string
+        provider?: string
+    }
+}
 
 
 const { providers} = authConfig;
@@ -87,6 +104,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             // }
           },
     }),
+      
     ...providers
     /*Apple,
     // Atlassian,
@@ -144,49 +162,89 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   secret: process.env.AUTH_SECRET,
   basePath: "/auth",
   session: { strategy: "jwt" },
+
   callbacks: {
-    authorized({ request, auth }) {    
+    /*async authorized({ request, auth }) {    
       const { pathname,origin } = request.nextUrl;
-      console.log("Pathname value is ",pathname);
-      console.log('Origin value is ',origin);
+      const token = await getToken({req:request,secret:process.env.AUTH_SECRET});
+      
+      if (token) {
+        console.log("User role:", token.role); // Access custom session data
+        console.log("User name:", token.name);
+        console.log('user token,  ',token);
+      }
+      //console.log("Pathname value is ",pathname);
+      //console.log('Origin value is ',origin);
       console.log("Auth value, ",auth);
-    
-      if (pathname.includes('/dashboard')) return !!auth
+
+      const fetch_function = async ()=>{
+       // return await is_profile_set('imadehidiame@gmaill.com');
+      }
+
+      //const memoize_data = memoize_util(fetch_function);
+
+      //console.log('Memoized data ',await memoize_data());
+      
+
+      if (pathname.includes('/dashboardd')) return !!auth  
+      
       if(auth){
-        if(!pathname.includes('/dashboard'))
-            return Response.redirect(new URL('/dashboard/home',origin).toString(), 302); 
-        //return redirect('/dashboard/home');
+        if(!pathname.includes('/dashboardd'))
+          
+            return Response.redirect(new URL('/dashboardd/home',origin).toString(), 302); 
       }
       return true
-    },
-    jwt({ token, trigger, session, account }) {
-      if (trigger === "update") token.name = session.user.name
+    },*/
+    jwt({ token, trigger, session, account,user,profile }) {
+      if(user){
+        //profile.
+        token.role = user.role;
+        token.name = user.name;
+      }
+      
+      if (trigger === "update") 
+        token.name = session.user.name
+      if(account){
+        token.accessToken = account.access_token;
+        token.provider = account.provider
+      }
       if (account?.provider === "keycloak") {
         return { ...token, accessToken: account.access_token }
       }
       return token
     },
     async session({ session, token }) {
-      if (token?.accessToken) session.accessToken = token.accessToken
+      if(token?.accessToken)
+        session.accessToken = token.accessToken;
+      if(token?.provider)
+      session.provider = token.provider as string;
+      session.user.role = token.role as string | undefined;
+      session.user.name = token.name;
+      //if (token?.accessToken) session.accessToken = token.accessToken
 
       return session
     },
     async redirect({ url, baseUrl }) {
         // Redirect to the dashboard if the user is authenticated
         if (!url.startsWith(baseUrl)) {
-          return `${baseUrl}/dashboard/home`;
+          return `${baseUrl}/dashboardd/home`;
         }
         // Allow relative URLs
         if (url.startsWith("/")) return `${baseUrl}${url}`;
         return url;
     },
   },
+
   experimental: { enableWebAuthn: true },
+  pages:{
+    signIn:'login'
+  }
 })
 
 declare module "next-auth" {
   interface Session {
     accessToken?: string
+    
   }
 }
 

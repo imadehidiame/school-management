@@ -1,14 +1,217 @@
-import { createTransport } from "nodemailer"
+//import { cookies } from "next/headers";
+//import { redirect } from "next/navigation";
+//import { createTransport } from "nodemailer"
+
+import type { User, Account, Profile } from 'next-auth';
+import type { CredentialInput } from 'next-auth/providers';
+import { prisma } from "./prisma";
 
 type Theme = {
   brandColor?: string;
   buttonText?: string;
 }
+
+
+type SignInCallback = (params: {
+  user: User;
+  account: Account | null;
+  profile?: Profile;
+  email?: { verificationRequest?: boolean };
+  credentials?: Record<string, CredentialInput>;
+}) => Promise<boolean | string> | boolean | string;
+
+
+export const signIn : SignInCallback = async ({account,profile,email,credentials,user})=>{
+  //user is submitted user from signin
+  //profile is profile related data from providers
+  //account is account related data from providers
+
+  console.log('user information ',user);
+  console.log('provider information ',account);
+  console.log('profile information ',profile); 
+
+  const is_user = await prisma.user.findUnique({
+    where: {
+        email:user.email  as string //providerId: providerAccountId,
+      },
+   });
+
+    if(is_user){
+      //check if provider exists for user
+      const provider = await prisma.account.findFirst({
+        where:{
+          userId:is_user.id  
+        }
+      });
+      //update account for only google and github providers  
+      if(account?.provider == 'google' || account?.provider == 'github'){
+
+        //check if provider exists
+        
+  
+        //console.log('Provider check ',provider);
+        
+        if(!provider){
+          //provider does not exist, create one
+          await prisma.account.create({
+              data:{
+                provider:account?.provider as string,
+                providerAccountId:account?.providerAccountId as string,
+                access_token:account?.access_token,
+                refresh_token:account?.refresh_token,
+                type:account?.type as string,
+                userId:is_user.id,
+                scope:account?.scope,
+                expires_at:account?.expires_at,
+                token_type:account?.token_type,
+                id_token:account?.id_token,
+              }
+          });
+
+          //check if user has image, if not give user one only if account provider is google
+  
+          if(!is_user.image){
+            if(account?.provider == 'google'){
+              await prisma.user.update({
+                where:{
+                  email:is_user.email as string
+                },
+                data:{
+                  image:profile?.picture
+                }
+              })
+            } 
+          }
+          return true;
+  
+        }else{
+          //provider exists, please update
+          await prisma.account.update({
+            data:{
+              provider:account?.provider as string,
+              providerAccountId:account?.providerAccountId as string,
+              access_token:account?.access_token,
+              refresh_token:account?.refresh_token,
+              type:account?.type as string,
+              //userId:is_user.id
+              scope:account?.scope,
+              expires_at:account?.expires_at,
+              token_type:account?.token_type,
+              id_token:account?.id_token,
+            },
+            where:{
+              //userId:is_user.id,
+              id:provider.id
+            }
+        });
+
+        //check if user has image, if not give user one only if account provider is google
+
+          if(!is_user.image){
+            if(account?.provider == 'google'){
+              await prisma.user.update({
+                where:{
+                  email:is_user.email as string
+                },
+                data:{
+                  image:profile?.picture
+                }
+              })
+            } 
+          }
+  
+        
+        
+        }
+
+
+      }else{
+
+
+        //check if account provider has token and expires_at values
+        if(account?.access_token && account.expires_at){
+
+
+          
+          if(provider){
+            //provider exists. update provider if account provider has token and expires_at values
+
+            /*interface data_account {
+             provider?: string;
+              providerAccountId?: string;
+              access_token?: string;
+              expires_at?: number;
+              refresh_token?: string | undefined;
+              type?: string;
+              scope?: string | undefined;
+              token_type?: Lowercase<string> | undefined;
+              id_token?: string | undefined;
+            }*/
+
+            //let new_account:data_account = Object.assign({},account);
+
+            let update:any = {};
+
+            (['access_token','expires_at','provider', 'providerAccountId', 'refresh_token', 'type', 'scope', 'token_type', 'id_token']).forEach((element) => {
+
+              if (account[element]) {
+                update[element] = account[element];
+              }
+            });
+
+            console.log('Update object ',update);
+
+            await prisma.account.update({
+              data:update,
+              where:{
+                //userId:is_user.id,
+                id:provider.id
+              }
+          });
+
+
+          }else{
+          //provider does not exist. create provider if account provider has token and expires_at values
+
+          let update:any = {};
+
+          (['access_token','expires_at','provider', 'provider_account_id', 'refresh_token', 'type', 'scope', 'token_type', 'id_token']).forEach((element) => {
+
+            if (account[element]) {
+              update[element] = account[element];
+            }
+          });
+
+          update['user_id'] = is_user.id;
+
+          console.log('create object ',update);
+
+          await prisma.account.create({
+            data:update,
+          });
+
+
+          }          
+
+        }
+        console.log('Expires at key unavailable in provider ',account?.provider);
+
+      }
+
+      return true;
+    }
+    
+  return false;
+}
+
  
 export async function sendVerificationRequest(params:any) {
-  const { identifier, url, provider, theme } = params
+
+  await fetch('/api/send_auth_mail',{body:JSON.stringify(params),method:'POST'});
+
+
+  /*const { identifier, url, provider, theme } = params
   const { host } = new URL(url)
-  // NOTE: You are not required to use `nodemailer`, use whatever you want.
   const transport = createTransport(provider.server)
   const result = await transport.sendMail({
     to: identifier,
@@ -17,13 +220,21 @@ export async function sendVerificationRequest(params:any) {
     text: text({ url, host }),
     html: html({ url, host, theme }),
   })
+
+  const cookie_store = await cookies();
+  cookie_store.set('resend_email',identifier,{expires:new Date(Date.now()+24*60*60*1000),maxAge:(60*60*24)})
+  const verifyRequestUrl = `/auth/verify-request?email=${encodeURIComponent(identifier)}`;
+  console.log(`Verify Request URL: ${verifyRequestUrl}`);
+
+  
   const failed = result.rejected.filter(Boolean)
   if (failed.length) {
     throw new Error(`Email(s) (${failed.join(", ")}) could not be sent`)
-  }
+  }*/
+  
 }
  
-function html(params: { url: string; host: string; theme: Theme }) {
+export function html(params: { url: string; host: string; theme: Theme }) {
   const { url, host, theme } = params
  
   const escapedHost = host.replace(/\./g, "&#8203;.")
@@ -149,6 +360,6 @@ function html(params: { url: string; host: string; theme: Theme }) {
 }
  
 // Email Text body (fallback for email clients that don't render HTML, e.g. feature phones)
-function text({ url, host }: { url: string; host: string }) {
+export function text({ url, host }: { url: string; host: string }) {
   return `Sign in to ${host}\n${url}\n\n`
 }
