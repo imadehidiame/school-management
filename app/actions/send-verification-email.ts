@@ -8,8 +8,17 @@ type Theme = {
     buttonText?: string;
   }
   
+type params_type = {  
+  identifier: string;
+  url: string;
+  provider: {
+    server: { host: string; port: number; secure: boolean; auth: { user: string; pass: string } };
+    from: string;
+  };
+  theme: Theme;
+ }
 
-export async function sendVerificationRequest(params:any) { 
+export async function sendVerificationRequest(params:params_type) { 
 
   //await fetch('/api/send_auth_mail',{body:JSON.stringify(params),method:'POST'});
 

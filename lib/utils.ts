@@ -38,9 +38,9 @@ export async function is_profile_set() {
   }
 }
 
-export function memoize_util(fn:Function){
+export function memoize_util(fn:Function):Function{
   //const cache = new Map();
-  return async function (...args:any[]){
+  return async function (...args:unknown[]){
      const key = JSON.stringify(args);
      console.log('cache key ',key);
      const cached_value = cache.get(key);

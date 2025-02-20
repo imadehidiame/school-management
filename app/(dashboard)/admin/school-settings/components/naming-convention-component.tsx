@@ -15,7 +15,7 @@ import { z } from "zod";
 //import { BaseData } from "../definitions";
 
 
-export const NamingConventionComponent:React.FC<{base_school:BaseSchoolCategory|null}> = ({base_school}:{base_school:BaseSchoolCategory|null}) => {
+export const NamingConventionComponent:React.FC<{base_data:BaseSchoolCategory|null}> = ({base_data}) => {
     //const route = useRouter();
     //const { data:session,update } = useSession();
     const {data,setData} = useBaseSchoolStore(); 
@@ -31,11 +31,11 @@ export const NamingConventionComponent:React.FC<{base_school:BaseSchoolCategory|
       
     const fm = useForm<z.infer<typeof base_school_schema>>({
         resolver: zodResolver(base_school_schema),
-        defaultValues: base_school || {
+        defaultValues: (data ? data : base_data) || {
             school_naming:'',
             section_naming:'',
             class_naming:'',
-            arm_naming:''
+            arm_naming:'' 
         } // Use the state variable here
       });
 

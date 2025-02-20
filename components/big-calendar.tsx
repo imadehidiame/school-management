@@ -10,9 +10,9 @@ import useOriginFull from '@/hooks/use-origin-full';
 
 
 
-type events_data = {
+/*type events_data = {
     fields?:({startTime:any}&{endTime:any})[]
-}
+}*/
 
 const localizer = momentLocalizer(moment)
 

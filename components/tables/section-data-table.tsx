@@ -60,11 +60,7 @@ interface DataTableProps<TData, TValue> {
   //const [pagination, setPagination] = useState(paginations?paginations[0]:2);
   //const [filter, setFilter] = useState({filter:filter_column,filter_text:filter_placeholder});
 
-  const open_modall = ()=>{
-    store_modal.setId('');
-    store_modal.open_update_modal;
-  }   
-
+  
   const table = useReactTable({
     data,
     columns,
@@ -86,7 +82,7 @@ interface DataTableProps<TData, TValue> {
 
   useEffect(() => {
     table.setPageSize(paginations?paginations[0]:10);
-  }, [table])
+  }, [table,paginations])
   
   //table.setPageSize(2);
 

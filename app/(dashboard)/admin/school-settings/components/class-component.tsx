@@ -4,8 +4,12 @@ import { BaseData } from "../definitions";
 import { SectionData } from "@/definitions/school/section-data";
 import { ClassData } from "@/definitions/school/class-data";
 import { ClassDataTable } from "@/components/tables/class-data-table";
-import React from 'react'; // Import React
+import React, { useEffect, useState } from 'react'; // Import React
 import { ClassColumnsDefinition } from "@/definitions/school/class-definitions";
+import useBaseSchoolStore from "@/stores/school-settings/use-base-school-store";
+import useSchoolSectionStore from "@/stores/school-settings/use-school-section-store";
+import useSchoolStore from "@/stores/school-settings/use-school-store";
+import useClassStore from "@/stores/school-settings/use-class-store";
 
 interface ClassComponentProps {
     base_data: BaseData;
@@ -14,9 +18,19 @@ interface ClassComponentProps {
     class_data: ClassData[];
 }
 
-const ClassComponent: React.FC<ClassComponentProps> = ({ base_data, section_data, school_data, class_data }) => {
+const ClassComponent: React.FC = () => {
+    const { data } = useBaseSchoolStore();
+    const { schoolSections } = useSchoolSectionStore();
+    const { schools } = useSchoolStore();
+    const { classData } = useClassStore();
 
-    if (!base_data) {
+    const [table_key,set_table_key] = useState(1);
+    useEffect(()=>{
+        set_table_key(prev=>prev+1);
+    },[classData]);
+    
+
+    if (!data) {
         return (
             <Card className="w-[50%]">
                 <CardHeader>
@@ -29,26 +43,26 @@ const ClassComponent: React.FC<ClassComponentProps> = ({ base_data, section_data
         );
     }
 
-    if (school_data.length < 1) {
+    if (schools.length < 1) {
         return (
             <Card className="w-full">
                 <CardHeader>
-                    <CardTitle>Please Create A {base_data.school_naming} Information</CardTitle>
+                    <CardTitle>Please Create A {data.school_naming} Information</CardTitle>
                     <CardDescription>
-                        Create at least a {base_data.school_naming} information before proceeding.
+                        Create at least a {data.school_naming} information before proceeding.
                     </CardDescription>
                 </CardHeader>
             </Card>
         );
     }
 
-    if (section_data.length < 1) {
+    if (schoolSections.length < 1) {
         return (
             <Card className="w-full">
                 <CardHeader>
-                    <CardTitle>Please Create A {base_data.section_naming} Information</CardTitle>
+                    <CardTitle>Please Create A {data.section_naming} Information</CardTitle>
                     <CardDescription>
-                        Create at least a {base_data.section_naming} information before proceeding.
+                        Create at least a {data.section_naming} information before proceeding.
                     </CardDescription>
                 </CardHeader>
             </Card>
@@ -58,26 +72,27 @@ const ClassComponent: React.FC<ClassComponentProps> = ({ base_data, section_data
     return (
         <Card className="w-full">
             <CardHeader>
-                <CardTitle>Create {base_data.class_naming} Data</CardTitle>
+                <CardTitle>Create {data.class_naming} Data</CardTitle>
                 <CardDescription>
-                    Register {base_data.section_naming.toLocaleLowerCase()} information in the database.
+                    Register {data.section_naming.toLocaleLowerCase()} information in the database.
                 </CardDescription>
             </CardHeader>
 
             <CardContent className="space-y-2">
                 <ClassDataTable
-                    data={class_data}
-                    empty_data_message={`No ${base_data.class_naming.toLocaleLowerCase()} information registered yet`}
+                    key={table_key}
+                    data={useClassStore.getState().classData}
+                    empty_data_message={`No ${data.class_naming.toLocaleLowerCase()} information registered yet`}
                     filters={[
                         {
                             column: 'class_section',
-                            placeholder: `Sort by ${base_data.school_naming}`,
-                            select_box_name: `${base_data.section_naming} filter`,
+                            placeholder: `Sort by ${data.school_naming}`,
+                            select_box_name: `${data.section_naming} filter`,
                         },
                         {
                             column: 'class_name',
-                            placeholder: `Sort by ${base_data.class_naming}`,
-                            select_box_name: `${base_data.class_naming} filter`,
+                            placeholder: `Sort by ${data.class_naming}`,
+                            select_box_name: `${data.class_naming} filter`,
                         },
                     ]}
                     paginations={[10, 20]}

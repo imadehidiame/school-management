@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
 import { Button } from "./ui/button";
-import { useRouter } from "next/navigation";
+//import { useRouter } from "next/navigation";
 
 type item_options = {
     icon:string;

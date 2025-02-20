@@ -12,7 +12,7 @@ import { signIn } from 'next-auth/react';
 //import { login, login_provider } from './actions';
 import { useRouter, useSearchParams } from 'next/navigation';
 import toast from 'react-hot-toast';
-import { Route } from 'next';
+//import { Route } from 'next';
 //import GoogleIcon from '@/public/googl_icon.svg';
 //import EmailIcon from '@/public/email_icon.svg';
 import GithubIcon from '@/public/github_icon.svg';
@@ -30,8 +30,8 @@ export default function LoginPage() {
   //const [state,action,pending] = useActionState(login,null);
   const [form_data,set_form_data] = useState({email:''});
   const [error_values,set_error_values] = useState<{email?:string[]}>({});
-  const [is_dirty,set_is_dirty] = useState(false);
-  const [error_value,set_error_value] = useState('');
+  const [,set_is_dirty] = useState(false);
+  const [,set_error_value] = useState('');
   const [loading,set_loading] = useState(false);
   const search_params = useSearchParams();
   const error = search_params.get('error');
@@ -62,17 +62,19 @@ export default function LoginPage() {
   },[error]);
   
 
-  const handleChange = (e:any)=>{
+  const handleChange = (e:React.ChangeEvent<HTMLInputElement>)=>{
     set_is_dirty(true);
-    const valid = form_schema.safeParse({[e.target.name]:e.target.value});
+    
+    const target = e.target as unknown as HTMLInputElement;
+    const valid = form_schema.safeParse({[target.name]: target.value});
     const errors: { [key: string]: string[] | undefined } | undefined = valid.error?.flatten().fieldErrors;
     if (errors) {
-        set_error_values(Object.assign({}, error_values, { [e.target.name]: errors[e.target.name] }));
+        set_error_values(Object.assign({}, error_values, { [target.name]: errors[target.name] }));
     }else{
         set_error_values({});
     }
     //console.log('errors ',errors);
-    set_form_data(Object.assign({},form_data,{[e.target.name]:e.target.value}))
+    set_form_data(Object.assign({},form_data,{[target.name]:target.value}))
   }
 
   const submit_signin = async (provider:string,data:any|undefined|null=undefined) =>{
@@ -100,7 +102,7 @@ export default function LoginPage() {
     //await signIn('nodemailer', { email:form_data.email});
   }
 
-  const submit_google = async ()=>{
+  /*const submit_google = async ()=>{
     const callback_url = search_params.get("callbackUrl");
     console.log('Callback url');
     const res = await signIn('google',{redirect:false,redirectTo:'/dashboard'});
@@ -128,14 +130,14 @@ export default function LoginPage() {
       else
        router.push('/dashboard');
      }
-  }
+  }*/
 
   
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 text-gray-900">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded shadow-md">
         <div className="flex justify-center mb-4">
-          <img src={'/img/gta_logo.png'} alt='Logo' className='w-[150px] h-[150px]' />
+          <Image src={'/img/gta_logo.png'} alt='Logo' className='w-[150px] h-[150px]' />
         </div>
 
         {/*error && ( 

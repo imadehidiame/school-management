@@ -83,7 +83,7 @@ interface DataTableProps<TData, TValue> {
 
   useEffect(() => {
     table.setPageSize(paginations?paginations[0]:10);
-  }, [table])
+  }, [table,paginations])
   
   //table.setPageSize(2);
 

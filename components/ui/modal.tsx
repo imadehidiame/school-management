@@ -6,10 +6,10 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
+  //DialogTrigger,
 } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+//import { Input } from "@/components/ui/input"
+//import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
 
 interface ModalProps {
@@ -31,7 +31,7 @@ export function Modal({is_open,children,classes,title,description,on_close_actio
       setTimeout(()=>{
         //console.log(document.body.style.pointerEvents);
         document.body.style.pointerEvents = 'auto';
-      },2000);
+      },4000);
       //console.log('Close event called');
     }else{
       

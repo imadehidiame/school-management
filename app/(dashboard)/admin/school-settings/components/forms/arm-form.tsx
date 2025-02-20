@@ -42,7 +42,7 @@ export default function ArmForm(){
         //let value;
         if(useArmStore.getState().id){
         //value = Object.assign({},value,{id:useSchoolStore.getState().id});
-        const {data} = await axios_request(`/api/class-arm/${useArmStore.getState().id}`,'patch',JSON.stringify(values),undefined,{message:'Data updated successfully',cb(data) {
+        const {data} = await axios_request(`/api/class-arm/${useArmStore.getState().id}`,'patch',JSON.stringify(values),undefined,{message:'Data updated successfully',cb() {
             
         },},(error)=>{
             if(error?.cause == 401 || error?.cause == 403){
@@ -54,7 +54,7 @@ export default function ArmForm(){
                 console.log('error auth');
                 //signOut();
         },false);
-        console.log('Arm Data ',data.arm_datum);
+        //console.log('Arm Data ',data.arm_datum);
         //updateSchool(useSchoolStore.getState().id,data.school);
         updateArmData(useArmStore.getState().id,data.arm_datum); 
         //setId(data.school.id);
@@ -66,22 +66,36 @@ export default function ArmForm(){
         //console.log(JSON.stringify(values));
         //console.log(values);
         //return;
-
-        const {data} = await axios_request('/api/class-arm','post',JSON.stringify(values),undefined,{message:'Data successfully saved',cb(data) {
+        try {
             
-        },},(error)=>{
-            if(error?.cause == 401 || error?.cause == 403){
+            const {data,error} = await axios_request('/api/class-arm','post',JSON.stringify(values),undefined,{message:'Data successfully saved',cb() {
+            
+            },},(error)=>{
+                if(error?.cause == 401 || error?.cause == 403){
+                    toast.error(error.message,{duration:7000});
+                    signOut();
+                }else{
+                    toast.error(error.message,{duration:7000});
+                }
+                    //console.log('error auth');
+                    //signOut();
+            },false);
+            if(error){
                 toast.error(error.message,{duration:7000});
-                signOut();
-            }else{
-                toast.error(error.message,{duration:7000});
+                return;
             }
-                //console.log('error auth');
-                //signOut();
-        },false);
-        console.log('Arm datum ',data.arm_datum);
-        addArmDatum(data.arm_datum);
-        setId(data.arm_datum.id);
+            //console.log('Seeved ',data);
+            //console.log('Arm datum ',data.arm_datum);
+            addArmDatum(data.arm_datum);    
+            setId(data.arm_datum.id);
+
+        } catch (error) {
+        
+            console.log(error);
+
+        }
+
+        
     }
     }
 

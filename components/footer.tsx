@@ -1,3 +1,4 @@
+import Image from "next/image"
 import CustomLink from "./custom-link"
 import packageJSON from "next-auth/package.json"
 
@@ -15,7 +16,7 @@ export default function Footer() {
         <CustomLink href="/policy">Policy</CustomLink>
       </div>
       <div className="flex items-center justify-start gap-2">
-        <img
+        <Image
           className="size-5"
           src="/img/gta_logo.png"
           alt="Auth.js Logo"

@@ -36,8 +36,8 @@ const form_schema = z.object({
 }
 
 export default function LoginPage() {
-  const [state,action,pending] = useActionState(login,null);
-  const [email, setEmail] = useState('');
+  const [state,action/*,pending*/] = useActionState(login,null);
+  const [email] = useState('');
   const [form_data,set_form_data] = useState({email:'',name:''});
   const [error_values,set_error_values] = useState(state);
   const [is_dirty,set_is_dirty] = useState(false);
@@ -46,18 +46,18 @@ export default function LoginPage() {
 
   type form_schema_props = z.infer<typeof form_schema>;
 
-  const form = useForm<form_schema_props>({
+  /*const form = useForm<form_schema_props>({
     resolver:zodResolver(form_schema),
     defaultValues:{
         email:''
     },
     mode:'onChange',
     shouldFocusError:true,
-  });
+  });*/
 
-  const on_submit = (values:form_schema_props)=>{
+  /*const on_submit = (values:form_schema_props)=>{
     console.log('Form values ',values);
-  }
+  }*/
 
   type form_event = {
     target:{
@@ -68,7 +68,7 @@ export default function LoginPage() {
 
   
 
-  const handleChange = (e:any|form_event)=>{
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
     set_is_dirty(true);
     const valid = form_schema.safeParse({[e.target.name]:e.target.value});
     const errors: { [key: string]: string[] | undefined } | undefined = valid.error?.flatten().fieldErrors;
@@ -81,10 +81,10 @@ export default function LoginPage() {
     set_form_data(Object.assign({},form_data,{[e.target.name]:e.target.value}))
   }
 
-  const handleEmailLogin = async (e: React.FormEvent) => {
+  /*const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     await signIn('email', { email });
-  };
+  };*/
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 text-gray-900">

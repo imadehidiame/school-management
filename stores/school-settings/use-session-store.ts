@@ -17,6 +17,7 @@ interface StoreState {
   session: ()=> SchoolSessions | undefined | null;
   add_session: (session: SchoolSessions) => Promise<void>;
   delete_session: (id: string) => Promise<any>;
+  update_session: (id: string) => Promise<any>;
 }
 
 const useSchoolSessionStore = create<StoreState>((set, get) => ({  
@@ -46,15 +47,33 @@ const useSchoolSessionStore = create<StoreState>((set, get) => ({
     },
     delete_session: async (id) => {
         try {
-        const { data, error } = await axios_request(`/api/school-session/${id}`, 'delete', undefined, undefined, { message: 'Information successfully deleted', cb(data) { }, }, (error) => {
+         const {error} = await axios_request(`/api/school-session/${id}`, 'delete', undefined, undefined, { message: 'Information successfully deleted', cb(data) { }, }, (error) => {
             console.log(error);
         }, true);
-        if (error) {
-            return Promise.reject(error);
+        if(!error){
+            set({ sessions: get().sessions.filter(e => e.id !== id) });
+            set({ id: '' });
+            set({ is_delete_modal_open: false }); 
         }
-        set({ sessions: get().sessions.filter(e => e.id !== id) });
-        set({ id: 'null' });
-        set({ is_delete_modal_open: false });
+        } catch (error) {
+        console.log(error);
+        }
+    },
+    update_session: async (id) => {
+        const check = get().sessions.find(e=>e.id === id);
+        if(check?.is_selected === 1)
+        return;
+        try {
+         const {data,error} = await axios_request(`/api/school-session/${id}`, 'patch', undefined, undefined, { message: 'Current session has been set to '+check?.session, cb(data) { }, }, (error) => {
+            console.log(error);
+        }, true);
+        if(!error){
+            set({ sessions: data.session_data });
+            //set({ id: '' });
+            //set({ is_delete_modal_open: false });
+        }
+        
+
         } catch (error) {
         console.log(error);
         }

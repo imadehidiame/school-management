@@ -6,7 +6,7 @@ import { Modal } from "@/components/ui/modal";
 //import useSectionModalStore from "@/stores/use-section-modal-store";
 import useBaseSchoolStore from "@/stores/school-settings/use-base-school-store";
 //import SectionForm from "@/app/(dashboard)/admin/school-settings/components/forms/section-form";
-import useSchoolSectionStore from "@/stores/school-settings/use-school-section-store";
+//import useSchoolSectionStore from "@/stores/school-settings/use-school-section-store";
 import useClassStore from "@/stores/school-settings/use-class-store";
 import ClassForm from "@/app/(dashboard)/admin/school-settings/components/forms/class-form";
 

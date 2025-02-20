@@ -1,11 +1,11 @@
 'use client';
-import { useSession } from "next-auth/react";
+//import { useSession } from "next-auth/react";
 import Image from "next/image";
 import NavbarImage from "./navbar-image";
 
 
 export default function Navbar(){
-    const {data} = useSession();
+    //const {data} = useSession();
     //const role = data?.user.role;
     
     return (

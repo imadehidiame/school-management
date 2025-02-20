@@ -50,7 +50,7 @@ export async function POST(req:Request){
 }
 
 
-export function html(params: { url: string; host: string; theme: Theme }) {
+function html(params: { url: string; host: string; theme: Theme }) {
   const { url, host, theme } = params
  
   //const escapedHost = host.replace(/\./g, "&#8203;.")
@@ -176,6 +176,6 @@ export function html(params: { url: string; host: string; theme: Theme }) {
 }
  
 // Email Text body (fallback for email clients that don't render HTML, e.g. feature phones)
-export function text({ url, host }: { url: string; host: string }) {
+function text({ url, host }: { url: string; host: string }) {
   return `Sign in to ${host}\n${url}\n\n`
 }

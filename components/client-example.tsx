@@ -64,7 +64,7 @@ export default function ClientExample() {
       <p>
         It needs the{" "}
         <CustomLink href="https://react.dev/reference/rsc/use-client">
-          <code>'use client'</code>
+          <code>{'use client'}</code>
         </CustomLink>{" "}
         directive at the top of the file to enable client side rendering, and
         the{" "}

@@ -72,7 +72,7 @@ export async function POST(req:Request){
         return NextResponse.json({create},{status:200});    
         //return NextResponse.json({data:'Not authentication'},{status:403,statusText:'Access denied'});
         
-    } catch (error:any) {
+    } catch (error:unknown) {
         if(error instanceof PrismaClientKnownRequestError || error instanceof PrismaClientInitializationError || error instanceof PrismaClientUnknownRequestError || error instanceof PrismaClientValidationError || error instanceof PrismaClientRustPanicError){
             console.log('Prisma error api/create-school-naming route: ',error.name,': ',error.message);
             console.log(error);
@@ -100,8 +100,10 @@ export async function POST(req:Request){
 
         }
         
-        console.log('Error saving information from api/create-school-naming route ',error);
+        if(error instanceof Error){
+            console.log('Error saving information from api/create-school-naming route ',error);
         return NextResponse.json({data:error ? error?.message:'Server error'},{status:201,statusText:error ? error?.message:'Server error'});
+        }
     }
 }
 

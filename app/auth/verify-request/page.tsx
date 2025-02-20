@@ -20,7 +20,7 @@ export default function VerifyRequestPage() {
     const fetch_email = async ()=>{
       const data = await fetch('/api/get_email',{method:'GET'});
       if(data.ok){
-        let {email} = await data.json();
+        const {email} = await data.json();
         console.log('email from server in verify reqest ',email);
         if(email){
           set_email(email);

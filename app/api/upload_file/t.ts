@@ -35,11 +35,12 @@ try {
     }
 
 } catch (error) {
+    console.log(error);
     // ... error handling
 }
 
 // Type guard function
-function isGoogleCredentials(obj: any): obj is GoogleCredentials {
+function isGoogleCredentials(obj: GoogleCredentials): obj is GoogleCredentials {
     return (
         typeof obj === 'object' &&
         obj !== null &&
@@ -64,18 +65,18 @@ export const config = {
 
 interface MockRes {
   status: (code: number) => MockRes;
-  send: (body: any) => MockRes;
-  json: (body: any) => MockRes;
-  end: (cb: any) => void;
+  send: (body: string|object) => MockRes;
+  json: (body: string|object) => MockRes;
+  end: (cb: string|number|object) => void;
   statusCode: number;
-  body?: any; // The body property
+  body?: string|object; // The body property
 }
 
 // ... rest of your code
 
 export async function POST(req: NextRequest) {
   try {
-      return new Promise<NextResponse>((resolve, reject) => {
+      return new Promise<NextResponse>((resolve) => {
           const anyReq: any = req;
 
           const mockRes: MockRes = { // Use the interface
@@ -83,11 +84,11 @@ export async function POST(req: NextRequest) {
                   mockRes.statusCode = code;
                   return mockRes;
               },
-              send: (body: any) => {
+              send: (body: object|any) => {
                   mockRes.body = body;
                   return mockRes;
               },
-              json: (body: any) => {
+              json: (body: string|object|number) => {
                   mockRes.body = JSON.stringify(body);
                   return mockRes;
               },
@@ -97,7 +98,7 @@ export async function POST(req: NextRequest) {
               statusCode: 200,
           };
 
-          upload.single('file')(anyReq, mockRes as any, async (err) => { // Pass mockRes
+          upload.single('file')(anyReq, mockRes as unknown as any, async (err) => { // Pass mockRes
               // ... (rest of your code)
 
               if (err) {

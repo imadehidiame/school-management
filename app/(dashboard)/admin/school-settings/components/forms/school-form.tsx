@@ -12,7 +12,7 @@ import toast from "react-hot-toast";
 import { z } from "zod";
 
 
-export default function SchoolForm({school_id}:{school_id?:string}){
+export default function SchoolForm(){
     const {id,addSchool,setId,updateSchool } = useSchoolStore();
     const { data } = useBaseSchoolStore();
     const form_schema = z.object({
@@ -30,7 +30,7 @@ export default function SchoolForm({school_id}:{school_id?:string}){
         //let value;
         if(useSchoolStore.getState().id){
         //value = Object.assign({},value,{id:useSchoolStore.getState().id});
-        const {data} = await axios_request(`/api/school/${useSchoolStore.getState().id}`,'patch',JSON.stringify(values),undefined,{message:'Data updated successfully',cb(data) {
+        const {data} = await axios_request(`/api/school/${useSchoolStore.getState().id}`,'patch',JSON.stringify(values),undefined,{message:'Data updated successfully',cb() {
             
         },},(error)=>{
             if(error?.cause == 401 || error?.cause == 403){
@@ -48,7 +48,7 @@ export default function SchoolForm({school_id}:{school_id?:string}){
         }else{
 
         //value = Object.assign({},values);
-        const {data} = await axios_request('/api/school','post',JSON.stringify(values),undefined,{message:'Data successfully saved',cb(data) {
+        const {data} = await axios_request('/api/school','post',JSON.stringify(values),undefined,{message:'Data successfully saved',cb() {
             
         },},(error)=>{
             if(error?.cause == 401 || error?.cause == 403){

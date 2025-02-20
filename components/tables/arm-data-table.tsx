@@ -80,15 +80,15 @@ interface DataTableProps<TData, TValue> {
     onRowSelectionChange: setRowSelection,
     state: {
       sorting,
-      columnFilters,
+      columnFilters, 
       columnVisibility,
       rowSelection,
     },
   })
 
   useEffect(() => {
-    table.setPageSize(paginations?paginations[0]:10);
-  }, [table])
+    table.setPageSize(paginations?paginations[0]:10); 
+  }, [table,paginations])
   
   //table.setPageSize(2);
 

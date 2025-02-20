@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  nextjs-app:
+    build: .
+    ports:
+      - "8999:8999"
+    volumes:
+      - ./:/app
+    working_dir: /app
+    command: npm run dev:port
+    environment:
+      DATABASE_HOST: "192.168.226.53" # Or host.docker.internal
+      DATABASE_PORT: "3306"
+      DATABASE_USER: "ehidiamen"
+      DATABASE_PASSWORD: "goodhitage@"
+      DATABASE_NAME: "school_management"
+      CHOKIDAR_USEPOLLING: "true"

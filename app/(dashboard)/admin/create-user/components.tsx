@@ -1,5 +1,5 @@
 'use client';
-import { Form, useForm } from 'react-hook-form';
+import { Form, FormProvider, useForm } from 'react-hook-form';
 import {z} from 'zod';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signOut, useSession } from 'next-auth/react';
@@ -12,11 +12,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { useRouter } from 'next/navigation';
-import toast from 'react-hot-toast';
+//import { useRouter } from 'next/navigation';
+//import toast from 'react-hot-toast';
 import axios_request from '@/lib/axios_request';
 import { FormFieldComponent,FormSelectComponent } from '@/components/form-components';
-import { useState } from 'react';
+//import { useState } from 'react';
 import { BaseSchoolCategory, School } from '@prisma/client';
 import { SchoolDataTable } from '@/components/tables/school-data-table';
 import { SectionColumnsDefinition } from '@/definitions/school/section-definitions';
@@ -98,12 +98,8 @@ const base_school_schema = z.object({
   
       
   
-      function handle_submit_file(e:any){
-        e.preventDefault();
-        /*if(!file){
-          alert('No file inserted');
-          return;
-        }*/
+      /*function handle_submit_file(e:React.FormEvent<HTMLFormElement>){
+        
         const fileInput = document.getElementById('file_up') as HTMLInputElement; // Type casting if needed
   
   if (fileInput && fileInput.files && fileInput.files.length > 0) { // Check if element and file exist
@@ -125,7 +121,7 @@ const base_school_schema = z.object({
   } else {
       console.log("No file chosen or file input element not found.");
   } 
-}
+}*/
   
   
       /*const error_handler = (error:Error)=>{
@@ -290,9 +286,9 @@ if(schooling_data.length < 1)
 
 
 export const CreateUserForm = () => {
-    const route = useRouter();
-    const { data:session,update } = useSession();
-    const [file, setFile] = useState<File | null>(null);
+    //const route = useRouter();
+    const { data:session } = useSession();
+    //const [file, setFile] = useState<File | null>(null);
 
     
     const form = useForm<z.infer<typeof form_schema>>({
@@ -368,7 +364,7 @@ export const CreateUserForm = () => {
             </CardDescription>
           </CardHeader>
 
-          <Form {...form}>
+          <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(on_submit)} className="space-yik8-8">
             <CardContent className="space-y-2">
                 <FormFieldComponent form={form} name='username' label='Email address' placeholder='Enter email address of user' /> 
@@ -399,7 +395,7 @@ export const CreateUserForm = () => {
               <Button type="submit">Create</Button>
               </CardFooter>
             </form>
-          </Form>
+          </FormProvider>
       </Card>
 
     );
@@ -410,7 +406,7 @@ export const CreateUserForm = () => {
 
 export const CreateBaseSchoolForm:React.FC<{base_school:BaseSchoolCategory|null}> = ({base_school}:{base_school:BaseSchoolCategory|null}) => {
   //const route = useRouter();
-  const { data:session,update } = useSession();
+  const { data:session } = useSession();
   const base_school_store = useBaseSchoolStore();
   
 const fm = useForm<z.infer<typeof base_school_schema>>({

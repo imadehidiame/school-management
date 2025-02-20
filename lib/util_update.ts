@@ -9,8 +9,8 @@ const cache = new NodeCache({stdTTL:3600,checkperiod:120});
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
-const emails = ['imadehidiame@gmail.com','ehimade@gmail.com'];
-const role = [];
+//const emails = ['imadehidiame@gmail.com','ehimade@gmail.com'];
+//const role = [];
 export async function check_profile(email:string){
   let user = await prisma.user.findFirst({
     select:{
@@ -33,9 +33,9 @@ export async function check_profile(email:string){
   }
 }
 
-export function memoize_util(fn:Function){
+export function memoize_util(fn:Function):Function{
   //const cache = new Map();
-  return async function (...args:any[]){
+  return async function (...args:unknown[]){
      const key = JSON.stringify(args);
      console.log('cache key ',key);
      const cached_value = cache.get(key);

@@ -1,5 +1,6 @@
 import { prisma } from "@/prisma"
 import { SchoolSettingsTab } from "./components/school-settings-tab";
+import { SectionData } from "@/definitions/school/section-data";
 //import { SchoolSections } from "@prisma/client";
 //import { SectionData } from "@/definitions/school/section-data";
 
@@ -11,7 +12,7 @@ const base_school_data = await prisma.baseSchoolCategory.findFirst();
 const school_data = await prisma.school.findMany();
 const section_data = (await prisma.schoolSections.findMany({include:{
     school:true
-}})).map((e:any)=>{
+}})).map((e:Record<string,any>|SectionData)=>{
     if(e)
         e['section_school'] = e.school?.school_name
     return e;

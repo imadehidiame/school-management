@@ -70,7 +70,7 @@ export async function POST(req:Request){
         return NextResponse.json({create},{status:200});    
         //return NextResponse.json({data:'Not authentication'},{status:403,statusText:'Access denied'});
         
-    } catch (error:any) {
+    } catch (error:unknown) {
         if(error instanceof PrismaClientKnownRequestError || error instanceof PrismaClientInitializationError || error instanceof PrismaClientUnknownRequestError || error instanceof PrismaClientValidationError || error instanceof PrismaClientRustPanicError){
             console.log('Prisma error api/create-user route: ',error.name,': ',error.message);
             console.log(error);
@@ -107,14 +107,18 @@ export async function POST(req:Request){
             }*/
         }
         
-        console.log('Error creating user from api/create-user route ',error);
-        return NextResponse.json({data:error ? error?.message:'Server error'},{status:201,statusText:error ? error?.message:'Server error'});
+        if(error instanceof Error){
+          console.log('Error saving information from api/create-school-naming route ',error);
+      return NextResponse.json({data:error ? error?.message:'Server error'},{status:201,statusText:error ? error?.message:'Server error'});
+      }
     }
 }
 
 
 function html(params: { url: string; host: string; is_gmail:boolean }) {
-  let { url, host,is_gmail} = params
+  const { is_gmail } = params;
+  let {url} = params; 
+
     
   if(!(url.includes('http://') || url.includes('https://'))){
     url = url.startsWith('/') ? `${process.env.NEXT_URL}${url}` : `${process.env.NEXT_URL}/${url}`;
@@ -250,7 +254,7 @@ function html(params: { url: string; host: string; is_gmail:boolean }) {
 }
  
 // Email Text body (fallback for email clients that don't render HTML, e.g. feature phones)
-export function text({ url, host }: { url: string; host: string }) {
+function text({ url }: { url: string; host: string }) {
     if(!(url.includes('http://') || url.includes('https://'))){
         url = url.startsWith('/') ? `${process.env.NEXT_URL}${url}` : `${process.env.NEXT_URL}/${url}`;
       }

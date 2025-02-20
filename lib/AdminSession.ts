@@ -15,7 +15,7 @@ export class AdminSessionDB {
         return e;
     }
 
-    private static async error(e:any){
+    private static async error(e:Error){
         console.error(e);
         await AdminSessionDB.prisma.$disconnect();
     }
@@ -24,7 +24,7 @@ export class AdminSessionDB {
     public static async get(where={},select={},is_check = false){ 
         let ret:boolean|object|null; 
         if(is_check){
-        let check = await AdminSessionDB.table.count({where}).then(AdminSessionDB.success);//.catch(AdminDB.error);
+        const check = await AdminSessionDB.table.count({where}).then(AdminSessionDB.success);//.catch(AdminDB.error);
         ret = check > 0;
         }
         //ret = check ? true : false;    

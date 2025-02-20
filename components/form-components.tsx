@@ -1,17 +1,25 @@
 'use client';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import { Input } from "./ui/input"
-import { UseFormReturn } from "react-hook-form"
+import { Path, UseFormReturn } from "react-hook-form"
 import { FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage, FormFieldContext } from "./ui/form"
 
+interface FormFieldComponentProps<T extends object> {
+  form: UseFormReturn<T>;
+  name: Path<T>; // Ensure name is a key of T
+  placeholder: string | undefined;
+  description?: string;
+  label?: string;
+}
 
-export const FormFieldComponent = ({ form, name, placeholder, label, description }: { form: UseFormReturn<any | undefined>, name: string, placeholder: string | undefined, description?: string, label?: string }) => {
+
+export const FormFieldComponent = <T extends object>({ form, name, placeholder, label, description }: FormFieldComponentProps<T>) => {
   return (
     <FormFieldContext.Provider value={{ name }}>
       <FormField
         control={form.control}
         name={name}
-        render={({ field, formState }) => (
+        render={({ field }) => (
           <FormItem>
             {label && <FormLabel>{label}</FormLabel>}
             <FormControl>
@@ -29,9 +37,17 @@ export const FormFieldComponent = ({ form, name, placeholder, label, description
 };
 
   
+interface SelectProps <T extends object>{
+    name: Path<T>;
+    selects: { name: string, value: string }[];
+    form: UseFormReturn<T>; 
+    placeholder: string | undefined;
+    description?: string;
+    label?: string;
+}
   
   
-export const FormSelectComponent = ({ form, name, placeholder, description, label, selects }: { form: UseFormReturn<any | undefined>, name: string, placeholder: string | undefined, description?: string, label?: string, selects: { name: string, value: string }[] }) => {
+export const FormSelectComponent = <T extends object>({ form, name, placeholder, description, label, selects }:SelectProps<T> ) => {
   return (
     <FormFieldContext.Provider value={{ name }}>
       <FormField

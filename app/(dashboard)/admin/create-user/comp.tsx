@@ -20,7 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"*/
-import { useRouter } from 'next/navigation';
+//import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import axios_request from '@/lib/axios_request';
 import { FormFieldComponent,FormSelectComponent } from '@/components/form-components';
@@ -63,8 +63,8 @@ const form_schema = z.object({
  */
 
 export default function CreateUserForm(){
-    const route = useRouter();
-    const { data:session,update } = useSession();
+    //const route = useRouter();
+    const { data:session } = useSession();
     const [file, setFile] = useState<File | null>(null);
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -101,40 +101,8 @@ export default function CreateUserForm(){
         }
     });
 
-    const error_handler = (error:Error)=>{
-      toast.error(error.message,{duration:7000,position:'bottom-center'});
-    }
-
-    function on_change(e:any){
-      //console.log(e.target.files[0]);
-      //set_file(e.target.files[0]);
-
-      const fileInput = document.getElementById('file_up') as HTMLInputElement;
-
-      const files = (e.target as HTMLInputElement).files; // Access files directly from the event target
-      if (files && files.length > 0) {
-        const file_in = files[0];
-        console.log("File:", file_in);
-
-        const formData = new FormData();
-        formData.append('file', file_in);
-
-        console.log("FormData:", formData); // Log FormData
-
-        fetch('/api/upload_file', {
-            method: 'POST',
-            body: formData,
-        })
-        .then(res => res.json())
-        .then(data => console.log(data))
-        .catch(err => console.error(err));
-    } else {
-        console.log("No file chosen.");
-    }
-
-    }
-
-    function handle_submit_file(e:any){
+   
+    /*function handle_submit_file(e:React.FormEvent<HTMLFormElement>){
       e.preventDefault();
       if(!file){
         alert('No file inserted');
@@ -165,14 +133,14 @@ if (fileInput && fileInput.files && fileInput.files.length > 0) { // Check if el
       
       
 
-    //console.log('Outer error ',error);
+    
 
-    }
+    }*/
 
     async function on_submit(values:z.infer<typeof form_schema>){
         const {username,name,role} = values;
 
-        const { error,data } = await axios_request('/api/create-user','post',JSON.stringify({username,name,role}),undefined,{message:'Data created successfully',cb(data) {
+        await axios_request('/api/create-user','post',JSON.stringify({username,name,role}),undefined,{message:'Data created successfully',cb(data) {
             console.log('served data ',data);
             form.reset();
         },},(error)=>{

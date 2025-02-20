@@ -8,85 +8,86 @@ const error_handler = (error:Error,handle_error=false)=>{
     //return handle_error ? toast.error(error.message,{duration:7000,position:'bottom-center'}): error;
 }
 
-export default async function axios_request(url:string,method:'post'|'get'|'patch'|'delete',request_data:string|FormData|null|undefined,headers:any|undefined,success_toast:{
+interface HeaderProps<T extends object>{
+    [key:string]:T
+}
+
+export default async function axios_request(url:string,method:'post'|'get'|'patch'|'delete',request_data:string|FormData|null|undefined,headers:HeaderProps<any>|undefined,success_toast:{
     message:string,
     cb:(data:any)=>void
 }|undefined,error_callback:(error:Error)=>void|undefined,handle_error=false):Promise<{data?:any,error?:any}>{
-    
+     
        
             try {
             let response;
-            let error:Error|any|null;
+            let error:Error|null;
             
-            //console.log('Method type ',method);
+            //console.log('Method type ',method); 
             
             switch (method) {
                 case 'get':
-                    response = await axios.get(url,{data:request_data,headers,onUploadProgress(progressEvent) {
-                        let obj_keys = Object.keys(progressEvent);
-                        let obj_values = Object.values(progressEvent);
+                    response = await axios.get(url,{data:request_data,headers,onUploadProgress() {
+                      // const obj_keys = Object.keys(progressEvent);
+                        //let obj_values = Object.values(progressEvent);
                         
-                        obj_keys.forEach((element,index) => {
-                            //console.log(`Upload data ${element} ==> `,obj_values[index]);
-                        });
-                        let {lengthComputable,loaded,progress,bytes,download,upload,estimated,rate,total } = progressEvent;
+                        //let {lengthComputable,loaded,progress,bytes,download,upload,estimated,rate,total } = progressEvent;
                         //console.log('Upload Progress data !=====');
                         //console.log(progressEvent);
-                    },onDownloadProgress(progressEvent) {
-                        let obj_keys = Object.keys(progressEvent);
-                        let obj_values = Object.values(progressEvent);
+                    },onDownloadProgress() {
+                        //let obj_keys = Object.keys(progressEvent);
+                        //let obj_values = Object.values(progressEvent);
                         
-                        obj_keys.forEach((element,index) => {
+                        //obj_keys.forEach((element,index) => {
                           //  console.log(`Download data ${element} ==> `,obj_values[index]);
-                        });
-                        let {lengthComputable,loaded,progress,bytes,download,upload,estimated,rate,total } = progressEvent;
+                        //});
+                        //let {lengthComputable,loaded,progress,bytes,download,upload,estimated,rate,total } = progressEvent;
                         //console.log('Download Progress data !=====');
                         //console.log(progressEvent);
                     }});
                     break;
                 case 'post':
-                    response = await axios.post(url,request_data,{onUploadProgress(progressEvent) {
-                        let obj_keys = Object.keys(progressEvent);
-                        let obj_values = Object.values(progressEvent);
+                    response = await axios.post(url,request_data,{onUploadProgress() {
+                       // let obj_keys = Object.keys(progressEvent);
+                       // let obj_values = Object.values(progressEvent);
                         
-                        obj_keys.forEach((element,index) => {
+                       // obj_keys.forEach((element,index) => {
                       //      console.log(`Upload data ${element} ==> `,obj_values[index]);
-                        });
-                        let {lengthComputable,loaded,progress,bytes,download,upload,estimated,rate,total } = progressEvent;
+                        //});
+                        //let {lengthComputable,loaded,progress,bytes,download,upload,estimated,rate,total } = progressEvent;
                         //console.log('Upload Progress data !=====');
                         //console.log(progressEvent);
-                    },onDownloadProgress(progressEvent) {
-                        let obj_keys = Object.keys(progressEvent);
-                        let obj_values = Object.values(progressEvent);
+                    },onDownloadProgress() {
+                        //let obj_keys = Object.keys(progressEvent);
+                        //let obj_values = Object.values(progressEvent);
                         
-                        obj_keys.forEach((element,index) => {
+                       // obj_keys.forEach((element,index) => {
                           //  console.log(`Download data ${element} ==> `,obj_values[index]);
-                        });
-                        let {lengthComputable,loaded,progress,bytes,download,upload,estimated,rate,total } = progressEvent;
+                       // });
+                        //let {lengthComputable,loaded,progress,bytes,download,upload,estimated,rate,total } = progressEvent;
                         //console.log('Download Progress data !=====');
                         //console.log(progressEvent);
                     }});
                     break
                 case 'patch':
                     console.log('Patch encountered');
-                        response = await axios.patch(url,request_data,{onUploadProgress(progressEvent) {
-                            let obj_keys = Object.keys(progressEvent);
-                            let obj_values = Object.values(progressEvent);
+                        response = await axios.patch(url,request_data,{onUploadProgress() {
+                            //let obj_keys = Object.keys(progressEvent);
+                            //let obj_values = Object.values(progressEvent);
                             
-                            obj_keys.forEach((element,index) => {
+                            //obj_keys.forEach((element,index) => {
                           //      console.log(`Upload data ${element} ==> `,obj_values[index]);
-                            });
-                            let {lengthComputable,loaded,progress,bytes,download,upload,estimated,rate,total } = progressEvent;
+                            //});
+                            //let {lengthComputable,loaded,progress,bytes,download,upload,estimated,rate,total } = progressEvent;
                             //console.log('Upload Progress data !=====');
                             //console.log(progressEvent);
-                        },onDownloadProgress(progressEvent) {
-                            let obj_keys = Object.keys(progressEvent);
-                            let obj_values = Object.values(progressEvent);
+                        },onDownloadProgress() {
+                            //let obj_keys = Object.keys(progressEvent);
+                            //let obj_values = Object.values(progressEvent);
                             
-                            obj_keys.forEach((element,index) => {
+                           // obj_keys.forEach((element,index) => {
                               //  console.log(`Download data ${element} ==> `,obj_values[index]);
-                            });
-                            let {lengthComputable,loaded,progress,bytes,download,upload,estimated,rate,total } = progressEvent;
+                            //});
+                            //let {lengthComputable,loaded,progress,bytes,download,upload,estimated,rate,total } = progressEvent;
                             //console.log('Download Progress data !=====');
                             //console.log(progressEvent);
                     }})
@@ -102,9 +103,10 @@ export default async function axios_request(url:string,method:'post'|'get'|'patc
 
 
                     
-                const {status,data,statusText} = response;
+                const {status,data} = response;
                 //console.log('data ',data);
                 //console.log('status text ',statusText);
+                //let error:Error|null;
 
                 switch (status) {
                     case 500:
@@ -124,7 +126,7 @@ export default async function axios_request(url:string,method:'post'|'get'|'patc
                         toast.success(success_toast.message,{position:'top-center','duration':7000});
                         success_toast.cb(data);
                     }
-                    return {data,error};
+                    return {data};
                     //break;
                      case 401:
                     error = new Error(data?.data,{cause:401});
@@ -133,11 +135,12 @@ export default async function axios_request(url:string,method:'post'|'get'|'patc
                     error = new Error(data?.data,{cause:403});
                     throw error;
                   default:
+                    error = new Error("Unknown error",{cause:100});
                     return {data,error};
                   //break;
                 }
-                if(error_callback !== undefined)
-                    error_callback(error);
+                //if(error_callback !== undefined)
+                  //  error_callback(error);
                   //else  
                 //return {data,error};
 

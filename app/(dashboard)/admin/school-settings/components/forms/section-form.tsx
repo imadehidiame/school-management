@@ -35,7 +35,7 @@ export default function SectionForm(){
         //let value;
         if(useSchoolSectionStore.getState().id){
         //value = Object.assign({},value,{id:useSchoolStore.getState().id});
-        const {data} = await axios_request(`/api/school-section/${useSchoolSectionStore.getState().id}`,'patch',JSON.stringify(values),undefined,{message:'Data updated successfully',cb(data) {
+        const {data} = await axios_request(`/api/school-section/${useSchoolSectionStore.getState().id}`,'patch',JSON.stringify(values),undefined,{message:'Data updated successfully',cb() {
             
         },},(error)=>{
             if(error?.cause == 401 || error?.cause == 403){
@@ -54,7 +54,7 @@ export default function SectionForm(){
         }else{
 
         //value = Object.assign({},values);
-        const {data} = await axios_request('/api/school-section','post',JSON.stringify(values),undefined,{message:'Data successfully saved',cb(data) {
+        const {data} = await axios_request('/api/school-section','post',JSON.stringify(values),undefined,{message:'Data successfully saved',cb() {
             
         },},(error)=>{
             if(error?.cause == 401 || error?.cause == 403){

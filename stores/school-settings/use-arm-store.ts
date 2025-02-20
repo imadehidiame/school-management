@@ -38,7 +38,7 @@ const useArmStore = create<StoreState>((set,get)=>({
     armDatum:()=>get().armData.find((e)=>e.id === get().id),
     armData:[],
     setArmData:(new_arms)=>set({armData:new_arms}),
-    addArmDatum:(new_data)=>set((state)=>({armData:[...state.armData,new_data]})),
+    addArmDatum:(new_data)=>set((state)=>({armData:[...state.armData,new_data]})), 
     getOne:(id)=>get().armData.find(e=>e.id === id),
     is_modal_open:false,
     close_modal:()=>{

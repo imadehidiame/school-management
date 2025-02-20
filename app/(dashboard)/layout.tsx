@@ -14,6 +14,7 @@ import ClassModalProvider from "@/components/providers/class-modal-provider";
 import ArmModalProvider from "@/components/providers/arm-modal-provider";
 import ArmDeleteAlertProvider from "@/components/providers/arm-delete-alert-provider";
 import SessionModalProvider from "@/components/providers/session-modal-provider";
+import SessionDeleteAlertProvider from "@/components/providers/session-delete-alert-modal";
 //import { useEffect, useState } from "react";
 //import { Session } from "next-auth";
 
@@ -50,6 +51,7 @@ export default function DashboardLayout({ children }:Readonly<{children: React.R
             <ArmModalProvider />
             <ArmDeleteAlertProvider />
             <SessionModalProvider />
+            <SessionDeleteAlertProvider />
             <div className="h-screen flex">
             {/* left */}
             <div className="w-[18%] md:w-[8%] lg:w-[18%] xl:w-[14%] p-4">

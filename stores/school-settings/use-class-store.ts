@@ -40,6 +40,7 @@ const useClassStore = create<StoreState>((set,get)=>({
     classDatum:()=>get().classData.find((e)=>e.id === get().id), 
     classData:[],
     setClassData:(new_classes)=>set({classData:new_classes}),
+    //addArmDatum:(new_data)=>set((state)=>({armData:[...state.armData,new_data]})),
     addClassDatum:(new_data)=>set((state)=>({classData:[...state.classData,new_data]})),
     getOne:(id)=>get().classData.find(e=>e.id === id),
     is_modal_open:false,

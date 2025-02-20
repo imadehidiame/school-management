@@ -9,7 +9,7 @@ export default function ParentHome(){
             {/**LEFT */}
             <div className="w-full xl:w-2/3">
                 <div className="h-full bg-white p-4 rounded-md">
-                    <h1 className="texx-xl font-semibold">EtinOsa's Schedule</h1>
+                    <h1 className="texx-xl font-semibold">{`EtinOsa's Schedule`}</h1>
                     <BigCalendar />
                 </div>
             </div>

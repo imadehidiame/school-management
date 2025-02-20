@@ -1,13 +1,24 @@
 import { SchoolDataTable } from "@/components/tables/school-data-table"
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
 import { SchoolColumnsDefinition } from "@/definitions/school/school-definitions"
-import { School } from "@prisma/client"
-import { BaseData } from "../definitions"
+//import { School } from "@prisma/client"
+//import { BaseData } from "../definitions"
+import useBaseSchoolStore from "@/stores/school-settings/use-base-school-store"
+import useSchoolStore from "@/stores/school-settings/use-school-store"
+import { useState, useEffect } from "react"
 
 
-const SchoolComponent:React.FC<{base_data:BaseData,school_data:School[]}> = ({base_data,school_data}:{base_data:BaseData,school_data:School[]}) =>{
+const SchoolComponent:React.FC = () =>{
 
-    if(!base_data)
+  const { data } = useBaseSchoolStore(); 
+  const { schools } = useSchoolStore();
+  const [sch_key,set_sch_key] = useState('sch-'+Math.random())
+    
+    useEffect(()=>{
+      set_sch_key('sch-'+Math.random());
+    },[schools]);
+
+    if(!data)
     return (
       <Card className="w-[50%]">
       <CardHeader>
@@ -37,9 +48,9 @@ const SchoolComponent:React.FC<{base_data:BaseData,school_data:School[]}> = ({ba
   
           <Card className="w-full">
           <CardHeader>
-            <CardTitle>Create {base_data.school_naming} Data</CardTitle>
+            <CardTitle>Create {data.school_naming} Data</CardTitle>
             <CardDescription>
-              Register { base_data.school_naming.toLocaleLowerCase() } information in the database
+              Register { data.school_naming.toLocaleLowerCase() } information in the database
             </CardDescription>
   
   
@@ -49,10 +60,11 @@ const SchoolComponent:React.FC<{base_data:BaseData,school_data:School[]}> = ({ba
             <CardContent className="space-y-2">
   
               <SchoolDataTable 
-              data={school_data}
-              empty_data_message={`No ${base_data.school_naming.toLocaleLowerCase()} information registered yet`}
+              key={sch_key}
+              data={useSchoolStore.getState().schools}
+              empty_data_message={`No ${data.school_naming.toLocaleLowerCase()} information registered yet`}
               filters={[
-                {column:'school_name',placeholder:`Search by ${base_data.school_naming}`,select_box_name:`${base_data.school_naming} filter`}
+                {column:'school_name',placeholder:`Search by ${data.school_naming}`,select_box_name:`${data.school_naming} filter`}
               ]}
               paginations={[10,20]}
               columns={SchoolColumnsDefinition} 

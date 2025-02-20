@@ -1,25 +1,17 @@
-//import { SectionDataTable } from "@/components/tables/section-data-table";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-//import { SectionColumnsDefinition } from "@/definitions/school/section-definitions";
-import {  SchoolSessions } from "@prisma/client"; // Import necessary types
-//import { BaseData } from "../definitions";
-//import { SectionData } from "@/definitions/school/section-data";
-//import { ClassData } from "@/definitions/school/class-data";
-//import { ClassDataTable } from "@/components/tables/class-data-table";
-import React from 'react'; // Import React
-//import { ClassColumnsDefinition } from "@/definitions/school/class-definitions";
-//import { ArmColumnsDefinition } from "@/definitions/school/arm-definitions";
-//import { ArmData } from "@/definitions/school/arm-data";
-//import { ArmDataTable } from "@/components/tables/arm-data-table";
+import React, { useEffect, useState } from 'react'; // Import React
 import { SessionsDataTable } from "@/components/tables/sessions-data-table";
 import { SessionsColumnDefinition } from "@/definitions/school/sessions-definitions";
+import useSchoolSessionStore from "@/stores/school-settings/use-session-store";
 
-interface ClassComponentProps {
-    sessions: SchoolSessions[];
-}
 
-const SessionsComponent: React.FC<ClassComponentProps> = ({ sessions }) => {
-
+const SessionsComponent: React.FC = () => {
+const { sessions } = useSchoolSessionStore();
+const [sess_key,set_sess_key] = useState('sess-'+Math.random())
+  
+  useEffect(()=>{
+    set_sess_key('sess-'+Math.random());
+  },[sessions]);
     
 
     
@@ -35,7 +27,8 @@ const SessionsComponent: React.FC<ClassComponentProps> = ({ sessions }) => {
  
             <CardContent className="space-y-2">
                 <SessionsDataTable
-                    data={sessions}
+                    key={sess_key}
+                    data={useSchoolSessionStore.getState().sessions}
                     empty_data_message={`No session information registered yet`}
                     filters={[
                         /**

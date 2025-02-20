@@ -7,6 +7,7 @@ import fs from 'fs'; // Import the regular 'fs' module for createReadStream
 import fsp from 'fs/promises'
 import path from "path";
 import { google } from 'googleapis';
+//import { unknown } from "zod";
 
 
 
@@ -161,11 +162,11 @@ async function uploadToDrive(file: any) {
         console.log('File uploaded:', response.data);
         return response.data;
 
-    } catch (error:any) {
+    } catch (error : unknown) {
         console.error('The API returned an error:', error);
 
         console.error('Error uploading to Drive:', error);
-        return { error: error.message, status: 500 }
+        //return { error: error.message, status: 500 }
 
         //throw error;
         

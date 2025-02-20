@@ -42,22 +42,33 @@ interface PageProps {
 
 
 export function SchoolSettingsTab({base_data,school_data,section_data,class_data,arm_data,school_sessions}:PageProps) {
-  const {setSchools,schools} = useSchoolStore();
-  const {setData,data} = useBaseSchoolStore();
-  const {setSchoolSections,schoolSections} = useSchoolSectionStore();
-  const { classData,setClassData } = useClassStore();  
-  const { armData,setArmData } = useArmStore();
+  //const {schools} = useSchoolStore();
+  //const {data} = useBaseSchoolStore();
+  //const {schoolSections} = useSchoolSectionStore();
+  //const { classData } = useClassStore();  
+  //const { armData } = useArmStore();
   const [activeTab, setActiveTab] = useState("school_naming");
-  const { set_sessions } = useSchoolSessionStore();
+  //const { sessions } = useSchoolSessionStore();
+  //const [arm_key,set_arm_key] = useState(0);
+  //const arm_data_value = useArmStore(state => state.armData);
   
   useEffect(()=>{
-    setData(base_data);
-    setSchools(school_data);
-    setSchoolSections(section_data);
-    setClassData(class_data);
-    setArmData(arm_data);
-    set_sessions(school_sessions);
-  },[base_data,setData,school_data,setSchools,section_data,setSchoolSections,classData,setClassData,armData,setArmData,arm_data,set_sessions,school_sessions]);
+    useBaseSchoolStore.setState({data:base_data});
+    useSchoolStore.setState({schools:school_data});
+    useSchoolSectionStore.setState({schoolSections:section_data});
+    useClassStore.setState({classData:class_data});
+    useArmStore.setState({armData:arm_data});
+    useSchoolSessionStore.setState({sessions:school_sessions});
+    //setData(base_data);
+    //setSchools(school_data);
+    //setSchoolSections(section_data);
+    //setClassData(class_data);
+    //setArmData(arm_data);
+    //set_sessions(school_sessions);
+    //set_arm_key(arm_key=>arm_key+1);
+  },[base_data,school_data,section_data,arm_data,school_sessions,class_data]);
+
+  
 
   return (
     <Tabs
@@ -76,27 +87,27 @@ export function SchoolSettingsTab({base_data,school_data,section_data,class_data
       </TabsList>
 
       <TabsContent value="school_naming" className="flex items-center justify-start">
-        {activeTab === "school_naming" && <NamingConventionComponent base_school={base_data} />} {/* Conditional rendering based on state */}
+        {activeTab === "school_naming" && <NamingConventionComponent base_data={base_data} />} {/* Conditional rendering based on state */}
       </TabsContent>
 
       <TabsContent value="school" className="flex items-center justify-center">
-        {activeTab === "school" && <SchoolComponent school_data={schools} base_data={data} />}
+        {activeTab === "school" && <SchoolComponent />}
       </TabsContent>
 
       <TabsContent value="section" className="flex items-center justify-center">
-        {activeTab === "section" && <SectionComponent section_data={schoolSections} base_data={data} school_data={schools} />}
+        {activeTab === "section" && <SectionComponent />}
       </TabsContent>
 
       <TabsContent value="classes" className="flex items-center justify-center">
-        {activeTab === "classes" && <ClassComponent section_data={schoolSections} base_data={data} school_data={schools} class_data={class_data} />}
+        {activeTab === "classes" && <ClassComponent />}
       </TabsContent>
 
       <TabsContent value="arms" className="flex items-center justify-center">
-        {activeTab === "arms" && <ArmComponent section_data={schoolSections} base_data={data} school_data={schools} class_data={class_data} arm_data={arm_data}  />}
+        {activeTab === "arms" && <ArmComponent />} 
       </TabsContent> 
 
       <TabsContent value="sessions" className="flex items-center justify-center">
-        {activeTab === "sessions" && <SessionsComponent sessions={school_sessions}  />}
+        {activeTab === "sessions" && <SessionsComponent />}
       </TabsContent> 
 
     </Tabs>

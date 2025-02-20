@@ -18,7 +18,7 @@ export const Error = ()=>{
     useEffect(() => {
       console.log('Origin value ', origin);
       console.log('Search Params:', type);
-    }, [origin?.origin, origin?.href, origin?.search, type]);
+    }, [origin,origin?.origin, origin?.href, origin?.search, type]);
     
     let error_message = '';
     switch (err) {

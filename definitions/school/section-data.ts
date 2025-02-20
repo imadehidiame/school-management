@@ -1,6 +1,6 @@
 import { School } from "@prisma/client";
 
-export interface SectionData {  
+export type SectionData =  {  
     id: string;
     section_name: string;
     school_id: string;
@@ -8,4 +8,4 @@ export interface SectionData {
     updatedAt: string; 
     section_school: string;
     school?:School
-}
+} | Record<string,any>;

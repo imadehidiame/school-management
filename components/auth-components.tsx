@@ -2,10 +2,10 @@ import { signOut } from "@/auth"
 import { Button } from "./ui/button"
 
 export function SignIn({
-  provider,
+  //provider,
   action,
   ...props
-}: { provider?: string,action?:()=>void } & React.ComponentPropsWithRef<typeof Button>) {
+}: { action?:()=>void } & React.ComponentPropsWithRef<typeof Button>) {
   return (
     <form
       action={action}

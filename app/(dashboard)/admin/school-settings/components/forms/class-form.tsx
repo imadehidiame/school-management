@@ -36,7 +36,7 @@ export default function ClassForm(){
         //let value;
         if(useClassStore.getState().id){
         //value = Object.assign({},value,{id:useSchoolStore.getState().id});
-        const {data} = await axios_request(`/api/section-class/${useClassStore.getState().id}`,'patch',JSON.stringify(values),undefined,{message:'Data updated successfully',cb(data) {
+        const {data} = await axios_request(`/api/section-class/${useClassStore.getState().id}`,'patch',JSON.stringify(values),undefined,{message:'Data updated successfully',cb() {
             
         },},(error)=>{
             if(error?.cause == 401 || error?.cause == 403){
@@ -56,7 +56,7 @@ export default function ClassForm(){
         }else{
 
         //value = Object.assign({},values);
-        const {data} = await axios_request('/api/section-class','post',JSON.stringify(values),undefined,{message:'Data successfully saved',cb(data) {
+        const {data,error} = await axios_request('/api/section-class','post',JSON.stringify(values),undefined,{message:'Data successfully saved',cb() {
             
         },},(error)=>{
             if(error?.cause == 401 || error?.cause == 403){
@@ -68,7 +68,13 @@ export default function ClassForm(){
                 //console.log('error auth');
                 //signOut();
         },false);
+
+        if(error){
+            toast.error(error.message,{duration:7000});
+            return;
+        }
         console.log('Client datum ',data.class_datum);
+        //useClassStore.setState({classData:[...useClassStore.getState().classData,data.class_datum]});
         addClassDatum(data.class_datum);  
         setId(data.class_datum.id);
     }
@@ -88,11 +94,11 @@ export default function ClassForm(){
             <form onSubmit={form.handleSubmit(on_submit)} className="">
             <CardContent className="space-y-4">
 
-            
+            <FormSelectComponent form={form} name='section_id' label={`Select ${data?.section_naming}`} placeholder={`Select ${data?.school_naming}`} selects={useSchoolSectionStore.getState().schoolSections.map(e=>({name:e.section_name,value:e.id}))} />
   
             <FormFieldComponent form={form} name='class_name' label={`Name of ${data?.class_naming}`} placeholder={`Enter name of ${data?.class_naming}`} />
   
-            <FormSelectComponent form={form} name='section_id' label={`Select ${data?.section_naming}`} placeholder={`Select ${data?.school_naming}`} selects={useSchoolSectionStore.getState().schoolSections.map(e=>({name:e.section_name,value:e.id}))} />  
+              
   
             </CardContent>
               <CardFooter>

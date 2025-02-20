@@ -8,7 +8,7 @@ import { PrismaClientInitializationError, PrismaClientKnownRequestError, PrismaC
 
 
 
-export async function PATCH(req:Request,{params}:{params:{id:string}}){
+export async function PATCH(req:Request,{ params }: { params: Promise<{ id: string }> }){
     const sessions = await auth();
     if(!sessions)
     throw new Error(`Not authenticate`,{cause:'authentication_error'});
@@ -16,7 +16,7 @@ export async function PATCH(req:Request,{params}:{params:{id:string}}){
     if(sessions.user.role !== 'admin')
     throw new Error(`Not authorized`,{cause:'authorization_error'});
     //return NextResponse.json({data:'Not authorized'},{status:401,statusText:'Access denied and not authorized'});
-    const {session,is_selected} = await req.json();
+    //const {session,is_selected} = await req.json();
     const {id} = await params;
     //console.log('Update value ',{school_name,id});
     try {
@@ -33,10 +33,14 @@ export async function PATCH(req:Request,{params}:{params:{id:string}}){
             throw new Error(`No data was sent for update`,{cause:'duplicate'});
         }
 
+        await prisma.schoolSessions.updateMany({data:{
+            is_selected:0
+        }});
+
         await prisma.schoolSessions.update({
           data:{
-              session,
-              is_selected:is_selected === undefined || is_selected === null ? find.is_selected : Number(is_selected)
+              //session,
+              is_selected:1
           },
           where:{
             id
@@ -50,7 +54,7 @@ export async function PATCH(req:Request,{params}:{params:{id:string}}){
         return NextResponse.json({session_data},{status:200});    
         //return NextResponse.json({data:'Not authentication'},{status:403,statusText:'Access denied'});
         
-    } catch (error:any) {
+    } catch (error:unknown) {
         if(error instanceof PrismaClientKnownRequestError || error instanceof PrismaClientInitializationError || error instanceof PrismaClientUnknownRequestError || error instanceof PrismaClientValidationError || error instanceof PrismaClientRustPanicError){
             console.log('Prisma error api/create-school-naming route: ',error.name,': ',error.message);
             console.log(error);
@@ -78,12 +82,14 @@ export async function PATCH(req:Request,{params}:{params:{id:string}}){
 
         }
         
-        console.log('Error saving information from api/create-school-naming route ',error);
+        if(error instanceof Error){
+            console.log('Error saving information from api/create-school-naming route ',error);
         return NextResponse.json({data:error ? error?.message:'Server error'},{status:201,statusText:error ? error?.message:'Server error'});
+        }
     }
 }
 
-export async function DELETE(req:Request,{params}:{params:{id:string}}){
+export async function DELETE(req:Request,{ params }: { params: Promise<{ id: string }> }){
     const session = await auth();
     if(!session)
     throw new Error(`Not authenticate`,{cause:'authentication_error'});
@@ -92,18 +98,18 @@ export async function DELETE(req:Request,{params}:{params:{id:string}}){
     throw new Error(`Not authorized`,{cause:'authorization_error'});
     //return NextResponse.json({data:'Not authorized'},{status:401,statusText:'Access denied and not authorized'});
     //const {school_name} = await req.json();
-    const {id} = await params;
+    //const {id} = await params;
     //console.log('Update value ',{school_name,id});
-    
+     
 
     try {
 
         const {id} = await params;
-    //console.log('Update value ',{school_name,id});
+    //console.log('Delete value ',id);
 
-    const del = await prisma.schoolSessions.delete({
+    await prisma.schoolSessions.delete({
         where:{
-            id
+            id:id as string
         }
     });
 
@@ -134,7 +140,7 @@ export async function DELETE(req:Request,{params}:{params:{id:string}}){
         return NextResponse.json({logged:true},{status:200});
         //return NextResponse.json({data:'Not authentication'},{status:403,statusText:'Access denied'});
         
-    } catch (error:any) {
+    } catch (error:unknown) {
         if(error instanceof PrismaClientKnownRequestError || error instanceof PrismaClientInitializationError || error instanceof PrismaClientUnknownRequestError || error instanceof PrismaClientValidationError || error instanceof PrismaClientRustPanicError){
             console.log('Prisma error api/create-school-naming route: ',error.name,': ',error.message);
             console.log(error);
@@ -162,8 +168,10 @@ export async function DELETE(req:Request,{params}:{params:{id:string}}){
 
         }
         
-        console.log('Error saving information from api/create-school-naming route ',error);
+        if(error instanceof Error){
+            console.log('Error saving information from api/create-school-naming route ',error);
         return NextResponse.json({data:error ? error?.message:'Server error'},{status:201,statusText:error ? error?.message:'Server error'});
+        }
     }
 }
 

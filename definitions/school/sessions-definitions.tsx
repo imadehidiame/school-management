@@ -28,6 +28,7 @@ import useSchoolSectionStore from "@/stores/school-settings/use-school-section-s
 //import useClassStore from "@/stores/school-settings/use-class-store"
 //import { ArmData } from "./arm-data"
 import useArmStore from "@/stores/school-settings/use-arm-store"
+import useSchoolSessionStore from "@/stores/school-settings/use-session-store"
 
 
 
@@ -98,6 +99,9 @@ function SchoolSectionDateButton({action,title}:{action:()=>void,title:string}){
     
   }
 
+  const update_session = async(id:string)=>{
+    await useSchoolSessionStore.getState().update_session(id);
+  }
 
 
   
@@ -186,9 +190,8 @@ export const SessionsColumnDefinition: ColumnDef<SchoolSessions>[] = [
                 <Button
                     variant="ghost"
                     className="h-8 w-8 p-0 hover:bg-gray-100"
-                    onClick={() => {
-                        useArmStore().setId(sessionData.id);
-                        useArmStore().open_update_modal();
+                    onClick={async () => {
+                        await useSchoolSessionStore.getState().update_session(sessionData.id);
                     }}
                 >    <Edit className="h-4 w-4 text-blue-500 hover:text-blue-700" />
                 </Button> 
@@ -197,8 +200,10 @@ export const SessionsColumnDefinition: ColumnDef<SchoolSessions>[] = [
                     variant="ghost"
                     className="h-8 w-8 p-0 hover:bg-gray-100"
                     onClick={() => {
-                        useArmStore().setId(sessionData.id);
-                        useArmStore().open_modal();
+                        useSchoolSessionStore.setState({id:sessionData.id});
+                        useSchoolSessionStore.setState({is_delete_modal_open:true});
+                        //useArmStore().setId(sessionData.id);
+                        //useArmStore().open_modal();
                     }}
                 >
                     <Trash className="h-4 w-4 text-red-500 hover:text-red-700" /> {/* Delete icon */}
