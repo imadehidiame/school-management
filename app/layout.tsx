@@ -4,8 +4,9 @@ import { Inter } from "next/font/google"
 //import Footer from "@/components/footer"
 //import Header from "@/components/header"
 import { Toaster } from 'react-hot-toast';
-import { ThemeProvider } from "@/components/providers/theme-provider";
+//import { ThemeProvider } from "@/components/providers/theme-provider";
 import { SessionProvider } from "next-auth/react"
+import LoadingAnime from "@/components/loader/loading-anime";
 import { auth } from "@/authjs"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -22,17 +23,18 @@ export default async function RootLayout({ children }: React.PropsWithChildren) 
     <html lang="en" suppressHydrationWarning>
 
       <body className={inter.className}>
-      <ThemeProvider
+        <LoadingAnime />
+      {/*<ThemeProvider
             attribute="class"
             defaultTheme="light"
             enableSystem
             disableTransitionOnChange
-          >
+          >*/}
         <Toaster />
         <SessionProvider session={session}>
         {children}
         </SessionProvider>
-      </ThemeProvider>
+      {/*</ThemeProvider>*/}
       </body>
     </html>
   )

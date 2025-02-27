@@ -20,18 +20,63 @@ export async function POST(req:Request){
 
 
     const { identifier, url, provider, theme } = await req.json();
+
+    console.log('url ',url);
+    console.log('provider ',provider);
+    console.log('theme ',theme);
+    console.log('identifier ',identifier);
+
       const { host } = new URL(url)
       // NOTE: You are not required to use `nodemailer`, use whatever you want.
+      /**
+      identifier
+      url
+      theme,
+      provider:{
       
-      const transport = createTransport(provider.server)
+      {
+        host:process.env.EMAIL_SERVER_HOST,
+        port:parseInt(process.env.EMAIL_SERVER_PORT as string),
+        auth:{
+            user:process.env.EMAIL_SERVER_USER,
+            pass:process.env.EMAIL_SERVER_PASSWORD
+        },
+    }
+  }
+END PROVIDER
+
+
+type: 'email',
+school-management-nextjs-app-1  |     name: 'Email Address',
+school-management-nextjs-app-1  |     server: { host: 'echang.com.ng', port: 465, auth: [Object] },
+school-management-nextjs-app-1  |     from: 'no_reply@echang.com.ng',
+school-management-nextjs-app-1  |     maxAge: 86400,'signinUrl: 'http://localhost:8999/api/auth/signin/nodemailer',
+school-management-nextjs-app-1  |     callbackUrl: 'http://localhost:8999/api/auth/callback/nodemailer'
+      }
+
+      http://localhost:8999/api/auth/callback/nodemailer?callbackUrl=http%3A%2F%2Flocalhost%3A8999%2Fdashboard&token=7b9f4e74e528bcd90c84364f12ede57b062946a7297d7b3fda036c2997a45e6c&email=imadehidiame%40gmail.com
+
+
+      http://localhost:8999/api/auth/callback/nodemailer?callbackUrl=http%253A%252F%252Flocalhost%253A8999%252Fdashboard&token=7b9f4e74e528bcd90c84364f12ede57b062946a7297d7b3fda036c2997a45e6c&email=imadehidiame%2540gmail.com
+
+       */
+      
+      const transport = createTransport({
+        host:process.env.EMAIL_SERVER_HOST,
+        port:parseInt(process.env.EMAIL_SERVER_PORT as string),
+        auth:{
+            user:process.env.EMAIL_SERVER_USER,
+            pass:process.env.EMAIL_SERVER_PASSWORD
+        },
+    })
       const result = await transport.sendMail({
         to: identifier,
-        from: provider.from,
+        from:process.env.EMAIL_FROM,
         subject: `Sign in to ${host}`,
-        text: text({ url, host }),
-        html: html({ url, host, theme }),
+        text: text({ url:encodeURIComponent(url), host }),
+        html: html({ url:encodeURIComponent(url), host, theme }),
       })
-    
+  
       const cookie_store = await cookies();
       cookie_store.set('resend_email',identifier,{expires:new Date(Date.now()+24*60*60*1000),maxAge:(60*60*24)})
       //console.log('resend email from mail.ts ',cookie_store.get('resend_email'));

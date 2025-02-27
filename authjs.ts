@@ -48,7 +48,7 @@ export const auth_options = {
     //basePath: "",
     session: { strategy: "jwt" as const },
     //debug: !!process.env.AUTH_DEBUG,
-    debug:false,
+    debug:true,
     //debug: !!process.env.AUTH_DEBUG,
     theme: { logo: "http://localhost:8999/img/gta_logo.png", colorScheme: 'light' as 'light', brandColor: "#FFFFFF" },
     adapter: PrismaAdapter(prisma),

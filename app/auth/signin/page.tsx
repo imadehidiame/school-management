@@ -1,23 +1,15 @@
 'use client';
-//import { signIn } from 'next-auth/react';
 import { useEffect, useState } from 'react';
-//import { Mail, Github, LogIn } from 'lucide-react';
 import Image from 'next/image';
-//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-//import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
-//import { faGithub, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { z } from 'zod';
 import { cn } from '@/lib/utils';
 import { signIn } from 'next-auth/react';
-//import { login, login_provider } from './actions';
 import { useRouter, useSearchParams } from 'next/navigation';
 import toast from 'react-hot-toast';
-//import { Route } from 'next';
-//import GoogleIcon from '@/public/googl_icon.svg';
-//import EmailIcon from '@/public/email_icon.svg';
 import GithubIcon from '@/public/github_icon.svg';
 import EmailSvgIcon from './components/email-svg-icon';
 import GoogleSvg from './components/google-svg';
+import { LoadAnimation, loader } from '@/components/loader/loading-anime';
  
 const form_schema = z.object({
     email:z.string().nonempty({message:'Please enter your email address'}).email({message:'Please enter a valid email address'}),
@@ -37,20 +29,12 @@ export default function LoginPage() {
   const error = search_params.get('error');
   const router = useRouter();
 
+
   useEffect(()=>{
 
     if(error){
-      switch (error) {
+      switch (error) { 
         case 'OAuthAccountNotLinked':
-          /*toast({
-            title: "Duplicate sign in",
-            description: (
-              <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                <code className="text-white">'A user already exists with the account you were trying to sign in with. Please sign in with the option used on first sign in'</code>
-              </pre>
-            ),
-          },
-        );*/
         toast.error('A user already exists with the account you were trying to sign in with. Please sign in with the option used on first sign in',{position:'top-center',duration:15000});
           break;
       
@@ -78,6 +62,8 @@ export default function LoginPage() {
   }
 
   const submit_signin = async (provider:string,data:any|undefined|null=undefined) =>{
+    LoadAnimation.show('both');
+    //loader({loading:'both',is_show:true});
     set_loading(true);
     try {
       await signIn(provider,data);
@@ -85,7 +71,12 @@ export default function LoginPage() {
       if(error instanceof Error){
         set_error_value(error.message);
         set_loading(false);
+        //loader({loading:'both',is_show:false});
+        LoadAnimation.hide('both');
       }
+    }finally{
+      set_loading(false);
+      
     }
     
   }
@@ -98,46 +89,17 @@ export default function LoginPage() {
     set_error_values({email:errors['email']});
     return;
     }
+    LoadAnimation.show('both');
+    //loader({loading:'both',is_show:true});
     await submit_signin('nodemailer',{email:valid.data.email});
     //await signIn('nodemailer', { email:form_data.email});
   }
 
-  /*const submit_google = async ()=>{
-    const callback_url = search_params.get("callbackUrl");
-    console.log('Callback url');
-    const res = await signIn('google',{redirect:false,redirectTo:'/dashboard'});
-    console.log('res from server');
-    console.log(res);
-    
-    if(!res)
-      return;
-    if(!res.ok)
-      toast.error('Something went wrong',{duration:10000});
-    else if (res?.error) {
-
-      if(res.error == "CallbackRouteError")
-        toast.error('Something went wrong with credentials',{duration:10000});
-      else{
-        toast.error('Internal server error',{duration:10000});
-        console.log(res.error);
-      }
-
-
-     } else {
-       //setSuccess("تم تسجيل الدخول بنجاح");
-       if(callback_url)
-        router.push(callback_url as Route);
-      else
-       router.push('/dashboard');
-     }
-  }*/
-
-  
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 text-gray-900">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded shadow-md">
         <div className="flex justify-center mb-4">
-          <Image src={'/img/gta_logo.png'} alt='Logo' className='w-[150px] h-[150px]' />
+          <Image src={'/img/gta_logo.png'} alt='Logo' className='w-[150px] h-[150px]' width={150} height={150} />
         </div>
 
         {/*error && ( 

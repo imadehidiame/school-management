@@ -5,6 +5,7 @@
 import type { User, Account, Profile } from 'next-auth';
 import type { CredentialInput } from 'next-auth/providers';
 import { prisma } from "./prisma";
+import axios_request from './lib/axios_request';
 
 type Theme = {
   brandColor?: string;
@@ -26,9 +27,9 @@ export const signIn : SignInCallback = async ({account,profile,email,credentials
   //profile is profile related data from providers
   //account is account related data from providers
 
-  console.log('user information ',user);
-  console.log('provider information ',account);
-  console.log('profile information ',profile); 
+  //console.log('user information ',user);
+  //console.log('provider information ',account);
+  //console.log('profile information ',profile); 
 
   const is_user = await prisma.user.findUnique({
     where: {
@@ -36,8 +37,11 @@ export const signIn : SignInCallback = async ({account,profile,email,credentials
       },
    });
 
+   console.log('User information ',is_user);
+
     if(is_user){
       //check if provider exists for user
+      console.log('User found');
       const provider = await prisma.account.findFirst({
         where:{
           userId:is_user.id  
@@ -49,10 +53,11 @@ export const signIn : SignInCallback = async ({account,profile,email,credentials
         //check if provider exists
         
   
-        //console.log('Provider check ',provider);
+        console.log('Provider check ',provider);
         
         if(!provider){
           //provider does not exist, create one
+          console.log('Provider deoes not exist');
           await prisma.account.create({
               data:{
                 provider:account?.provider as string,
@@ -86,7 +91,8 @@ export const signIn : SignInCallback = async ({account,profile,email,credentials
   
         }else{
           //provider exists, please update
-          await prisma.account.update({
+          console.log('Provider exists');
+          const provider_update = await prisma.account.update({
             data:{
               provider:account?.provider as string,
               providerAccountId:account?.providerAccountId as string,
@@ -104,6 +110,8 @@ export const signIn : SignInCallback = async ({account,profile,email,credentials
               id:provider.id
             }
         });
+
+        console.log('Provider update ',provider_update);
 
         //check if user has image, if not give user one only if account provider is google
 
@@ -127,11 +135,11 @@ export const signIn : SignInCallback = async ({account,profile,email,credentials
 
       }else{
 
-
+        console.log('Provider is not google or github');
         //check if account provider has token and expires_at values
         if(account?.access_token && account.expires_at){
 
-
+          console.log('Provider has token and expires_at values');
           
           if(provider){
             //provider exists. update provider if account provider has token and expires_at values
@@ -172,6 +180,7 @@ export const signIn : SignInCallback = async ({account,profile,email,credentials
 
           }else{
           //provider does not exist. create provider if account provider has token and expires_at values
+          console.log('Provider does not exist after not google and github');
 
           let update:any = {};
 
@@ -200,21 +209,72 @@ export const signIn : SignInCallback = async ({account,profile,email,credentials
 
       return true;
     }
+    console.log('We have an invalid user login. Please block');
     
   return false;
 }
 
  
 export async function sendVerificationRequest(params:any) {
+  
 
-  await fetch('/api/send_auth_mail',{body:JSON.stringify(params),method:'POST'});
+  /**
+   identifier
+      url
+      theme,
+      provider:{
+      
+      {
+        host:process.env.EMAIL_SERVER_HOST,
+        port:parseInt(process.env.EMAIL_SERVER_PORT as string),
+        auth:{
+            user:process.env.EMAIL_SERVER_USER,
+            pass:process.env.EMAIL_SERVER_PASSWORD
+        },
+    }
+  } 
+
+  http://localhost:8999/api/auth/callback/nodemailer?callbackUrl=http%3A%2F%2Flocalhost%3A8999%2Fdashboard&token=ec647b71420526d4ff74c2ed1182cf7d3421ba1960b9fedfebf68cac1eb1d819&email=imadehidiame%40gmail.com
+
+  http://localhost:8999/api/auth/callback/nodemailer?callbackUrl=http://localhost:8999/dashboard&token=ec647b71420526d4ff74c2ed1182cf7d3421ba1960b9fedfebf68cac1eb1d819&email=imadehidiame@gmail.com
+  
+   */
+  const { identifier, theme,url } = params;
+ // const url = decodeURIComponent(url);
+  console.log({identifier,url:decodeURIComponent(params.url),theme});
+  const provider = {
+    server:{
+      host:process.env.EMAIL_SERVER_HOST,
+      port:parseInt(process.env.EMAIL_SERVER_PORT as string),
+      auth:{
+          user:process.env.EMAIL_SERVER_USER,
+          pass:process.env.EMAIL_SERVER_PASSWORD 
+      },
+    },
+    from:process.env.EMAIL_FROM
+  } 
+//console.log('identifier only modified');
+
+  const {data,error} = await axios_request(process.env.NEXT_URL+'/api/send_auth_mail','post',JSON.stringify({identifier,theme,url,provider}),undefined,undefined,(error)=>{
+    if(error?.cause == 401 || error?.cause == 403)
+      console.log('error auth');
+      
+  },false);
+
+  if(error){
+    console.log('Error ',error);
+  }
+    //console.log('served data ',data);
+    //setData(data.create);   
+
+  //await fetch('/api/send_auth_mail',{body:JSON.stringify(params),method:'POST'});
 
 
   /*const { identifier, url, provider, theme } = params
-  const { host } = new URL(url)
+  const { host } = new URL(url) 
   const transport = createTransport(provider.server)
   const result = await transport.sendMail({
-    to: identifier,
+    to: identifier, 
     from: provider.from,
     subject: `Sign in to ${host}`,
     text: text({ url, host }),

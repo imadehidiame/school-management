@@ -9,7 +9,7 @@ EMAIL_SERVER_PORT=465
 EMAIL_FROM="no_reply@echang.com.ng"
  */
 
-const transporter = nodemailer.createTransport(
+const transporter = nodemailer.createTransport( 
     {
         host:process.env.EMAIL_SERVER_HOST,
         port:parseInt(process.env.EMAIL_SERVER_PORT as string),

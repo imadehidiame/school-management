@@ -30,6 +30,8 @@ import { NextRequest, NextResponse } from "next/server";
     return NextResponse.next();   
   }
 
+
+
   if (
     pathname.startsWith('/public') ||
     pathname.endsWith('.jpg') ||
@@ -58,9 +60,18 @@ import { NextRequest, NextResponse } from "next/server";
 
   //http://localhost:8999/auth/callback/google?code=4%2F0ASVgi3Lm-tPJ5BmH61L2AkH2CidjokgxMaikog8d5I7Lz2U7TJda20wiGBjbEfClxFVDWA&scope=email+profile+openid+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email&authuser=2&prompt=consent
   
+  const role = session?.user?.role;
+  const name = session?.user.name;
 
   if(pathname.includes('/logout') || pathname == 'logout'){
       return NextResponse.next();  
+  }
+  if(pathname == '/' || pathname == ''){  
+    if(token){
+      return NextResponse.redirect(new URL(basePath+'/auth/signin',origin));
+    }else{
+      return NextResponse.next();
+    }
   }
 
   if(!token){
@@ -70,8 +81,7 @@ import { NextRequest, NextResponse } from "next/server";
     }
     return NextResponse.redirect(new URL(basePath+'/auth/signin',origin));
   }
-  const role = session?.user?.role;
-  const name = session?.user.name;
+  
 
   if(error_or_routes.includes(pathname)){
     return NextResponse.next();  

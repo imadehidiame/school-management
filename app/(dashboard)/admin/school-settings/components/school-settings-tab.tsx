@@ -29,6 +29,7 @@ import ArmComponent from "./arm-component";
 import useSchoolSessionStore from "@/stores/school-settings/use-session-store";
 import SessionsComponent from "./sessions-component";
 
+
 interface PageProps {
     base_data:BaseSchoolCategory|null,
     school_data:School[],
@@ -42,15 +43,7 @@ interface PageProps {
 
 
 export function SchoolSettingsTab({base_data,school_data,section_data,class_data,arm_data,school_sessions}:PageProps) {
-  //const {schools} = useSchoolStore();
-  //const {data} = useBaseSchoolStore();
-  //const {schoolSections} = useSchoolSectionStore();
-  //const { classData } = useClassStore();  
-  //const { armData } = useArmStore();
   const [activeTab, setActiveTab] = useState("school_naming");
-  //const { sessions } = useSchoolSessionStore();
-  //const [arm_key,set_arm_key] = useState(0);
-  //const arm_data_value = useArmStore(state => state.armData);
   
   useEffect(()=>{
     useBaseSchoolStore.setState({data:base_data});
@@ -59,16 +52,7 @@ export function SchoolSettingsTab({base_data,school_data,section_data,class_data
     useClassStore.setState({classData:class_data});
     useArmStore.setState({armData:arm_data});
     useSchoolSessionStore.setState({sessions:school_sessions});
-    //setData(base_data);
-    //setSchools(school_data);
-    //setSchoolSections(section_data);
-    //setClassData(class_data);
-    //setArmData(arm_data);
-    //set_sessions(school_sessions);
-    //set_arm_key(arm_key=>arm_key+1);
   },[base_data,school_data,section_data,arm_data,school_sessions,class_data]);
-
-  
 
   return (
     <Tabs
@@ -86,7 +70,7 @@ export function SchoolSettingsTab({base_data,school_data,section_data,class_data
         <TabsTrigger className="px-1 py-1 text-sm" value="sessions">Sessions</TabsTrigger>
       </TabsList>
 
-      <TabsContent value="school_naming" className="flex items-center justify-start">
+      <TabsContent value="school_naming" className="flex items-center justify-center">
         {activeTab === "school_naming" && <NamingConventionComponent base_data={base_data} />} {/* Conditional rendering based on state */}
       </TabsContent>
 
@@ -100,7 +84,7 @@ export function SchoolSettingsTab({base_data,school_data,section_data,class_data
 
       <TabsContent value="classes" className="flex items-center justify-center">
         {activeTab === "classes" && <ClassComponent />}
-      </TabsContent>
+      </TabsContent> 
 
       <TabsContent value="arms" className="flex items-center justify-center">
         {activeTab === "arms" && <ArmComponent />} 
