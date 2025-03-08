@@ -89,7 +89,7 @@ const ArmComponent: React.FC = () => {
                     filters={[
                         /**
                          id: string;
-                             arm_name: string;
+                             arm_name: string; 
                              name_alias:string;
                              school_class_id: string;
                              createdAt: string;
@@ -109,7 +109,7 @@ const ArmComponent: React.FC = () => {
                         },
                     ]}
                     paginations={[10, 20]}
-                    columns={ArmColumnsDefinition}
+                    columns={ArmColumnsDefinition} 
                 />
             </CardContent>
             <CardFooter /> {/* Empty CardFooter */}

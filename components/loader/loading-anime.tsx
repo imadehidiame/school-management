@@ -110,7 +110,7 @@ export class LoadAnimation {
             return loading_bar?.classList.contains('hidden') && loading_circle?.classList.contains('hidden');
             default:
             return loading_bar?.classList.contains('hidden') && loading_circle?.classList.contains('hidden');
-            //break;
+            //break; 
         }
     }
 } 

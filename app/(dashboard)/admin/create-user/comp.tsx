@@ -143,10 +143,7 @@ if (fileInput && fileInput.files && fileInput.files.length > 0) { // Check if el
         await axios_request('/api/create-user','post',JSON.stringify({username,name,role}),undefined,{message:'Data created successfully',cb(data) {
             console.log('served data ',data);
             form.reset();
-        },},(error)=>{
-          if(error?.cause == 401 || error?.cause == 403)
-            signOut();
-        },true);
+        },},true);
 
           /*try {
 

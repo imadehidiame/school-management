@@ -1,6 +1,6 @@
 'use client';
 
-import Link from "next/link";
+//import Link from "next/link";
 import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
 import { Button } from "./ui/button";
@@ -48,7 +48,7 @@ export default function MenuItems({items}:{items:items_array}){
     useEffect(()=>{
       set_current_path(pathname);
     },[pathname]);
-
+ 
     //console.log('Rerendered from menu');
 
     //const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
@@ -79,9 +79,7 @@ export default function MenuItems({items}:{items:items_array}){
                           <Image src={item.icon} alt="" width={20} height={20} />
                           <span className="hidden lg:block">{item.label}</span> 
                         </LoadLink>
-
-                        
-                        :
+                          :
                         <Button
                          onClick={async()=>await signOut()}
                           variant={'ghost'}

@@ -1,4 +1,5 @@
 //import { SectionData } from '@/definitions/school/section-data';
+import { ModalLoadingAnimation } from '@/components/ui/loader/loading-anime';
 import { ClassData } from '@/definitions/school/class-data';
 import axios_request from '@/lib/axios_request';
 //import { SchoolSections } from '@prisma/client';
@@ -52,9 +53,11 @@ const useClassStore = create<StoreState>((set,get)=>({
     delete_class:async (id) => {
         
         try {
-    const {data,error} = await axios_request(`/api/section-class/${id}`,'delete',undefined,undefined,{message:'Information successfully deleted',cb(data) {},},(error)=>{
-                console.log(error);
-            },true);
+    const {data,error} = await axios_request(`/api/section-class/${id}`,'delete',undefined,undefined,undefined,true,()=>{
+                ModalLoadingAnimation.show('circular');
+            },()=>{
+                ModalLoadingAnimation.hide('circular');
+            });
             if(error){
                 return Promise.reject(error);
             }

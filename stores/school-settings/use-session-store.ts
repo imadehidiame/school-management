@@ -1,3 +1,4 @@
+import { ModalLoadingAnimation } from "@/components/ui/loader/loading-anime";
 import axios_request from "@/lib/axios_request";
 import { SchoolSessions } from "@prisma/client";
 import { create } from "zustand";
@@ -47,9 +48,11 @@ const useSchoolSessionStore = create<StoreState>((set, get) => ({
     },
     delete_session: async (id) => {
         try {
-         const {error} = await axios_request(`/api/school-session/${id}`, 'delete', undefined, undefined, { message: 'Information successfully deleted', cb(data) { }, }, (error) => {
-            console.log(error);
-        }, true);
+         const {error} = await axios_request(`/api/school-session/${id}`, 'delete', undefined, undefined, undefined, true,()=>{
+                     ModalLoadingAnimation.show('circular');
+                 },()=>{
+                     ModalLoadingAnimation.hide('circular');
+                 });
         if(!error){
             set({ sessions: get().sessions.filter(e => e.id !== id) });
             set({ id: '' });
@@ -64,9 +67,7 @@ const useSchoolSessionStore = create<StoreState>((set, get) => ({
         if(check?.is_selected === 1)
         return;
         try {
-         const {data,error} = await axios_request(`/api/school-session/${id}`, 'patch', undefined, undefined, { message: 'Current session has been set to '+check?.session, cb(data) { }, }, (error) => {
-            console.log(error);
-        }, true);
+         const {data,error} = await axios_request(`/api/school-session/${id}`, 'patch', undefined, undefined, { message: 'Current session has been set to '+check?.session, cb(data) { }, }, true);
         if(!error){
             set({ sessions: data.session_data });
             //set({ id: '' });

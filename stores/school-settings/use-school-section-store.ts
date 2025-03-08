@@ -1,3 +1,4 @@
+import { ModalLoadingAnimation } from '@/components/ui/loader/loading-anime';
 import { SectionData } from '@/definitions/school/section-data';
 import axios_request from '@/lib/axios_request';
 
@@ -50,9 +51,11 @@ const useSchoolSectionStore = create<StoreState>((set,get)=>({
     delete_section:async (id) => {
         
         try {
-    const {data,error} = await axios_request(`/api/school-section/${id}`,'delete',undefined,undefined,{message:'Information successfully deleted',cb(data) {},},(error)=>{
-                console.log(error);
-            },true);
+    const {data,error} = await axios_request(`/api/school-section/${id}`,'delete',undefined,undefined,undefined,true,()=>{
+                ModalLoadingAnimation.show('circular');
+            },()=>{
+                ModalLoadingAnimation.hide('circular');
+            });
             if(error){
                 return Promise.reject(error); 
             }

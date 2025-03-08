@@ -8,6 +8,7 @@ import { Toaster } from 'react-hot-toast';
 import { SessionProvider } from "next-auth/react"
 import LoadingAnime from "@/components/loader/loading-anime";
 import { auth } from "@/authjs"
+import ParentModalProvider from "@/components/providers/parent-modal-provider";
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -23,12 +24,13 @@ export default async function RootLayout({ children }: React.PropsWithChildren) 
     <html lang="en" suppressHydrationWarning>
 
       <body className={inter.className}>
+        <ParentModalProvider />
         <LoadingAnime />
       {/*<ThemeProvider
             attribute="class"
             defaultTheme="light"
             enableSystem
-            disableTransitionOnChange
+            disableTransitionOnChange 
           >*/}
         <Toaster />
         <SessionProvider session={session}>

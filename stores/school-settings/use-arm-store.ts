@@ -1,6 +1,7 @@
 import axios_request from '@/lib/axios_request';
 import { create } from 'zustand';
 import { ArmData } from '@/definitions/school/arm-data';
+import { ModalLoadingAnimation } from '@/components/ui/loader/loading-anime';
 
 interface StoreState {
     id:string,
@@ -49,9 +50,11 @@ const useArmStore = create<StoreState>((set,get)=>({
     delete_arm:async (id) => {
         console.log('ID in state ',id);
         try {
-    const {data,error} = await axios_request(`/api/class-arm/${id}`,'delete',undefined,undefined,{message:'Information successfully deleted',cb(data) {},},(error)=>{
-                console.log(error);
-            },true);
+    const {data,error} = await axios_request(`/api/class-arm/${id}`,'delete',undefined,undefined,undefined,true,()=>{
+                ModalLoadingAnimation.show('circular');
+            },()=>{
+                ModalLoadingAnimation.hide('circular');
+            });
             if(error){
                 return Promise.reject(error);
             }

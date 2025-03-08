@@ -56,7 +56,7 @@ interface DataTableProps<TData, TValue> {
   const [sorting, setSorting] = React.useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
-  )
+  ) 
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = React.useState({})
@@ -90,6 +90,18 @@ interface DataTableProps<TData, TValue> {
     table.setPageSize(paginations?paginations[0]:10); 
   }, [table,paginations])
   
+  const filter_defiinitions:Record<string,string> = {
+    arm_name:'Arm',
+    arm_class:'Class',
+    name_alias:'Alias',
+    createdAt:'Created At',
+    updatedAt:'Updated At'
+  }
+
+  
+
+
+
   //table.setPageSize(2);
 
   return (
@@ -109,7 +121,7 @@ interface DataTableProps<TData, TValue> {
         
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="">
+            <Button variant="outline" className=""> 
               {filters[filter_type].select_box_name}<ChevronDown />
             </Button>
           </DropdownMenuTrigger>
@@ -148,7 +160,7 @@ interface DataTableProps<TData, TValue> {
                       column.toggleVisibility(!!value)
                     }
                   >
-                    {column.id}
+                    { filter_defiinitions[column.id] ? filter_defiinitions[column.id] : column.id}
                   </DropdownMenuCheckboxItem>
                 )
               })}

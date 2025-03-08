@@ -9,6 +9,7 @@ import useBaseSchoolStore from "@/stores/school-settings/use-base-school-store";
 //import useSchoolSectionStore from "@/stores/use-school-section-store";
 //import useClassStore from "@/stores/use-class-store";
 //import ClassForm from "@/app/(dashboard)/admin/school-settings/components/forms/class-form";
+// md:max-w-screen-md lg:max-w-screen-lg xl:max-w-full
 import useArmStore from "@/stores/school-settings/use-arm-store";
 import ArmForm from "@/app/(dashboard)/admin/school-settings/components/forms/arm-form";
 

@@ -54,11 +54,7 @@ export const NamingConventionComponent:React.FC<{base_data:BaseSchoolCategory|nu
             setData(data.create);
             //base_school_store.setData(data.create);
             //form.reset();
-        },},(error)=>{
-          if(error?.cause == 401 || error?.cause == 403)
-            console.log('error auth');
-            //signOut();
-        },true);
+        },},true);
 
         //console.log('Data and error from server ',data);
 

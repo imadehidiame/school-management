@@ -19,7 +19,7 @@ export function TabTest({data}:{data:BaseSchoolCategory|null}) {
 
   if(!is_loading)
   return null;
-
+ 
   return (
     <Tabs defaultValue="account" className="w-full p-4">
       <TabsList className="grid w-full grid-cols-4">

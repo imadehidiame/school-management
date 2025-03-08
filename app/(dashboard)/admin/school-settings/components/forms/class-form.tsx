@@ -2,6 +2,7 @@
 import { FormFieldComponent, FormSelectComponent } from "@/components/form-components";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { ModalLoadingAnimation } from "@/components/ui/loader/loading-anime";
 import axios_request from "@/lib/axios_request";
 import useBaseSchoolStore from "@/stores/school-settings/use-base-school-store";
 import useClassStore from "@/stores/school-settings/use-class-store";
@@ -36,20 +37,22 @@ export default function ClassForm(){
         //let value;
         if(useClassStore.getState().id){
         //value = Object.assign({},value,{id:useSchoolStore.getState().id});
-        const {data} = await axios_request(`/api/section-class/${useClassStore.getState().id}`,'patch',JSON.stringify(values),undefined,{message:'Data updated successfully',cb() {
+        const {data,error} = await axios_request(`/api/section-class/${useClassStore.getState().id}`,'patch',JSON.stringify(values),undefined,{message:'Data updated successfully',cb() {
             
-        },},(error)=>{
-            if(error?.cause == 401 || error?.cause == 403){
-                toast.error(error.message,{duration:7000});
-                signOut();
-            }else{
-                toast.error(error.message,{duration:7000}); 
-            }
-                console.log('error auth');
-                //signOut();
-        },false);
-        console.log('Client data ',data.class_datum);
+        },},false,()=>{
+            ModalLoadingAnimation.show('circular');
+        },()=>{
+            ModalLoadingAnimation.hide('circular');
+        });
+        //console.log('Client data ',data.class_datum);
         //updateSchool(useSchoolStore.getState().id,data.school);
+        if(error){
+            if(error.cause == 401 || error.cause == 403){
+                signOut();
+            }
+            toast.error(error.message,{duration:7000});
+            return;
+        }
         updateClassData(useClassStore.getState().id,data.class_datum);
         //setId(data.school.id);
 
@@ -58,22 +61,19 @@ export default function ClassForm(){
         //value = Object.assign({},values);
         const {data,error} = await axios_request('/api/section-class','post',JSON.stringify(values),undefined,{message:'Data successfully saved',cb() {
             
-        },},(error)=>{
-            if(error?.cause == 401 || error?.cause == 403){
-                toast.error(error.message,{duration:7000});
-                signOut();
-            }else{
-                toast.error(error.message,{duration:7000});
-            }
-                //console.log('error auth');
-                //signOut();
-        },false);
+        },},false,()=>{
+            ModalLoadingAnimation.show('circular');
+        },()=>{
+            ModalLoadingAnimation.hide('circular');
+        });
 
         if(error){
+            if(error.cause == 401 || error.cause == 403)
+                signOut();
             toast.error(error.message,{duration:7000});
             return;
         }
-        console.log('Client datum ',data.class_datum);
+        //console.log('Client datum ',data.class_datum);
         //useClassStore.setState({classData:[...useClassStore.getState().classData,data.class_datum]});
         addClassDatum(data.class_datum);  
         setId(data.class_datum.id);

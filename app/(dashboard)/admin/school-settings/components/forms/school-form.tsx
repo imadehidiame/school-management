@@ -2,6 +2,7 @@
 import { FormFieldComponent } from "@/components/form-components";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { ModalLoadingAnimation } from "@/components/ui/loader/loading-anime";
 import axios_request from "@/lib/axios_request";
 import useBaseSchoolStore from "@/stores/school-settings/use-base-school-store";
 import useSchoolStore from "@/stores/school-settings/use-school-store";
@@ -30,36 +31,33 @@ export default function SchoolForm(){
         //let value;
         if(useSchoolStore.getState().id){
         //value = Object.assign({},value,{id:useSchoolStore.getState().id});
-        const {data} = await axios_request(`/api/school/${useSchoolStore.getState().id}`,'patch',JSON.stringify(values),undefined,{message:'Data updated successfully',cb() {
+        const {data,error} = await axios_request(`/api/school/${useSchoolStore.getState().id}`,'patch',JSON.stringify(values),undefined,{message:'Data updated successfully',cb() {
             
-        },},(error)=>{
-            if(error?.cause == 401 || error?.cause == 403){
-                toast.error(error.message,{duration:7000});
+        },},false,()=>{
+                    ModalLoadingAnimation.show('circular');
+                },()=>{
+                    ModalLoadingAnimation.hide('circular');
+                });
+
+          if(error){
+            if(error.cause == 401 || error.cause == 403)
                 signOut();
-            }else{
-                toast.error(error.message,{duration:7000});
-            }
-                console.log('error auth');
-                //signOut();
-        },false);
+            toast.error(error.message,{duration:7000});
+            return;
+          }      
         updateSchool(useSchoolStore.getState().id,data.school);
         //setId(data.school.id);
 
         }else{
 
         //value = Object.assign({},values);
-        const {data} = await axios_request('/api/school','post',JSON.stringify(values),undefined,{message:'Data successfully saved',cb() {
+        const {data,error} = await axios_request('/api/school','post',JSON.stringify(values),undefined,{message:'Data successfully saved',cb() {
             
-        },},(error)=>{
-            if(error?.cause == 401 || error?.cause == 403){
-                toast.error(error.message,{duration:7000});
-                signOut();
-            }else{
-                toast.error(error.message,{duration:7000});
-            }
-                console.log('error auth');
-                //signOut();
-        },false);
+        },},false,()=>{
+            ModalLoadingAnimation.show('circular');
+        },()=>{
+            ModalLoadingAnimation.hide('circular');
+        });
         addSchool(data.school);
         setId(data.school.id);
     }

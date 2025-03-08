@@ -7,7 +7,7 @@ import { SectionData } from "@/definitions/school/section-data";
 
 export default async function SchoolSettings(){
 try {
-    
+
 const base_school_data = await prisma.baseSchoolCategory.findFirst();
 const school_data = await prisma.school.findMany();
 const section_data = (await prisma.schoolSections.findMany({include:{

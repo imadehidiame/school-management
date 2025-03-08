@@ -1,6 +1,7 @@
 import { create  } from 'zustand';
 import { School } from '@prisma/client';
 import axios_request from '@/lib/axios_request';
+import { ModalLoadingAnimation } from '@/components/ui/loader/loading-anime';
 
 
 interface SchoolState {  // Define an interface for your state
@@ -61,12 +62,11 @@ interface SchoolState {  // Define an interface for your state
 
             try {
             
-            const {data,error} = await axios_request(`/api/school/${id}`,'delete',undefined,undefined,{message:'Information successfully deleted',cb(data) {
-                
-            },},(error)=>{
-              set({delete_error:error})
-              console.log(error);
-            },true);
+            const {data,error} = await axios_request(`/api/school/${id}`,'delete',undefined,undefined,undefined,true,()=>{
+                        ModalLoadingAnimation.show('circular');
+                    },()=>{
+                        ModalLoadingAnimation.hide('circular');
+                    });
             set({is_deleting:false});
             set((state)=>({schools:state.schools.filter(e=>e.id !== id)}));
             get().close_modal();

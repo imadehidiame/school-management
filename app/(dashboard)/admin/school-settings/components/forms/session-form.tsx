@@ -2,6 +2,7 @@
 import { FormFieldComponent } from "@/components/form-components";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { ModalLoadingAnimation } from "@/components/ui/loader/loading-anime";
 import axios_request from "@/lib/axios_request";
 import useBaseSchoolStore from "@/stores/school-settings/use-base-school-store";
 import useSchoolSessionStore from "@/stores/school-settings/use-session-store";
@@ -34,16 +35,11 @@ export default function SessionForm(){
         //value = Object.assign({},value,{id:useSchoolStore.getState().id});
         const {data} = await axios_request(`/api/school-session/${useSchoolSessionStore.getState().id}`,'patch',JSON.stringify(values),undefined,{message:'Data updated successfully',cb() {
             
-        },},(error)=>{
-            if(error?.cause == 401 || error?.cause == 403){
-                toast.error(error.message,{duration:7000});
-                signOut();
-            }else{
-                toast.error(error.message,{duration:7000});
-            }
-                console.log('error auth');
-                //signOut();
-        },false);
+        },},true,()=>{
+                    ModalLoadingAnimation.show('circular');
+                },()=>{
+                    ModalLoadingAnimation.hide('circular');
+                });
         set_sessions(data.session_data);
         set_id(data.id);
         //updateSchool(useSchoolStore.getState().id,data.school);
@@ -56,16 +52,11 @@ export default function SessionForm(){
         
             const {data,error} = await axios_request('/api/school-session','post',JSON.stringify(values),undefined,{message:'Data successfully saved',cb() {
             
-            },},(error)=>{
-                if(error?.cause == 401 || error?.cause == 403){
-                    toast.error(error.message,{duration:7000});
-                    signOut();
-                }else{
-                    toast.error(error.message,{duration:7000});
-                }
-                    console.log('error auth');
-                    //signOut();
-            },false);
+            },},true,()=>{
+                        ModalLoadingAnimation.show('circular');
+                    },()=>{
+                        ModalLoadingAnimation.hide('circular');
+                    });
             if(error){
                 console.log('An error occured');
                 toast.error(error.message,{duration:7000})

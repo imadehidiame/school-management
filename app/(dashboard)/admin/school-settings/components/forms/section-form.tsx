@@ -2,6 +2,7 @@
 import { FormFieldComponent, FormSelectComponent } from "@/components/form-components";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { ModalLoadingAnimation } from "@/components/ui/loader/loading-anime";
 import axios_request from "@/lib/axios_request";
 import useBaseSchoolStore from "@/stores/school-settings/use-base-school-store";
 import useSchoolSectionStore from "@/stores/school-settings/use-school-section-store";
@@ -35,37 +36,39 @@ export default function SectionForm(){
         //let value;
         if(useSchoolSectionStore.getState().id){
         //value = Object.assign({},value,{id:useSchoolStore.getState().id});
-        const {data} = await axios_request(`/api/school-section/${useSchoolSectionStore.getState().id}`,'patch',JSON.stringify(values),undefined,{message:'Data updated successfully',cb() {
+        const {data,error} = await axios_request(`/api/school-section/${useSchoolSectionStore.getState().id}`,'patch',JSON.stringify(values),undefined,{message:'Data updated successfully',cb() {
             
-        },},(error)=>{
-            if(error?.cause == 401 || error?.cause == 403){
-                toast.error(error.message,{duration:7000});
-                signOut();
-            }else{
-                toast.error(error.message,{duration:7000});
-            }
-                console.log('error auth');
-                //signOut();
-        },false);
+        },},false,()=>{
+                    ModalLoadingAnimation.show('circular');
+                },()=>{
+                    ModalLoadingAnimation.hide('circular');
+                });
         //updateSchool(useSchoolStore.getState().id,data.school);
+        if(error){
+            if(error.cause == 401 || error.cause == 403)
+                signOut();
+            toast.error(error.message,{duration:7000});
+            return;
+        }
         updateSchoolSection(useSchoolSectionStore.getState().id,data.section); 
         //setId(data.school.id);
 
         }else{
 
         //value = Object.assign({},values);
-        const {data} = await axios_request('/api/school-section','post',JSON.stringify(values),undefined,{message:'Data successfully saved',cb() {
+        const {data,error} = await axios_request('/api/school-section','post',JSON.stringify(values),undefined,{message:'Data successfully saved',cb() {
             
-        },},(error)=>{
-            if(error?.cause == 401 || error?.cause == 403){
-                toast.error(error.message,{duration:7000});
+        },},false,()=>{
+            ModalLoadingAnimation.show('circular');
+        },()=>{
+            ModalLoadingAnimation.hide('circular');
+        });
+        if(error){
+            if(error.cause == 401 || error.cause == 403)
                 signOut();
-            }else{
-                toast.error(error.message,{duration:7000});
-            }
-                //console.log('error auth');
-                //signOut();
-        },false);
+            toast.error(error.message,{duration:7000});
+            return;
+        }
         addSchoolSection(data.section);
         setId(data.section.id);
     }

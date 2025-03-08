@@ -7,7 +7,7 @@
     height: 3px;
     background: linear-gradient(to right, rgb(24, 76, 180), rgb(137, 157, 197)); /* A gradient for visual effect */
     overflow: hidden; /* Hide the overflowing animation */
-    z-index: 9999;
+    z-index: 99999999999999999999999999;
   }
   
   .load_bar::before {

@@ -132,7 +132,7 @@ export default function LoginPage() {
             <EmailSvgIcon />
             <span>Sign in with Email</span>
           </button>
-        </div>
+        </div> 
         <div className="flex items-center justify-center my-4">
           <hr className="border-gray-600 flex-grow" />
           <span className="mx-2 text-gray-400">Or</span>

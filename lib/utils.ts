@@ -12,6 +12,10 @@ export function cn(...inputs: ClassValue[]) {
 //const emails = ['imadehidiame@gmail.com','ehimade@gmail.com'];
 //const role = [];
 
+export function generate_rand(){
+  return Date.now().toString()+'_'+(Math.floor(Math.random()*1000000)).toString();
+}
+
 export async function is_profile_set() {
   //prisma.user.findFirst({select:{ro}})
   //const user = await AdminSessionDB.get({email},{role:true,name:true},false) as { role?: boolean; name?: string } | null;
@@ -55,3 +59,4 @@ export function memoize_util(fn:Function):Function{
      return res;
   }
 }
+

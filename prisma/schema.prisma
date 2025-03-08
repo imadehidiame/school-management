@@ -101,6 +101,7 @@ model SchoolSections {
   school          School            @relation(fields: [school_id], references: [id], onDelete: Cascade)
   //section_arms    SectionArms[] 
   school_classes  SchoolClasses[]
+  //student         Student[]
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
 
@@ -113,6 +114,7 @@ model SchoolClasses {
   section_id      String
   school_section  SchoolSections  @relation(fields: [section_id], references: [id], onDelete: Cascade)
   class_arms      ClassArms[]
+  students        Student[]
   createdAt       DateTime        @default(now())
   updatedAt       DateTime        @updatedAt
 
@@ -125,6 +127,7 @@ model ClassArms {
   name_alias          String?
   school_class_id     String
   school_class        SchoolClasses    @relation(fields: [school_class_id],references: [id], onDelete: Cascade )
+  student             Student[]
   createdAt           DateTime         @default(now())
   updatedAt           DateTime         @updatedAt
 
@@ -135,6 +138,7 @@ model SchoolSessions {
   id                  String           @id @default(cuid())
   session             String
   is_selected         Int              @default(0)
+  admission           Admission[]
   createdAt           DateTime         @default(now())
   updatedAt           DateTime         @updatedAt
 
@@ -143,3 +147,168 @@ model SchoolSessions {
 
 
 
+
+
+model Parent {
+  id              String       @id @default(uuid())
+  firstName       String
+  lastName        String
+  email           String       @unique
+  city            String?
+  state           String?
+  occupation      String?
+  phoneNumber     String?
+  address         String?
+  office_address  String?
+  photo           String?
+  facebook        String?
+  twitter         String?
+  linkedin        String?
+  children        Student[]
+  //profile         ParentProfile?
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+}
+
+/*model ParentProfile {
+  id        Int    @id @default(autoincrement())
+  parentId  Int    @unique
+  parent    Parent @relation(fields: [parentId], references: [id])
+  bio       String?
+  photoUrl  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}*/
+
+model Vehicle {
+  id             String       @id @default(uuid())
+  name           String       
+  plate_no       String
+  photo          String
+  transport      Transport[]
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+}
+
+model Transport {
+  id            String        @id @default(uuid())
+  route         String
+  vehicle       Vehicle[]       
+  student       Student[]
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model Hostel {
+  id            String        @id @default(uuid())
+  hostel        String
+  gender        String
+  room          Room[]
+  student       Student[]
+}
+
+model Room {
+  id            String        @id @default(uuid())
+  room          String
+  capacity      Int           @default(1)
+  hostel_id     String
+  hostel        Hostel        @relation(fields: [hostel_id], references: [id])
+  student       Student[]
+}
+
+model Student {
+  id                    String            @id @default(uuid())
+  student_id            String
+  firstName             String
+  lastName              String
+  gender                String
+  blood_group           String
+  genotype              String
+  religion              String?
+  phone                 String?
+  email                 String
+  city                  String
+  state                 String
+  address               String
+  photo                 String
+  dateOfBirth           String
+  previous_school       Json
+  //photo                 String
+  parentId              String
+  parent                Parent         @relation(fields: [parentId], references: [id])
+  class_id              String
+  class                 SchoolClasses  @relation(fields: [class_id], references: [id])
+  arm_id                String
+  arm                   ClassArms      @relation(fields: [arm_id], references: [id])
+  trans_id              String?
+  transport             Transport?     @relation(fields: [trans_id], references: [id])
+  room_id               String?
+  room                  Room?          @relation(fields: [room_id], references: [id])
+  hostel_id             String?          
+  hostel                Hostel?        @relation(fields: [hostel_id], references: [id])
+  //section_id  String
+  //section     SchoolSections @relation(fields: [section_id], references: [id])
+  //classId     Int
+  //class       Class          @relation(fields: [classId], references: [id])
+  //armId       Int
+  //arm         Arm            @relation(fields: [armId], references: [id])
+  //profile               StudentProfile?
+  admission             Admission?
+  createdAt             DateTime       @default(now())
+  updatedAt             DateTime       @updatedAt
+}
+
+/*model StudentProfile {
+  id        Int     @id @default(autoincrement())
+  studentId Int     @unique
+  student   Student @relation(fields: [studentId], references: [id])
+  bio       String?
+  photoUrl  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}*/
+
+/*model Class {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique // e.g., "Grade 1", "Year 7"
+  //students  Student[]
+  arms      Arm[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Arm {
+  id        Int       @id @default(autoincrement())
+  name      String    // e.g., "A", "B", "Red", "Blue"
+  classId   Int
+  class     Class     @relation(fields: [classId], references: [id])
+  //students  Student[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@unique([name, classId]) // Ensures unique arm names within a class
+}*/
+
+/*model SessionYear {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique // e.g., "2023-2024"
+  startDate DateTime
+  endDate   DateTime
+  admissions Admission[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}*/
+
+model Admission {
+  id              Int       @id @default(autoincrement())
+  student_id      String    @unique
+  student         Student   @relation(fields: [student_id], references: [id])
+  //applicationDate String?    
+  admission_date  String?
+  //status          String    // e.g., "Pending", "Accepted", "Rejected"
+  //notes           String?
+  session_id      String
+  sessionYear     SchoolSessions @relation(fields:[session_id], references:[id])
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}

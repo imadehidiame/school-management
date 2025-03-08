@@ -129,7 +129,7 @@ function html(params: { url: string; host: string; is_gmail:boolean }) {
   //const brandColor = theme.brandColor || "#346df1"
 
   const brandColor = "#000000"
-
+ 
   const color = {
     background: "#f9f9f9",
     text: "#444",

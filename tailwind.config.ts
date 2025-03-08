@@ -43,6 +43,13 @@ Electric Blue: #7DF9FF (RGB: 125, 249, 255) (HSL: 184°, 98%, 75%)
 Carolina Blue: #99CBFF
    */
   theme: {
+	screens: {
+		sm: '640px',
+		md: '768px',
+		lg: '1024px',
+		xl: '1280px',
+		'2xl': '1536px',
+  	},
   	extend: {
   		colors: {
 			'pagination-blue':'#B0C4DE',

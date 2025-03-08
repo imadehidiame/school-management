@@ -84,7 +84,7 @@ export function SchoolSettingsTab({base_data,school_data,section_data,class_data
 
       <TabsContent value="classes" className="flex items-center justify-center">
         {activeTab === "classes" && <ClassComponent />}
-      </TabsContent> 
+      </TabsContent>  
 
       <TabsContent value="arms" className="flex items-center justify-center">
         {activeTab === "arms" && <ArmComponent />} 

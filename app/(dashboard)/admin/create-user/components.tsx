@@ -305,10 +305,7 @@ export const CreateUserForm = () => {
        await axios_request('/api/create-user','post',JSON.stringify({username,name,role}),undefined,{message:'Data created successfully',cb(data) {
             console.log('served data ',data);
             form.reset();
-        },},(error)=>{
-          if(error?.cause == 401 || error?.cause == 403)
-            signOut();
-        },true);
+        },},true);
 
           /*try {
 
@@ -443,10 +440,7 @@ const fm = useForm<z.infer<typeof base_school_schema>>({
           console.log('served data ',data);
           base_school_store.setData(data.create);
           //form.reset();
-      },},(error)=>{
-        if(error?.cause == 401 || error?.cause == 403)
-          signOut();
-      },true);
+      },},true);
   }
 
   if(!session)

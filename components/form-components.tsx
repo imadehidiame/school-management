@@ -3,6 +3,7 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@
 import { Input } from "./ui/input"
 import { Path, UseFormReturn } from "react-hook-form"
 import { FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage, FormFieldContext } from "./ui/form"
+import ImageUpload from "./image-upload";
 
 interface FormFieldComponentProps<T extends object> {
   form: UseFormReturn<T>;
@@ -11,6 +12,23 @@ interface FormFieldComponentProps<T extends object> {
   description?: string;
   label?: string;
 }
+
+/**
+ * 
+
+<FormField control={form.control} name="img_url" render={({field})=>(
+                            <FormItem>
+                                <FormLabel>
+                                    Background Image 
+                                </FormLabel>
+                                <FormControl>
+                                    <ImageUpload value={field.value ? [field.value] : []} button_name="Upload an Image" onRemove={()=>field.onChange('')} disabled={loading} onChange={(url)=>field.onChange(url)} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )} />
+
+ */
 
 
 export const FormFieldComponent = <T extends object>({ form, name, placeholder, label, description }: FormFieldComponentProps<T>) => {
@@ -32,6 +50,33 @@ export const FormFieldComponent = <T extends object>({ form, name, placeholder, 
       > 
         
       </FormField>
+    </FormFieldContext.Provider>
+  );
+};
+
+const on_close_action = async (value:string) =>{
+  console.log('URL value in on_close_action ',value);
+}
+
+export const FormFieldCloudinaryComponent = <T extends object>({ form, name, label, description }: FormFieldComponentProps<T>) => {
+  return (
+    <FormFieldContext.Provider value={{ name }}>
+      <FormField
+        control={form.control}
+        name={name}
+        render={({ field }) => (
+          <FormItem>
+            {label && <FormLabel>{label}</FormLabel>}
+            <FormControl>
+            <ImageUpload value={field.value ? [field.value] : []} button_name="Upload an Image" onRemove={()=>field.onChange('')} onChange={(url)=>field.onChange(url)} />
+            </FormControl>
+            {description && <FormDescription>{description}</FormDescription>} 
+            <FormMessage />
+          </FormItem>
+        )}
+      > 
+        
+      </FormField> 
     </FormFieldContext.Provider>
   );
 };

@@ -1,5 +1,4 @@
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
- 
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import {
@@ -12,19 +11,8 @@ import {
   DropdownMenuTrigger,
   
 } from "@/components/ui/dropdown-menu"
-//import { Input } from "@/components/ui/input"
 import { ColumnDef } from '@tanstack/react-table'
-//import { School,SchoolSections } from '@prisma/client';
-//import { useRouter } from "next/navigation"
-//import {  useState } from "react"
-//import useSchoolModalStore from "@/stores/use-school-modal-store"
-//import useSchoolStore from "@/stores/use-school-store"
 import useBaseSchoolStore from "@/stores/school-settings/use-base-school-store"
-//import useSchoolSectionStore from "@/stores/school-settings/use-school-section-store"
-//import useSectionModalStore from "@/stores/use-section-modal-store"
-//import { SectionData } from "./section-data"
-//import { ClassData } from "./class-data"
-//import useClassStore from "@/stores/school-settings/use-class-store"
 import { ArmData } from "./arm-data"
 import useArmStore from "@/stores/school-settings/use-arm-store"
 
@@ -212,6 +200,7 @@ export const ArmColumnsDefinition: ColumnDef<ArmData>[] = [
     },
     {
       accessorKey: "arm_class",
+      //id:'Class',
       //header: "Label",
       header: ({ column }) => {
         return (
@@ -225,6 +214,7 @@ export const ArmColumnsDefinition: ColumnDef<ArmData>[] = [
 
   {
     accessorKey: "arm_name",
+    //id:'Arm',
     //header: "Label",
     header: ({ column }) => {
       return (
@@ -238,6 +228,7 @@ export const ArmColumnsDefinition: ColumnDef<ArmData>[] = [
 
 {
     accessorKey: "name_alias",
+    //id:'Alias',
     //header: "Label",
     header: ({ column }) => {
       return (
@@ -265,6 +256,7 @@ export const ArmColumnsDefinition: ColumnDef<ArmData>[] = [
     },*/
       {
           accessorKey: "createdAt",
+          //id:'Created At',
           header: ({column}) => <SchoolSectionDateButton action={()=>column.toggleSorting(column.getIsSorted() === 'asc')} title="Created At" />,
           cell: ({ row }) => {
             const date = String(row.getValue("createdAt"));
@@ -278,6 +270,7 @@ export const ArmColumnsDefinition: ColumnDef<ArmData>[] = [
     },
     {
         accessorKey: "updatedAt",
+        //id:'Updated At',
         header: ({column}) => <SchoolSectionDateButton action={()=>column.toggleSorting(column.getIsSorted() === 'asc')} title="Updated At" />,
         cell: ({ row }) => {
           const date = String(row.getValue("updatedAt"));

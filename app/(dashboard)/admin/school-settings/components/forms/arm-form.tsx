@@ -2,6 +2,7 @@
 import { FormFieldComponent, FormSelectComponent } from "@/components/form-components";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { ModalLoadingAnimation } from "@/components/ui/loader/loading-anime";
 import axios_request from "@/lib/axios_request";
 import useArmStore from "@/stores/school-settings/use-arm-store";
 import useBaseSchoolStore from "@/stores/school-settings/use-base-school-store";
@@ -23,7 +24,7 @@ export default function ArmForm(){
         school_class_id:z.string().nonempty({message:`Please select ${data?.section_naming}'s name`})
     });
 
-    //type formType = z.infer<typeof form_schema>;
+    //type formType = z.infer<typeof form_schema>; 
     /**
      name_alias:string;
     school_class_id: string;
@@ -42,20 +43,25 @@ export default function ArmForm(){
         //let value;
         if(useArmStore.getState().id){
         //value = Object.assign({},value,{id:useSchoolStore.getState().id});
-        const {data} = await axios_request(`/api/class-arm/${useArmStore.getState().id}`,'patch',JSON.stringify(values),undefined,{message:'Data updated successfully',cb() {
+        const {data,error} = await axios_request(`/api/class-arm/${useArmStore.getState().id}`,'patch',JSON.stringify(values),undefined,{message:'Data updated successfully',cb() {
             
-        },},(error)=>{
-            if(error?.cause == 401 || error?.cause == 403){
-                toast.error(error.message,{duration:7000});
-                signOut();
-            }else{
-                toast.error(error.message,{duration:7000});
-            }
-                console.log('error auth');
-                //signOut();
-        },false);
+        },},false,()=>{
+            //console.log('About to open animation in arm');
+            ModalLoadingAnimation.show('circular');
+        },()=>{
+            //console.log('About to close animation');
+            ModalLoadingAnimation.hide('circular');
+        });
         //console.log('Arm Data ',data.arm_datum);
         //updateSchool(useSchoolStore.getState().id,data.school);
+        if(error){
+            if(error?.cause){
+                if(error.cause == 401 || error.cause == 403)
+                    signOut();
+            }
+            toast.error(error.message,{duration:7000});
+            return;
+        }
         updateArmData(useArmStore.getState().id,data.arm_datum); 
         //setId(data.school.id);
 
@@ -70,16 +76,13 @@ export default function ArmForm(){
             
             const {data,error} = await axios_request('/api/class-arm','post',JSON.stringify(values),undefined,{message:'Data successfully saved',cb() {
             
-            },},(error)=>{
-                if(error?.cause == 401 || error?.cause == 403){
-                    toast.error(error.message,{duration:7000});
-                    signOut();
-                }else{
-                    toast.error(error.message,{duration:7000});
-                }
-                    //console.log('error auth');
-                    //signOut();
-            },false);
+            },},false,()=>{
+                //console.log('About to open animation in arm');
+                ModalLoadingAnimation.show('circular');
+            },()=>{
+                //console.log('About to close animation in arm');
+                ModalLoadingAnimation.hide('circular');
+            });
             if(error){
                 toast.error(error.message,{duration:7000});
                 return;

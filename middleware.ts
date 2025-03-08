@@ -22,7 +22,7 @@ import { NextRequest, NextResponse } from "next/server";
 
   const roles = ['admin','student','teacher','parent'];
   const error_or_routes = ['/err-page','/login','/logout','/auth/signin','/auth/login','/auth/signout','/auth/sign-in','/verify-request','/auth/verify-request'];
-  const callback_urls = ['/auth/callback/google','/auth/callback/github'];
+  const callback_urls = ['/auth/callback/google','/auth/callback/github','/auth/callback/nodemailer'];
   
   const allowed_auth_pages = ['/list/teachers'];
 
@@ -55,6 +55,8 @@ import { NextRequest, NextResponse } from "next/server";
   if(pathname.includes('/auth/verify-request') || pathname.includes('/verify-request') || pathname == '/auth/verify-request' || pathname.startsWith('/api')){
     return NextResponse.next();  
   }
+
+  //https://accounts.google.com/o/oauth2/auth?client_id=947318989803-6bn6qk8qdgf4n4g3pfee6491hc0brc4i.apps.googleusercontent.com&redirect_uri=http%3a%2f%2f127.0.0.1%3a49364&state=rMNRc8F5VWyw7gsg89fL&scope=https%3a%2f%2fwww.googleapis.com%2fauth%2fflexible-api&response_type=code&prompt=consent&access_type=offline&hl=en&login_hint=osaigbovoiyamu%40gmail.com
 
   //https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?response_type=code&client_id=1001842009566-t41f9v9eqkooe7g51bje199l1ohhsjh2.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A8999%2Fauth%2Fcallback%2Fgoogle&prompt=consent&access_type=offline&scope=openid%20profile%20email&code_challenge=xKlmDKgaA9MSudYLTlZAX6WdBDtxewUiJ04WMazdQmE&code_challenge_method=S256&service=lso&o2v=2&ddm=1&flowName=GeneralOAuthFlow
 
