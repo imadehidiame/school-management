@@ -15,10 +15,11 @@ interface ImageUploadProps {
     onRemove:(value?:string)=>void;
     on_close_action?:(value:string)=>void;
     value:string[],
-    button_name:string
+    button_name:string,
+    upload_folder?:string
 }
 
-export default function ImageUpload({disabled,onChange,onRemove,value,button_name}:ImageUploadProps){
+export default function ImageUpload({disabled,onChange,onRemove,value,button_name,upload_folder='profile_pictures'}:ImageUploadProps){
     const [isMounted,setIsMounted] = useState(false);
     const [ url,set_url ] = useState('');
     const [public_id,set_public_id] = useState(value && value.length > 0 && value[0] ? value[0].split('<=>')[1] : generate_rand());
@@ -188,7 +189,7 @@ export default function ImageUpload({disabled,onChange,onRemove,value,button_nam
                 ))}
             </div>
             <CldUploadWidget 
-                uploadPreset="profile_pictures"
+                uploadPreset={upload_folder}
                 onSuccess={on_success}
                 options={
                 {

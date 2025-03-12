@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import React from 'react'; // Import React
 //import { ClassColumnsDefinition } from "@/definitions/school/class-definitions";
 import { ArmColumnsDefinition } from "@/definitions/school/arm-definitions";
-import { ArmDataTable } from "@/components/tables/arm-data-table";
+import { ArmDataTable } from "@/components/tables/school-settings/arm-data-table";
 import useArmStore from "@/stores/school-settings/use-arm-store";
 import useBaseSchoolStore from "@/stores/school-settings/use-base-school-store";
 import useSchoolStore from "@/stores/school-settings/use-school-store";

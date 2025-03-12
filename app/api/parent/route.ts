@@ -104,7 +104,7 @@ export async function POST(req:Request){
 
             switch (error.cause) {
                 case 'authorization_error':
-                return NextResponse.json({data:'Not authorized'},{status:403,statusText:'Access denied for an authorization error'});
+                return NextResponse.json({data:'Not authorized'},{status:403,statusText:'Access denied for an authorization error'}); 
                 //break;
                 case 'authentication_error':
                 return NextResponse.json({data:'Not authenticated'},{status:401,statusText:'Access denied for an authentication error'});

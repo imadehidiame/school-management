@@ -181,22 +181,30 @@ model Parent {
 }*/
 
 model Vehicle {
-  id             String       @id @default(uuid())
-  name           String       
-  plate_no       String
-  photo          String
-  transport      Transport[]
-  createdAt      DateTime     @default(now())
-  updatedAt      DateTime     @updatedAt
+  id        String          @id @default(uuid())
+  name      String
+  plate_no  String
+  photo     String
+  transports VehicleTransport[]
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
 }
 
 model Transport {
-  id            String        @id @default(uuid())
-  route         String
-  vehicle       Vehicle[]       
-  student       Student[]
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
+  id       String          @id @default(uuid())
+  route    String
+  vehicles VehicleTransport[]
+  students Student[]
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+}
+
+model VehicleTransport {
+  vehicle   Vehicle @relation(fields: [vehicleId], references: [id])
+  vehicleId String
+  transport Transport @relation(fields: [transportId], references: [id])
+  transportId String
+  @@id([vehicleId, transportId])
 }
 
 model Hostel {

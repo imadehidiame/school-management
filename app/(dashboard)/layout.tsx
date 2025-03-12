@@ -1,47 +1,63 @@
 'use client';
-import Link from "next/link"
-import Image from "next/image"
-import Menu from "@/components/menu"
-import Navbar from "@/components/navbar"
-//import { auth } from "@/authjs"
-import { SessionProvider, useSession } from "next-auth/react"
-import SchoolModalProvider from "@/components/providers/school-modal-provider"
-import SectionDeleteAlertProvider from "@/components/providers/section-delete-alert-provider"
-import SchoolDeleteAlertProvider from "@/components/providers/school-delete-alert-provider"
-import SectionModalProvider from "@/components/providers/section-modal-provider"
-import ClassDeleteAlertProvider from "@/components/providers/class-delete-alert-provider";
-import ClassModalProvider from "@/components/providers/class-modal-provider";
-import ArmModalProvider from "@/components/providers/arm-modal-provider";
-import ArmDeleteAlertProvider from "@/components/providers/arm-delete-alert-provider";
-import SessionModalProvider from "@/components/providers/session-modal-provider";
-import SessionDeleteAlertProvider from "@/components/providers/session-delete-alert-modal";
-import ParentModalProvider from "@/components/providers/parent-modal-provider";
-//import { useEffect, useState } from "react";
-//import { Session } from "next-auth";
+import Link from "next/link";
+import Image from "next/image";
+import Menu from "@/components/menu";
+import Navbar from "@/components/navbar";
+import { SessionProvider, useSession } from "next-auth/react";
+import SchoolModalProvider from "@/components/providers/school-settings/school-modal-provider";
+import SectionDeleteAlertProvider from "@/components/providers/school-settings/section-delete-alert-provider";
+import SchoolDeleteAlertProvider from "@/components/providers/school-settings/school-delete-alert-provider";
+import SectionModalProvider from "@/components/providers/school-settings/section-modal-provider";
+import ClassDeleteAlertProvider from "@/components/providers/school-settings/class-delete-alert-provider";
+import ClassModalProvider from "@/components/providers/school-settings/class-modal-provider";
+import ArmModalProvider from "@/components/providers/school-settings/arm-modal-provider";
+import ArmDeleteAlertProvider from "@/components/providers/school-settings/arm-delete-alert-provider";
+import SessionModalProvider from "@/components/providers/school-settings/session-modal-provider";
+import SessionDeleteAlertProvider from "@/components/modals/school-settings/session-delete-alert-modal";
+//import ParentModalProvider from "@/components/providers/parent-modal-provider";
+import { useState, useEffect } from 'react';
+import { Menu as MenuIcon } from 'lucide-react';
 
-export default function DashboardLayout({ children }:Readonly<{children: React.ReactNode}>) {
-   // const [session,set_session] = useState<Session|null>();
-   const {data:session} = useSession();
-   
-    //const [role,set_role] = useState<string|null|undefined>('admin');
+export default function DashboardLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+    const { data: session, status } = useSession();
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [window_size,set_window_size] = useState(0);
 
-    /*auth().then((e)=>{
-        set_session(e);
-        set_role(e?.user.role);
-    });*/
+    useEffect(() => {
+        const handleCloseSidebar = () => {
+            setIsSidebarOpen(false);
+        };
 
-    
+        const setWindowSize = ()=>{
+            set_window_size(window.innerWidth);
+        }
 
-  
-    //const role = session?.user.role;
+        setWindowSize();
+
+        if (typeof window !== 'undefined') {
+            window.addEventListener('closeSidebar', handleCloseSidebar);
+            window.addEventListener('resize',setWindowSize);
+        }
+
+        return () => {
+            if (typeof window !== 'undefined') {
+                window.removeEventListener('closeSidebar', handleCloseSidebar);
+                window.removeEventListener('resize', setWindowSize);
+            }
+        };
+    }, []);
+
+    if (status === 'loading') {
+      return <div>Loading...</div>;
+    }
+
     if (!session) {
         return null;
-        //return <div>Loading...</div>; // Or a more appropriate loading indicator
     }
 
     const role = session?.user?.role;
 
-  return (
+    return (
         <SessionProvider session={session}>
             <SectionModalProvider />
             <SectionDeleteAlertProvider />
@@ -53,24 +69,46 @@ export default function DashboardLayout({ children }:Readonly<{children: React.R
             <ArmDeleteAlertProvider />
             <SessionModalProvider />
             <SessionDeleteAlertProvider />
-            
-            <div className="h-screen flex">
-            {/* left */}
-            <div className="w-[18%] md:w-[8%] lg:w-[18%] xl:w-[14%] p-4">
-                <Link href={'/'+role} className="flex items-center justify-center lg:justify-start gap-2">
-                    <Image src={'/img/gta_logo.png'} width={32} height={32} alt="logo" />
-                    <span className="hidden lg:block font-bold">GTA Portal</span>        
-                </Link>
-                <Menu />     
+
+            <div className="flex">
+                {/* left - Sidebar */}
+                <div className={`fixed h-screen overflow-y-auto transition-transform duration-300 ease-in-out w-[80%] md:w-[40%] lg:w-[18%] xl:w-[14%] p-4 bg-white z-50 lg:block`}
+                     style={{ transform: isSidebarOpen || (window_size >= 1024 ) ? 'translateX(0)' : 'translateX(-100%)' }}>
+                    <div className="sm:flex items-center align-center justify-start gap-2">
+                        <Link href={'/' + role} className="hidden max-sm:flex sm:flex md:hidden items-center md:justify-start">
+                            <Image src={'/img/gta_logo.png'} width={52} height={52} alt="logo" />
+                            <span className="inline font-bold">GTA Portal</span>
+                        </Link>
+                        <div className="max-sm:hidden sm:flex md:hidden w-[62%] items-center gap-2 text-xs rounded-full ring-[1.5px] ring-gray-300 px-2">
+                    
+                            <Image src={'/search.png'} alt="" height={14} width={14} />
+                            <input type="text" placeholder="Search" className="w-[100%] p-2 bg-transparent outline-none" />
+                        </div>
+                    </div>
+
+                    <div className="max-sm:flex sm:hidden w-full items-center gap-2 text-xs rounded-full ring-[1.5px] ring-gray-300 px-2 mt-2">
+                    
+                            <Image src={'/search.png'} alt="" height={14} width={14} />
+                            <input type="text" placeholder="Search" className="w-[90%] p-2 bg-transparent outline-none" />
+                    </div>
+
+                    <Link href={'/' + role} className="hidden md:flex items-center md:justify-start gap-2">
+                            <Image src={'/img/gta_logo.png'} width={52} height={52} alt="logo" />
+                            <span className="inline font-bold">GTA Portal</span>
+                    </Link>
+                    <Menu />
+                </div>
+                {/* right - Page Content */}
+                <div className={`ml-0 lg:ml-[18%] xl:ml-[14%] w-full lg:w-[82%] xl:w-[86%] bg-[#F7FBFA] overflow-y-auto flex flex-col`}>
+                    <Navbar onMenuClick={() => {
+                        console.log('Hamburger clicked');
+                        setIsSidebarOpen(!isSidebarOpen);
+                    }} />
+                    <div className="p-4">
+                        {children}
+                    </div>
+                </div>
             </div>
-            {/* right */}
-            <div className="w-[82%] md:w-[92%] lg:w-[82%] xl:w-[86%] bg-[#F7FBFA] overflow-scroll flex flex-col">
-                <Navbar />
-                {children}
-            </div>
-            {/*children*/}
-        </div>
-        </SessionProvider> 
-       
-    )
+        </SessionProvider>
+    );
 }

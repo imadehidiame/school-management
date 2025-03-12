@@ -8,7 +8,9 @@ import { Toaster } from 'react-hot-toast';
 import { SessionProvider } from "next-auth/react"
 import LoadingAnime from "@/components/loader/loading-anime";
 import { auth } from "@/authjs"
-import ParentModalProvider from "@/components/providers/parent-modal-provider";
+import ParentModalProvider from "@/components/providers/parents/parent-modal-provider";
+import VehicleModalProvider from "@/components/providers/transports/vehicle-modal-provider";
+import RouteModalProvider from "@/components/providers/transports/route-modal-provider";
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -25,6 +27,8 @@ export default async function RootLayout({ children }: React.PropsWithChildren) 
 
       <body className={inter.className}>
         <ParentModalProvider />
+        <VehicleModalProvider />
+        <RouteModalProvider />
         <LoadingAnime />
       {/*<ThemeProvider
             attribute="class"

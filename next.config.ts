@@ -41,10 +41,10 @@ module.exports = {
     ]
   },*/
   experimental: {
-    outputFileTracing: true,
+    //outputFileTracing: true,
   },
   output:'standalone',
-  port: 8999,
+  //port: 8999,
 };
 
 export default nextConfig;

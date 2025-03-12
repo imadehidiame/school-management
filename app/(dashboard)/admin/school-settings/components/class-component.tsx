@@ -3,7 +3,7 @@ import { School } from "@prisma/client"; // Import necessary types
 import { BaseData } from "../definitions";
 import { SectionData } from "@/definitions/school/section-data";
 import { ClassData } from "@/definitions/school/class-data";
-import { ClassDataTable } from "@/components/tables/class-data-table";
+import { ClassDataTable } from "@/components/tables/school-settings/class-data-table";
 import React, { useEffect, useState } from 'react'; // Import React
 import { ClassColumnsDefinition } from "@/definitions/school/class-definitions";
 import useBaseSchoolStore from "@/stores/school-settings/use-base-school-store";

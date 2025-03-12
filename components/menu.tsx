@@ -1,4 +1,5 @@
 //import { role } from "@/lib/data";
+import { Bus, MapPin, Navigation } from "lucide-react";
 import MenuItems from "./menu-items";
 
 const menuItems = [
@@ -22,6 +23,20 @@ const menuItems = [
         icon: "/setting.png",
         label: "School Settings",
         href: "/school-settings",
+        visible: ["admin"],
+      },
+
+      {
+        icon: <Bus className="w-5 h-5" />,
+        label: "Vehicles",
+        href: "/vehicles",
+        visible: ["admin"],
+      },
+
+      {
+        icon: <MapPin className="w-5 h-5" />,
+        label: "Transportation",
+        href: "/transportation",
         visible: ["admin"],
       },
 
@@ -62,7 +77,7 @@ const menuItems = [
         visible: ["admin", "teacher"],
       },
       {
-        icon: "/exam.png",
+        icon: "/exam.png", 
         label: "Exams",
         href: "/list/exams",
         visible: ["admin", "teacher", "student", "parent"],
@@ -120,7 +135,7 @@ const menuItems = [
         href: "/settings",
         visible: ["admin", "teacher", "student", "parent"],
       },
-      {
+      { 
         icon: "/logout.png",
         label: "Logout",
         href: "/logout",

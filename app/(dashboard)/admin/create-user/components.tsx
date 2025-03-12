@@ -18,11 +18,11 @@ import axios_request from '@/lib/axios_request';
 import { FormFieldComponent,FormSelectComponent } from '@/components/form-components';
 //import { useState } from 'react';
 import { BaseSchoolCategory, School } from '@prisma/client';
-import { SchoolDataTable } from '@/components/tables/school-data-table';
+import { SchoolDataTable } from '@/components/tables/school-settings/school-data-table';
 import { SectionColumnsDefinition } from '@/definitions/school/section-definitions';
 import { SchoolColumnsDefinition } from '@/definitions/school/school-definitions';
 import useBaseSchoolStore from '@/stores/school-settings/use-base-school-store';
-import { SectionDataTable } from '@/components/tables/section-data-table';
+import { SectionDataTable } from '@/components/tables/school-settings/section-data-table';
 import { SectionData } from '@/definitions/school/section-data';
 //import { FormSelectComponent } from '@/components/FormComponents';
 

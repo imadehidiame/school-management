@@ -52,6 +52,15 @@ export const ParentsColumnsDefinition: ColumnDef<Parent>[] = [
     {
       accessorKey: "firstName",
       //minSize:450,
+      filterFn:(row,col,value)=>{
+        const {firstName,lastName,email} = row.original;
+        return `${firstName} ${lastName} ${email}`.toLocaleLowerCase().includes(value);
+      },
+      sortingFn(row_a,row_b){
+        const row_a_original = row_a.original;
+        const row_b_original = row_b.original;
+        return `${row_a_original.firstName} ${row_a_original.lastName}`.toLocaleLowerCase().localeCompare(`${row_b_original.firstName} ${row_b_original.lastName}`.toLocaleLowerCase());
+      },
       header: ({ column }) => {
         return (
           <ColumnHeader action={() => column.toggleSorting(column.getIsSorted() === "asc")} col="Basic Info" />
@@ -74,11 +83,12 @@ export const ParentsColumnsDefinition: ColumnDef<Parent>[] = [
 
   <div className="hidden sm:block relative w-10 h-10 rounded-full mr-2">
     <Image
-      src={(photo as string).split('<=>')[0]}
+      src={(photo as string).split('<=>')[0]} 
       alt={`${firstName}'s avatar`}
       fill
       style={{ objectFit: 'cover' }}
       className="rounded-full"
+      sizes="40px"
     />
   </div>
 
@@ -156,7 +166,7 @@ export const ParentsColumnsDefinition: ColumnDef<Parent>[] = [
                     size="small_icon"
                     className="rounded-full"
                     onClick={() => {
-                        useParentStore.setState({id});
+                        useParentStore.getState().setId(id);
                         useParentStore.getState().open_update_modal();
                         //await useSchoolSessionStore.getState().update_session(sessionData.id);
                     }}

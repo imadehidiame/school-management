@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import React, { useEffect, useState } from 'react'; // Import React
-import { SessionsDataTable } from "@/components/tables/sessions-data-table";
+import { SessionsDataTable } from "@/components/tables/school-settings/sessions-data-table";
 import { SessionsColumnDefinition } from "@/definitions/school/sessions-definitions";
 import useSchoolSessionStore from "@/stores/school-settings/use-session-store";
 

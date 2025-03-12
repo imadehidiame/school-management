@@ -4,6 +4,7 @@ import { Input } from "./ui/input"
 import { Path, UseFormReturn } from "react-hook-form"
 import { FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage, FormFieldContext } from "./ui/form"
 import ImageUpload from "./image-upload";
+import { Checkbox } from "./ui/checkbox";
 
 interface FormFieldComponentProps<T extends object> {
   form: UseFormReturn<T>;
@@ -57,6 +58,12 @@ export const FormFieldComponent = <T extends object>({ form, name, placeholder, 
 const on_close_action = async (value:string) =>{
   console.log('URL value in on_close_action ',value);
 }
+
+/**
+ 
+
+
+ */
 
 export const FormFieldCloudinaryComponent = <T extends object>({ form, name, label, description }: FormFieldComponentProps<T>) => {
   return (
@@ -120,6 +127,69 @@ export const FormSelectComponent = <T extends object>({ form, name, placeholder,
           </FormItem>
         )}
       />
+    </FormFieldContext.Provider>
+  );
+};
+
+interface CheckboxProps <T extends object>{
+  name: Path<T>;
+  checks: { name: string, value: string }[];
+  form: UseFormReturn<T>; 
+  description?: string;
+  label?: string;
+}
+
+export const FormCheckboxComponent = <T extends object>({ form, name, description, label, checks }:CheckboxProps<T> ) => {
+  return (
+    <FormFieldContext.Provider value={{ name }}>
+      <FormField
+          control={form.control}
+          name={name}
+          render={() => (
+            <FormItem>
+              <div className="mb-4">
+                <FormLabel className="text-base">{label}</FormLabel>
+                <FormDescription>
+                  {description}
+                </FormDescription>
+              </div>
+              {checks.map((item) => (
+                <FormField
+                  key={item.name}
+                  control={form.control}
+                  name={name}
+                  render={({ field }) => {
+                    return (
+                      <FormItem
+                        key={item.name}
+                        className="flex flex-row items-start space-x-3 space-y-0"
+                      >
+                        <FormControl>
+                          <Checkbox
+                            checked={(field.value as Array<any>)?.includes(item.value)}
+                            onCheckedChange={(checked) => {
+                              return checked
+                                ? field.onChange([...field.value, item.value])
+                                : field.onChange(
+                                    (field.value as Array<any>)?.filter(
+                                      (value) => value !== item.value
+                                    )
+                                  )
+                            }}
+                          />
+                        </FormControl>
+                        <FormLabel className="text-sm font-normal">
+                          {item.name}
+                        </FormLabel>
+                      </FormItem>
+                    )
+                  }}
+                />
+              ))}
+              <FormMessage />
+            </FormItem>
+          )}
+        />
     </FormFieldContext.Provider>
   );
 };

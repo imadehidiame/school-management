@@ -7,7 +7,10 @@ import { ModalLoadingAnimation } from '@/components/ui/loader/loading-anime';
 
 interface StoreState {
     id:string,
+    current_parent:Parent|null,
     setId:(new_id:string)=>void,
+    asyncSetId:(new_id:string)=>Promise<void>,
+    setParent:( parent:Parent )=>void,
     parent:()=>Parent|null|undefined,
     parents:Parent[],
     addParent:(parent:Parent)=>void,
@@ -41,7 +44,17 @@ const useParentStore = create<StoreState>((set,get)=>({
         set((state)=>({parents:state.parents.map(e=>e.id === id ? data:e)}));
     },
     id:'',
-    setId:(new_id)=>set({id:new_id}),
+    current_parent:null,
+    asyncSetId:async (new_id)=>{
+        set({id:new_id});
+    },
+    setId:(new_id)=>{
+        set({id:new_id})
+        if(get().parents){
+            set({current_parent:get().getOne(new_id)})
+        }
+    },
+    setParent:(new_id)=>set({current_parent:new_id}),
     parent:()=>get().parents.find((e)=>e.id === get().id),
     parents:[],
     setParents:(new_parents)=>set({parents:new_parents}),
